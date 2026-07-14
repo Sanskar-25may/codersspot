@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     
     # Local Apps
     'authentication',
+    'leads',
+    'cms',
 ]
 
 MIDDLEWARE = [

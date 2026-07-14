@@ -1,45 +1,56 @@
-# Walkthrough: Module 1 - Authentication & Onboarding
+# Walkthrough: Module 2 - Public Website & Leads Ingestion
 
-We have successfully built and verified the complete Authentication & Onboarding pipeline! All files compile cleanly and are fully synchronized in git.
+We have successfully built and verified the complete Public Website dynamic layout & Lead Ingestion pipeline! All files compile cleanly and are fully synchronized in git.
 
 ---
 
 ## 1. Backend Changes (Django API)
 
-We built the core auth operations inside the `authentication` Django app:
-*   **`authentication/models.py`**: Defined the custom `User` UUID database model and the `UserProfile` relation fields.
-*   **`authentication/serializers.py`**:
-    *   `UserRegisterSerializer`: Validates email availability, full name, phone number, and hashes credentials securely.
-    *   `UserProfileSerializer`: Maps onboarding biography and specialization properties.
-    *   `UserSerializer`: Serves user attributes and checks `onboarded` status via user profile presence.
-*   **`authentication/views.py`**:
-    *   `RegisterView`: Creates user credentials and yields tokens.
-    *   `VerifyOTPView`: Decodes and authenticates Firebase IDTokens. Includes a dynamic `settings.DEBUG` mock bypass allowing dev verification.
-    *   `OnboardingView`: Sets the role (`STUDENT` or `FACULTY`), creates the matching `UserProfile` profile card, and saves the details.
-    *   `UserProfileDetailView`: Yields the authenticated profile details.
-*   **`authentication/urls.py`**: Mapped auth routes to the endpoints under `/api/`.
+We built the CMS content loading and leads ingestion features inside two new apps:
+*   **`cms` (Content Management System App)**:
+    *   `models.py`: Built the `SiteContent` model using a flexible `JSONField` (PostgreSQL JSONB in production) to store unstructured layout elements.
+    *   `views.py`: 
+        *   `SiteContentView`: Public endpoint (`GET /api/cms/{page_id}/`) to retrieve page layouts. Includes a **smart auto-seeding fallback dictionary** so pages load with verified default copy if database records are unseeded!
+        *   `SiteContentUpdateView`: Restricted admin endpoint (`PUT /api/cms/update/{page_id}/`) to edit layouts.
+    *   `urls.py`: Configured page endpoints routing.
+*   **`leads` (Leads Ingestion App)**:
+    *   `models.py`: Defined database structures for `ContactMessage` (form queries) and `CareerGuidanceForm` (career consultation requests).
+    *   `views.py`:
+        *   `ContactMessageCreateView`: Public API endpoint (`POST /api/leads/contact/`) to save customer queries.
+        *   `CareerGuidanceCreateView`: Public API endpoint (`POST /api/leads/careers/`) to save career consulting requests.
+        *   `AdminLeadsListView`: Admin-only dashboard endpoint (`GET /api/admin/leads/`) to query lead list summaries.
+    *   `urls.py`: Configured lead capture API URLs.
+*   **`codersspot/urls.py`**: Registered the routing layers.
 
 ---
 
 ## 2. Frontend Changes (React Client)
 
-We built the state context and pages for portal verification:
-*   **`src/services/api.ts`**: Initialized the global Axios instance. Attach access tokens to request headers and intercepts 401 Unauthorized errors to automatically request token refreshes.
-*   **`src/context/AuthContext.tsx`**: React provider carrying session controls: `login`, `register`, `verifyOTP`, `onboard`, and silent token checks.
-*   **`src/components/ProtectedRoute.tsx`**: Route guard. Restricts access to role subsets (`STUDENT`, `FACULTY`, `ADMIN`) and automatically forwards un-onboarded accounts to `/onboarding`.
-*   **`src/pages/auth/AuthPage.tsx`**: Dynamic split-pane signup/login page. Supports validation errors, Firebase verifier prompts, and mock account credentials.
-*   **`src/pages/onboarding/OnboardingPage.tsx`**: Dynamic card selector for Role onboarding setup.
-*   **`src/App.tsx`**: Hooked up all pages inside the React router inside the global `<AuthProvider>`.
+We built the core pages and components of the public platform:
+*   **`src/components/`**:
+    *   `Navbar.tsx`: Responsive navigation header featuring scroll dynamic backdrop blur shadows, theme mode toggle switches, and routing hide rules for portal layouts.
+    *   `Footer.tsx`: Modular corporate footer section.
+*   **`src/services/`**:
+    *   `cms.ts`: Helper integrations for CMS content fetch and updates.
+    *   `leads.ts`: Helper triggers for submitting leads and fetching lists.
+*   **`src/pages/public/`**:
+    *   `LandingPage.tsx`: Compiles hero elements, stats cards, and bento grids dynamically from database JSON parameters.
+    *   `AboutPage.tsx`: Loads values and circular avatar directory elements.
+    *   `PlacementsPage.tsx`: Yields placement hike charts and partner logo cards.
+    *   `TestimonialsPage.tsx`: Displays student reviews.
+    *   `ContactPage.tsx`: Collects user details and submits them to the backend API.
+*   **`src/App.tsx`**: Integrated all new public pages.
 
 ---
 
 ## 3. Verification & Build Confirmation
 
-*   **Django system check**: Ran successfully with **0 errors**.
+*   **Django check**: Executed with **0 errors**.
+*   **Django database migrations**: Generated and applied schema updates successfully.
 *   **Vite React SPA Build**: Built cleanly with **0 compiler warnings/errors**:
     ```bash
     dist/index.html                   0.45 kB
-    dist/assets/index-CgQ8QyuB.css   20.86 kB
-    dist/assets/index-Egt_cqzy.js   298.33 kB
+    dist/assets/index-BwA0xtgu.css   27.69 kB
+    dist/assets/index-COYe5Cw7.js   324.13 kB
     ```
-*   **Git Sync**: Checked status and pushed all files cleanly to your remote GitHub main branch.
+*   **Git Sync**: Committed and pushed all source codes to the GitHub main branch.
