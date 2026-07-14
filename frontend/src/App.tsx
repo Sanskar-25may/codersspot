@@ -15,6 +15,11 @@ import ContactPage from './pages/public/ContactPage';
 import AuthPage from './pages/auth/AuthPage';
 import OnboardingPage from './pages/onboarding/OnboardingPage';
 
+// Student Portal Pages
+import StudentDashboard from './pages/student/StudentDashboard';
+import MyCoursesPage from './pages/student/MyCoursesPage';
+import ClassroomPage from './pages/student/ClassroomPage';
+
 function DashboardRouter() {
   const { user } = useAuth();
   
@@ -59,14 +64,23 @@ function AppRoutes() {
             path="/student" 
             element={
               <ProtectedRoute allowedRoles={['STUDENT']}>
-                <div className="min-h-screen flex flex-col items-center justify-center p-6" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
-                  <div className="p-8 rounded-3xl glass max-w-md text-center space-y-4">
-                    <span className="text-4xl">🎓</span>
-                    <h1 className="text-2xl font-bold">Student Dashboard</h1>
-                    <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Welcome to the student learning center workspace. Module 3 details will load here.</p>
-                    <button onClick={() => window.dispatchEvent(new Event('auth_logout_redirect'))} className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-red-500 hover:bg-red-600 transition-all">Sign Out</button>
-                  </div>
-                </div>
+                <StudentDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/student/courses" 
+            element={
+              <ProtectedRoute allowedRoles={['STUDENT']}>
+                <MyCoursesPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/student/classroom/:course_id" 
+            element={
+              <ProtectedRoute allowedRoles={['STUDENT']}>
+                <ClassroomPage />
               </ProtectedRoute>
             } 
           />

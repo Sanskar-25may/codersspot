@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'authentication',
     'leads',
     'cms',
+    'courses',
 ]
 
 MIDDLEWARE = [
