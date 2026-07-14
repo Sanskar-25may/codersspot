@@ -20,6 +20,13 @@ import StudentDashboard from './pages/student/StudentDashboard';
 import MyCoursesPage from './pages/student/MyCoursesPage';
 import ClassroomPage from './pages/student/ClassroomPage';
 
+// Faculty Portal Pages
+import FacultyDashboard from './pages/faculty/FacultyDashboard';
+import CourseWizard from './pages/faculty/CourseWizard';
+import CourseBuilder from './pages/faculty/CourseBuilder';
+import SubmissionsQueue from './pages/faculty/SubmissionsQueue';
+import GradingPortal from './pages/faculty/GradingPortal';
+
 function DashboardRouter() {
   const { user } = useAuth();
   
@@ -89,14 +96,39 @@ function AppRoutes() {
             path="/faculty" 
             element={
               <ProtectedRoute allowedRoles={['FACULTY']}>
-                <div className="min-h-screen flex flex-col items-center justify-center p-6" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
-                  <div className="p-8 rounded-3xl glass max-w-md text-center space-y-4">
-                    <span className="text-4xl">💼</span>
-                    <h1 className="text-2xl font-bold">Faculty Dashboard</h1>
-                    <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Welcome to the instructor curriculum portal. Module 4 details will load here.</p>
-                    <button onClick={() => window.dispatchEvent(new Event('auth_logout_redirect'))} className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-red-500 hover:bg-red-600 transition-all">Sign Out</button>
-                  </div>
-                </div>
+                <FacultyDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/faculty/courses/create" 
+            element={
+              <ProtectedRoute allowedRoles={['FACULTY']}>
+                <CourseWizard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/faculty/courses/builder/:course_id" 
+            element={
+              <ProtectedRoute allowedRoles={['FACULTY']}>
+                <CourseBuilder />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/faculty/submissions" 
+            element={
+              <ProtectedRoute allowedRoles={['FACULTY']}>
+                <SubmissionsQueue />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/faculty/submissions/grade/:submission_id" 
+            element={
+              <ProtectedRoute allowedRoles={['FACULTY']}>
+                <GradingPortal />
               </ProtectedRoute>
             } 
           />

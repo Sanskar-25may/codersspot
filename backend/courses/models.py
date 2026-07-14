@@ -51,3 +51,16 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return f"{self.user.email} enrolled in {self.course.title}"
+
+class HomeworkSubmission(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="submissions")
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name="submissions")
+    fileUrl = models.URLField(max_length=500, help_text="Submission link or file path")
+    grade = models.CharField(max_length=50, null=True, blank=True, help_text="Grade assigned (e.g. A+, B, 90)")
+    feedback = models.TextField(null=True, blank=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.student.email} - {self.lesson.title}"
