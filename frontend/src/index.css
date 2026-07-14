@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-base: var(--bg-base);
+  --color-bg-card: var(--bg-card);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-elevated: var(--bg-elevated);
+  
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  
+  --color-border-soft: var(--border-soft);
+  --color-border-med: var(--border-med);
+  --color-border-strong: var(--border-strong);
+  
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-light: var(--accent-light);
+  --color-accent-lighter: var(--accent-lighter);
+  --color-accent-cyan: var(--accent-cyan);
+}
+
+:root {
+  /* LIGHT THEME TOKENS */
+  --bg-base: hsl(220 14% 96%);
+  --bg-card: hsl(0 0% 100%);
+  --bg-surface: hsl(210 16% 98%);
+  --bg-elevated: hsl(0 0% 100%);
+  
+  --text-primary: hsl(224 71% 4%);
+  --text-secondary: hsl(220 9% 46%);
+  --text-tertiary: hsl(220 9% 70%);
+  
+  --border-soft: hsl(220 13% 91%);
+  --border-med: hsl(220 13% 86%);
+  --border-strong: hsl(220 13% 76%);
+  
+  --accent-primary: hsl(263 70% 50%);
+  --accent-light: hsl(263 70% 65%);
+  --accent-lighter: hsl(263 70% 90%);
+  --accent-cyan: hsl(190 90% 45%);
+}
+
+.dark {
+  /* DARK THEME TOKENS */
+  --bg-base: hsl(224 71% 4%);
+  --bg-card: hsl(224 71% 7%);
+  --bg-surface: hsl(224 71% 10%);
+  --bg-elevated: hsl(224 71% 14%);
+  
+  --text-primary: hsl(210 20% 98%);
+  --text-secondary: hsl(215 20% 65%);
+  --text-tertiary: hsl(215 20% 45%);
+  
+  --border-soft: hsl(224 71% 12%);
+  --border-med: hsl(224 71% 18%);
+  --border-strong: hsl(224 71% 28%);
+  
+  --accent-primary: hsl(263 70% 55%);
+  --accent-light: hsl(263 70% 70%);
+  --accent-lighter: hsl(263 70% 25%);
+  --accent-cyan: hsl(190 90% 50%);
+}
+
+/* Glassmorphism primitives */
+.glass {
+  background: color-mix(in srgb, var(--bg-card) 70%, transparent);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-soft);
+}
+
+.card-hover {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px -10px color-mix(in srgb, var(--accent-primary) 15%, transparent);
+}
