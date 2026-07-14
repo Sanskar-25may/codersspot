@@ -11,6 +11,10 @@ from .views import (
     FacultyLessonAddView,
     FacultySubmissionsQueueView,
     FacultySubmissionGradeView,
+    AdminDashboardView,
+    AdminCourseApprovalView,
+    AdminUsersListView,
+    AdminUserRoleUpdateView,
 )
 
 urlpatterns = [
@@ -25,4 +29,8 @@ urlpatterns = [
     path('faculty/courses/builder/lesson/', FacultyLessonAddView.as_view(), name='faculty_lesson_add'),
     path('faculty/submissions/', FacultySubmissionsQueueView.as_view(), name='faculty_submissions_queue'),
     path('faculty/submissions/grade/<uuid:submission_id>/', FacultySubmissionGradeView.as_view(), name='faculty_submission_grade'),
+    path('admin/dashboard/', AdminDashboardView.as_view(), name='admin_dashboard'),
+    path('admin/courses/approve/<uuid:course_id>/', AdminCourseApprovalView.as_view(), name='admin_course_approve'),
+    path('admin/users/', AdminUsersListView.as_view(), name='admin_users_list'),
+    path('admin/users/role/<uuid:user_id>/', AdminUserRoleUpdateView.as_view(), name='admin_user_role_update'),
 ]

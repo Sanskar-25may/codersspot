@@ -59,3 +59,23 @@ export const getSubmissionDetails = async (submissionId: string) => {
   const response = await api.get(`/faculty/submissions/grade/${submissionId}/`);
   return response.data;
 };
+
+export const getAdminDashboard = async () => {
+  const response = await api.get('/admin/dashboard/');
+  return response.data;
+};
+
+export const approveCourse = async (courseId: string, status: 'PUBLISHED' | 'DRAFT' | 'ARCHIVED') => {
+  const response = await api.put(`/admin/courses/approve/${courseId}/`, { status });
+  return response.data;
+};
+
+export const getAdminUsers = async () => {
+  const response = await api.get('/admin/users/');
+  return response.data;
+};
+
+export const updateUserRole = async (userId: string, role: 'STUDENT' | 'FACULTY' | 'ADMIN') => {
+  const response = await api.put(`/admin/users/role/${userId}/`, { role });
+  return response.data;
+};

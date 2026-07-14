@@ -27,6 +27,12 @@ import CourseBuilder from './pages/faculty/CourseBuilder';
 import SubmissionsQueue from './pages/faculty/SubmissionsQueue';
 import GradingPortal from './pages/faculty/GradingPortal';
 
+// Admin Portal Pages
+import AdminDashboard from './pages/admin/AdminDashboard';
+import UserManagement from './pages/admin/UserManagement';
+import CourseApproval from './pages/admin/CourseApproval';
+import CmsManager from './pages/admin/CmsManager';
+
 function DashboardRouter() {
   const { user } = useAuth();
   
@@ -137,14 +143,31 @@ function AppRoutes() {
             path="/admin" 
             element={
               <ProtectedRoute allowedRoles={['ADMIN']}>
-                <div className="min-h-screen flex flex-col items-center justify-center p-6" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
-                  <div className="p-8 rounded-3xl glass max-w-md text-center space-y-4">
-                    <span className="text-4xl">👑</span>
-                    <h1 className="text-2xl font-bold">Admin Console</h1>
-                    <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Super Admin Workspace. Restricted to codersspot97@gmail.com.</p>
-                    <button onClick={() => window.dispatchEvent(new Event('auth_logout_redirect'))} className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-red-500 hover:bg-red-600 transition-all">Sign Out</button>
-                  </div>
-                </div>
+                <AdminDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/users" 
+            element={
+              <ProtectedRoute allowedRoles={['ADMIN']}>
+                <UserManagement />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/courses" 
+            element={
+              <ProtectedRoute allowedRoles={['ADMIN']}>
+                <CourseApproval />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/cms" 
+            element={
+              <ProtectedRoute allowedRoles={['ADMIN']}>
+                <CmsManager />
               </ProtectedRoute>
             } 
           />

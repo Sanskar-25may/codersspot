@@ -223,3 +223,95 @@ class FacultySubmissionGradeView(APIView):
             "message": "Submission graded successfully.",
             "submission": serializer.data
         }, status=status.HTTP_200_OK)
+
+class AdminDashboardView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        if user.role != 'ADMIN':
+            return Response({"error": "Admin credentials required"}, status=status.HTTP_403_FORBIDDEN)
+
+        total_users = User.objects.count()
+        students_count = User.objects.filter(role='STUDENT').count()
+        faculty_count = User.objects.filter(role='FACULTY').count()
+        
+        pending_courses = Course.objects.filter(status='DRAFT').order_by('-createdAt')
+        pending_count = pending_courses.count()
+
+        return Response({
+            "total_users": total_users,
+            "students_count": students_count,
+            "faculty_count": faculty_count,
+            "pending_count": pending_count,
+            "pending_courses": CourseSerializer(pending_courses, many=True).data
+        }, status=status.HTTP_200_OK)
+
+class AdminCourseApprovalView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def put(self, request, course_id):
+        user = request.user
+        if user.role != 'ADMIN':
+            return Response({"error": "Admin credentials required"}, status=status.HTTP_403_FORBIDDEN)
+
+        course = get_object_or_404(Course, id=course_id)
+        
+        status_update = request.data.get('status')
+        if status_update not in ['PUBLISHED', 'DRAFT', 'ARCHIVED']:
+            return Response({"error": "Invalid course status value"}, status=status.HTTP_400_BAD_REQUEST)
+
+        course.status = status_update
+        course.save()
+
+        return Response({
+            "message": f"Course status updated to {status_update} successfully.",
+            "course": CourseSerializer(course).data
+        }, status=status.HTTP_200_OK)
+
+class AdminUsersListView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        if user.role != 'ADMIN':
+            return Response({"error": "Admin credentials required"}, status=status.HTTP_403_FORBIDDEN)
+
+        users = User.objects.all().order_by('-date_joined')
+        
+        # Simple serialization payload
+        payload = [{
+            "id": str(u.id),
+            "email": u.email,
+            "full_name": u.full_name,
+            "role": u.role,
+            "isOnboarded": u.isOnboarded,
+            "date_joined": u.date_joined
+        } for u in users]
+
+        return Response(payload, status=status.HTTP_200_OK)
+
+class AdminUserRoleUpdateView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def put(self, request, user_id):
+        user = request.user
+        if user.role != 'ADMIN':
+            return Response({"error": "Admin credentials required"}, status=status.HTTP_403_FORBIDDEN)
+
+        target_user = get_object_or_404(User, id=user_id)
+        new_role = request.data.get('role')
+        if new_role not in ['STUDENT', 'FACULTY', 'ADMIN']:
+            return Response({"error": "Invalid role value"}, status=status.HTTP_400_BAD_REQUEST)
+
+        target_user.role = new_role
+        target_user.save()
+
+        return Response({
+            "message": "User role updated successfully.",
+            "user": {
+                "id": str(target_user.id),
+                "email": target_user.email,
+                "role": target_user.role
+            }
+        }, status=status.HTTP_200_OK)
