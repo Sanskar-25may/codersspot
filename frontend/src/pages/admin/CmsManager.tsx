@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { getPageContent, updatePageContent } from '../../services/cms';
 
 export default function CmsManager() {
-  const [headline, setHeadline] = useState('');
-  const [subtitle, setSubtitle] = useState('');
+  const [headlineNormal, setHeadlineNormal] = useState('');
+  const [headlineBold, setHeadlineBold] = useState('');
+  const [subtext, setSubtext] = useState('');
   const [students, setStudents] = useState('');
   const [hikes, setHikes] = useState('');
 
@@ -16,10 +17,13 @@ export default function CmsManager() {
     getPageContent('landing')
       .then((content: any) => {
         const layout = content || {};
-        setHeadline(layout.headline || '');
-        setSubtitle(layout.subtitle || '');
-        setStudents(layout.students || '');
-        setHikes(layout.hikes || '');
+        setHeadlineNormal(layout.headline_normal || 'Build skills that');
+        setHeadlineBold(layout.headline_bold || 'ship real products.');
+        setSubtext(layout.subtext || 'Interactive project cohorts led by expert engineers from top tech organizations.');
+        
+        const stats = layout.stats || [];
+        setStudents(stats[0]?.value || '10,000+');
+        setHikes(stats[3]?.value || '96%');
         setIsLoading(false);
       })
       .catch(() => {
@@ -34,10 +38,15 @@ export default function CmsManager() {
 
     try {
       const payload = {
-        headline,
-        subtitle,
-        students,
-        hikes
+        headline_normal: headlineNormal,
+        headline_bold: headlineBold,
+        subtext: subtext,
+        stats: [
+          { label: "Enrolled Students", value: students },
+          { label: "Satisfied Learners", value: "98%" },
+          { label: "Average Rating", value: "4.9★" },
+          { label: "Salary Increase", value: hikes }
+        ]
       };
       await updatePageContent('landing', payload);
       setMessage("Landing page content updated successfully!");
@@ -64,7 +73,7 @@ export default function CmsManager() {
         <div className="flex justify-between items-center border-b pb-4" style={{ borderColor: 'var(--border-soft)' }}>
           <div className="space-y-1">
             <span className="text-[10px] uppercase font-bold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>CMS Site Editor</span>
-            <h1 className="text-lg font-bold">Manage landing page configurations</h1>
+            <h1 className="text-lg font-bold">Manage Landing Page Configurations</h1>
           </div>
           <Link to="/admin" className="text-xs font-bold text-violet-500 hover:underline">
             Cancel
@@ -79,31 +88,48 @@ export default function CmsManager() {
 
         <form onSubmit={handleUpdate} className="space-y-4">
           
-          {/* Headline */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
-              Hero Headline
-            </label>
-            <input
-              type="text"
-              placeholder="e.g. Build skills that ship real products."
-              value={headline}
-              onChange={(e) => setHeadline(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all"
-              style={{ borderColor: 'var(--border-med)', background: 'var(--bg-surface)', color: 'var(--text-primary)' }}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Headline Normal */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
+                Headline (Normal Part)
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. Build skills that"
+                value={headlineNormal}
+                onChange={(e) => setHeadlineNormal(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all"
+                style={{ borderColor: 'var(--border-med)', background: 'var(--bg-surface)', color: 'var(--text-primary)' }}
+              />
+            </div>
+
+            {/* Headline Bold */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
+                Headline (Bold Shimmer Part)
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. ship real products."
+                value={headlineBold}
+                onChange={(e) => setHeadlineBold(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all"
+                style={{ borderColor: 'var(--border-med)', background: 'var(--bg-surface)', color: 'var(--text-primary)' }}
+              />
+            </div>
           </div>
 
-          {/* Subtitle */}
+          {/* Subtext */}
           <div className="space-y-1.5">
             <label className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
               Hero Subtext
             </label>
             <textarea
               rows={3}
-              placeholder="e.g. Master React components, Django REST APIs, and production VPS setups."
-              value={subtitle}
-              onChange={(e) => setSubtitle(e.target.value)}
+              placeholder="e.g. Interactive project cohorts led by expert engineers from top tech organizations."
+              value={subtext}
+              onChange={(e) => setSubtext(e.target.value)}
               className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all resize-none"
               style={{ borderColor: 'var(--border-med)', background: 'var(--bg-surface)', color: 'var(--text-primary)' }}
             />
@@ -113,11 +139,11 @@ export default function CmsManager() {
             {/* Stat 1 */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
-                Total Students Copy
+                Students Count Stat Value
               </label>
               <input
                 type="text"
-                placeholder="e.g. 10,000+ Students"
+                placeholder="e.g. 10,000+"
                 value={students}
                 onChange={(e) => setStudents(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all"
@@ -128,11 +154,11 @@ export default function CmsManager() {
             {/* Stat 2 */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
-                Average Placement Hike
+                Salary Hike Stat Value
               </label>
               <input
                 type="text"
-                placeholder="e.g. 98% Satisfaction"
+                placeholder="e.g. 96%"
                 value={hikes}
                 onChange={(e) => setHikes(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all"
@@ -148,7 +174,7 @@ export default function CmsManager() {
               disabled={saving}
               className="px-6 py-3 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-violet-500 to-cyan-500 shadow-md hover:scale-[1.02] transition-all"
             >
-              {saving ? "Saving CMS content..." : "Save layout edits"}
+              {saving ? "Saving CMS content..." : "Save Layout Edits"}
             </button>
           </div>
 
