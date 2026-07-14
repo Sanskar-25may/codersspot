@@ -1,76 +1,131 @@
-import { useState, useEffect } from 'react';
-import { getPageContent } from '../../services/cms';
+const REVIEWS = [
+  {
+    name: 'Rohan Deshmukh',
+    role: 'Frontend Dev @ Razorpay',
+    text: 'The project-based learning model helped me build actual confidence. I got a job offer within 3 weeks of graduating.',
+    initial: 'R',
+    color: 'from-violet-500 to-indigo-500',
+  },
+  {
+    name: 'Priya Nair',
+    role: 'Data Engineer @ Google',
+    text: 'Outstanding curriculum quality. The peer cohort reviews made me understand what clean code really means.',
+    initial: 'P',
+    color: 'from-cyan-500 to-blue-500',
+  },
+  {
+    name: 'Aman Verma',
+    role: 'DevOps Engineer @ Amazon',
+    text: 'Highly practical. Setting up CI/CD pipelines in the classroom was the game changer.',
+    initial: 'A',
+    color: 'from-orange-500 to-yellow-500',
+  },
+  {
+    name: 'Sneha Patel',
+    role: 'Full Stack Dev @ Flipkart',
+    text: 'The mentors genuinely care about your growth. I had 1-on-1 sessions every week that were incredibly valuable.',
+    initial: 'S',
+    color: 'from-pink-500 to-rose-500',
+  },
+  {
+    name: 'Arjun Rao',
+    role: 'Backend Engineer @ Cred',
+    text: 'The system design module alone was worth the entire fee. I cleared 5 FAANG interviews back-to-back.',
+    initial: 'A',
+    color: 'from-emerald-500 to-teal-500',
+  },
+  {
+    name: 'Divya Singh',
+    role: 'ML Engineer @ Meta',
+    text: "I was skeptical at first, but the quality of instruction exceeded everything I'd seen on Udemy or Coursera.",
+    initial: 'D',
+    color: 'from-purple-500 to-violet-500',
+  },
+];
 
 export default function TestimonialsPage() {
-  const [content, setContent] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    getPageContent('testimonials')
-      .then((data) => {
-        setContent(data);
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-      });
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-base)' }}>
-        <div className="w-8 h-8 rounded-full border-4 border-t-violet-500 animate-spin" style={{ borderColor: 'var(--border-soft) var(--border-soft) var(--border-soft) var(--accent-primary)' }}></div>
-      </div>
-    );
-  }
-
-  const testimonialData = content || {
-    headline: "Stories from our active graduates",
-    reviews: []
-  };
-
   return (
-    <div className="min-h-screen flex flex-col pt-20" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
-      
-      {/* 1. HERO SECTION */}
-      <section className="py-20 px-6 max-w-4xl mx-auto space-y-6 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border shadow-sm" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)', color: 'var(--accent-primary)' }}>
-          ⭐ Student Achievements
+    <div
+      className="min-h-screen flex flex-col pt-24 dot-grid"
+      style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}
+    >
+      {/* ── HERO ── */}
+      <section className="relative py-24 px-6 max-w-4xl mx-auto space-y-6 text-center w-full overflow-hidden">
+        <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full blur-[150px] opacity-15 bg-gradient-to-br from-violet-500 to-cyan-500 pointer-events-none" />
+
+        <div
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider border"
+          style={{
+            background: 'var(--bg-card)',
+            borderColor: 'var(--border-soft)',
+            color: 'var(--accent-primary)',
+          }}
+        >
+          ⭐ Student Stories
         </div>
-        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight heading-font">
-          {testimonialData.headline}
+
+        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight heading-font">
+          Hear from our <span className="shimmer-text">students</span>
         </h1>
+        <p
+          className="text-base font-medium max-w-2xl mx-auto leading-relaxed"
+          style={{ color: 'var(--text-secondary)' }}
+        >
+          Over 10,000 developers have upgraded their careers with CodersSpot.
+        </p>
       </section>
 
-      {/* 2. REVIEWS LIST */}
-      {testimonialData.reviews && testimonialData.reviews.length > 0 && (
-        <section className="py-12 px-6 max-w-6xl mx-auto w-full flex-1">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonialData.reviews.map((review: any, idx: number) => (
-              <div key={idx} className="p-6 rounded-2xl glass card-hover flex flex-col justify-between space-y-4">
-                <div className="space-y-2">
-                  <div className="flex text-amber-400 font-bold text-sm">
-                    {"★".repeat(review.stars || 5)}
-                  </div>
-                  <p className="text-xs font-semibold leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                    "{review.text}"
+      {/* ── RATING BANNER ── */}
+      <section
+        className="py-12 px-6 border-y"
+        style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}
+      >
+        <div className="max-w-lg mx-auto flex flex-col items-center gap-3 text-center">
+          <div className="text-7xl font-extrabold heading-font bg-gradient-to-r from-violet-500 to-cyan-500 bg-clip-text text-transparent">
+            4.9
+          </div>
+          <div className="text-amber-400 text-2xl font-bold tracking-widest">★★★★★</div>
+          <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
+            Based on 2,400+ reviews from verified students.
+          </p>
+        </div>
+      </section>
+
+      {/* ── REVIEWS GRID ── */}
+      <section className="py-20 px-6 max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {REVIEWS.map((review, idx) => (
+            <div
+              key={idx}
+              className="p-8 rounded-3xl glass card-hover flex flex-col justify-between gap-6"
+            >
+              <div className="space-y-4">
+                <div className="text-amber-400 font-bold text-base">★★★★★</div>
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  "{review.text}"
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3 border-t pt-4" style={{ borderColor: 'var(--border-soft)' }}>
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white bg-gradient-to-br ${review.color} flex-shrink-0`}
+                >
+                  {review.initial}
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold">{review.name}</h4>
+                  <p className="text-[11px]" style={{ color: 'var(--text-tertiary)' }}>
+                    {review.role}
                   </p>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center font-bold text-xs" style={{ color: 'var(--accent-cyan)' }}>
-                    {review.name.split(' ').map((n: string) => n[0]).join('')}
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-bold">{review.name}</h4>
-                    <p className="text-[10px]" style={{ color: 'var(--text-tertiary)' }}>{review.role}</p>
-                  </div>
-                </div>
               </div>
-            ))}
-          </div>
-        </section>
-      )}
-
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
