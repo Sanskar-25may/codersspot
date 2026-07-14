@@ -40,8 +40,8 @@ export default function Navbar() {
   if (isPortalRoute) return null;
 
   const links = [
-    { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
+    { name: 'Courses', path: '/courses' },
     { name: 'Placements', path: '/placements' },
     { name: 'Testimonials', path: '/testimonials' },
     { name: 'Contact', path: '/contact' },

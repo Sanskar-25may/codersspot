@@ -10,6 +10,7 @@ import AboutPage from './pages/public/AboutPage';
 import PlacementsPage from './pages/public/PlacementsPage';
 import TestimonialsPage from './pages/public/TestimonialsPage';
 import ContactPage from './pages/public/ContactPage';
+import CoursesPage from './pages/public/CoursesPage';
 
 // Auth Pages
 import AuthPage from './pages/auth/AuthPage';
@@ -61,6 +62,7 @@ function AppRoutes() {
           <Route path="/placements" element={<PlacementsPage />} />
           <Route path="/testimonials" element={<TestimonialsPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/courses" element={<CoursesPage />} />
 
           {/* Auth Pages */}
           <Route path="/auth" element={<AuthPage />} />
