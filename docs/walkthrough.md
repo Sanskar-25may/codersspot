@@ -1,45 +1,45 @@
-# Walkthrough: CodersSpot Initialization Phase
+# Walkthrough: Module 1 - Authentication & Onboarding
 
-We have successfully initialized the clean codebase structure for the new React + Django architecture in your repository. All configurations have been successfully tested, built, and pushed.
-
----
-
-## 1. Directory Structure Setup
-
-We created a structured multi-package repository inside `c:\Users\gsans\codersspot/`:
-*   **Root Configuration**: Shared `.gitignore` and `README.md` workspace guidelines.
-*   **`backend/` (Django REST API)**:
-    *   Python virtual environment (`venv/`).
-    *   `codersspot/` settings, WSGI, and ASGI entry configurations.
-    *   `authentication/` app featuring the custom `User` and `UserProfile` database models.
-    *   SQLite database (`db.sqlite3`) loaded with schema structures and seeded data.
-*   **`frontend/` (React SPA)**:
-    *   Vite + TypeScript scaffold.
-    *   Tailwind CSS v4 config via Vite plugin.
-    *   Tailwind theme tokens and glassmorphism classes added to `index.css`.
-    *   Responsive welcome card preview layout with theme switcher in `App.tsx`.
+We have successfully built and verified the complete Authentication & Onboarding pipeline! All files compile cleanly and are fully synchronized in git.
 
 ---
 
-## 2. Completed Milestones & Verifications
+## 1. Backend Changes (Django API)
 
-### 2.1. Backend Verifications
-*   **Environment Setup**: Installed all package requirements (Django 5.1, DRF, SimpleJWT, channels, redis, and psycopg binaries).
-*   **Schema Migrations**:
-    *   Created `authentication` model migrations and successfully migrated tables locally.
-*   **System Check**: Ran Django check command cleanly with **0 system errors**.
-*   **Super Admin Seeding**: Successfully executed `create_admin.py` to seed our Super Admin account (`codersspot97@gmail.com`) with staff permission parameters in the database.
+We built the core auth operations inside the `authentication` Django app:
+*   **`authentication/models.py`**: Defined the custom `User` UUID database model and the `UserProfile` relation fields.
+*   **`authentication/serializers.py`**:
+    *   `UserRegisterSerializer`: Validates email availability, full name, phone number, and hashes credentials securely.
+    *   `UserProfileSerializer`: Maps onboarding biography and specialization properties.
+    *   `UserSerializer`: Serves user attributes and checks `onboarded` status via user profile presence.
+*   **`authentication/views.py`**:
+    *   `RegisterView`: Creates user credentials and yields tokens.
+    *   `VerifyOTPView`: Decodes and authenticates Firebase IDTokens. Includes a dynamic `settings.DEBUG` mock bypass allowing dev verification.
+    *   `OnboardingView`: Sets the role (`STUDENT` or `FACULTY`), creates the matching `UserProfile` profile card, and saves the details.
+    *   `UserProfileDetailView`: Yields the authenticated profile details.
+*   **`authentication/urls.py`**: Mapped auth routes to the endpoints under `/api/`.
 
-### 2.2. Frontend Verifications
-*   **Packages Configuration**: Installed React 19 libraries, tailwindcss v4, react-router-dom, lucide-react icons, and axios.
-*   **Compilation Build**: Executed `npm run build` compiling static client assets successfully with **0 compiler errors**:
+---
+
+## 2. Frontend Changes (React Client)
+
+We built the state context and pages for portal verification:
+*   **`src/services/api.ts`**: Initialized the global Axios instance. Attach access tokens to request headers and intercepts 401 Unauthorized errors to automatically request token refreshes.
+*   **`src/context/AuthContext.tsx`**: React provider carrying session controls: `login`, `register`, `verifyOTP`, `onboard`, and silent token checks.
+*   **`src/components/ProtectedRoute.tsx`**: Route guard. Restricts access to role subsets (`STUDENT`, `FACULTY`, `ADMIN`) and automatically forwards un-onboarded accounts to `/onboarding`.
+*   **`src/pages/auth/AuthPage.tsx`**: Dynamic split-pane signup/login page. Supports validation errors, Firebase verifier prompts, and mock account credentials.
+*   **`src/pages/onboarding/OnboardingPage.tsx`**: Dynamic card selector for Role onboarding setup.
+*   **`src/App.tsx`**: Hooked up all pages inside the React router inside the global `<AuthProvider>`.
+
+---
+
+## 3. Verification & Build Confirmation
+
+*   **Django system check**: Ran successfully with **0 errors**.
+*   **Vite React SPA Build**: Built cleanly with **0 compiler warnings/errors**:
     ```bash
     dist/index.html                   0.45 kB
-    dist/assets/index-CUW9M2fJ.css   14.70 kB
-    dist/assets/index-DvNNWVRZ.js   192.36 kB
+    dist/assets/index-CgQ8QyuB.css   20.86 kB
+    dist/assets/index-Egt_cqzy.js   298.33 kB
     ```
-
-### 2.3. Repository Sync
-*   Committed all initialized packages and structures and successfully executed a remote push:
-    *   **Repository URL**: `https://github.com/Sanskar-25may/codersspot`
-    *   **Target Branch**: `main`
+*   **Git Sync**: Checked status and pushed all files cleanly to your remote GitHub main branch.
