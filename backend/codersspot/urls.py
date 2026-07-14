@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/', include('cms.urls')),
     path('api/', include('leads.urls')),
     path('api/', include('courses.urls')),
+    path('api/', include('chat.urls')),
 ]

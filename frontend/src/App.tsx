@@ -33,6 +33,9 @@ import UserManagement from './pages/admin/UserManagement';
 import CourseApproval from './pages/admin/CourseApproval';
 import CmsManager from './pages/admin/CmsManager';
 
+// Chat Portal Pages
+import ChatCenter from './pages/chat/ChatCenter';
+
 function DashboardRouter() {
   const { user } = useAuth();
   
@@ -168,6 +171,15 @@ function AppRoutes() {
             element={
               <ProtectedRoute allowedRoles={['ADMIN']}>
                 <CmsManager />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/chat" 
+            element={
+              <ProtectedRoute allowedRoles={['STUDENT', 'FACULTY', 'ADMIN']}>
+                <ChatCenter />
               </ProtectedRoute>
             } 
           />
