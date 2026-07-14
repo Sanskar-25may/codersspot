@@ -102,27 +102,15 @@ export default function LandingPage() {
       className="min-h-screen flex flex-col pt-24 dot-grid"
       style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}
     >
-      <style>{`
-        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .marquee-track { animation: marquee 30s linear infinite; display: flex; width: max-content; }
-        .marquee-track-reverse { animation: marquee 40s linear infinite reverse; display: flex; width: max-content; }
-      `}</style>
-
       {/* ── HERO ── */}
       <section className="relative py-24 px-6 overflow-hidden flex flex-col items-center justify-center text-center max-w-5xl mx-auto space-y-8 w-full">
         <div className="absolute -top-16 -right-16 w-[480px] h-[480px] rounded-full blur-[150px] opacity-20 bg-gradient-to-br from-indigo-500 to-purple-600 pointer-events-none" />
         <div className="absolute -bottom-16 -left-16 w-[480px] h-[480px] rounded-full blur-[150px] opacity-15 bg-gradient-to-tr from-cyan-500 to-indigo-500 pointer-events-none" />
 
         {/* Badge */}
-        <div
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider border shadow-sm"
-          style={{
-            background: 'var(--bg-card)',
-            borderColor: 'var(--border-soft)',
-            color: 'var(--accent-primary)',
-          }}
-        >
-          🟢 Spring Cohort Enrolling Now
+        <div className="terminal-badge flex items-center gap-2">
+          <span className="pulse-dot flex-shrink-0" />
+          Spring Cohort Enrolling Now
         </div>
 
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight heading-font max-w-4xl">
@@ -216,7 +204,7 @@ export default function LandingPage() {
       <section className="py-16 px-6 overflow-hidden" style={{ background: 'var(--bg-base)' }}>
         <div className="max-w-6xl mx-auto text-center mb-10">
           <h2
-            className="text-xs font-bold uppercase tracking-widest"
+            className="text-xs font-bold uppercase tracking-widest mono-font"
             style={{ color: 'var(--text-tertiary)' }}
           >
             Engineers from top companies learn here
@@ -228,8 +216,8 @@ export default function LandingPage() {
             {[marqueeCompanies, marqueeCompanies].map((text, i) => (
               <span
                 key={i}
-                className="text-sm font-bold whitespace-nowrap pr-16"
-                style={{ color: 'var(--text-secondary)' }}
+                className="text-sm font-bold whitespace-nowrap pr-16 mono-font"
+                style={{ color: 'var(--accent-green)' }}
               >
                 {text}
               </span>
@@ -242,7 +230,7 @@ export default function LandingPage() {
             {[marqueeStack, marqueeStack].map((text, i) => (
               <span
                 key={i}
-                className="text-sm font-bold whitespace-nowrap pr-16"
+                className="text-sm font-bold whitespace-nowrap pr-16 mono-font"
                 style={{ color: 'var(--text-tertiary)' }}
               >
                 {text}

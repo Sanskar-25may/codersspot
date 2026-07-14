@@ -1,139 +1,391 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+/* ─────────────────────────────────────────────────────────────────────────────
+   CodersSpot Design System — Premium Coder Aesthetic
+   Dark  → Terminal / Hacker: deep obsidian + electric green + violet plasma
+   Light → Code-Editor Warm: VS Code cream + deep indigo + amber warmth
+───────────────────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
+/* ── Tailwind custom token bridge ── */
 @theme {
-  --color-bg-base: var(--bg-base);
-  --color-bg-card: var(--bg-card);
-  --color-bg-surface: var(--bg-surface);
+  --color-bg-base:     var(--bg-base);
+  --color-bg-card:     var(--bg-card);
+  --color-bg-surface:  var(--bg-surface);
   --color-bg-elevated: var(--bg-elevated);
-  
-  --color-text-primary: var(--text-primary);
+
+  --color-text-primary:   var(--text-primary);
   --color-text-secondary: var(--text-secondary);
-  --color-text-tertiary: var(--text-tertiary);
-  
-  --color-border-soft: var(--border-soft);
-  --color-border-med: var(--border-med);
+  --color-text-tertiary:  var(--text-tertiary);
+
+  --color-border-soft:   var(--border-soft);
+  --color-border-med:    var(--border-med);
   --color-border-strong: var(--border-strong);
-  
+
   --color-accent-primary: var(--accent-primary);
-  --color-accent-light: var(--accent-light);
-  --color-accent-lighter: var(--accent-lighter);
-  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-light:   var(--accent-light);
+  --color-accent-green:   var(--accent-green);
+  --color-accent-cyan:    var(--accent-cyan);
+  --color-accent-amber:   var(--accent-amber);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   LIGHT THEME — Warm code-editor feel (VS Code Light inspired)
+   Background: warm off-white / creamy paper
+   Text: deep navy-charcoal — high contrast, editorial
+   Accents: deep indigo primary, electric amber secondary, emerald green
+───────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds — warm paper stack */
+  --bg-base:     #faf9f7;   /* warm off-white, like a Monokai light canvas  */
+  --bg-card:     #ffffff;
+  --bg-surface:  #f3f0eb;   /* warm light grey — sidebar / panel feel       */
+  --bg-elevated: #edeae3;   /* slightly deeper, for badges / pills           */
+
+  /* Text — deep navy editorial */
+  --text-primary:   #1a1a2e;  /* deep navy — sharp code contrast              */
+  --text-secondary: #4a4060;  /* muted purple-navy — secondary metadata       */
+  --text-tertiary:  #8b7fa8;  /* lilac-grey — labels, captions                */
+
+  /* Borders — warm neutral */
+  --border-soft:   #e8e3db;
+  --border-med:    #d4ccbf;
+  --border-strong: #b8ae9f;
+
+  /* Accent Palette */
+  --accent-primary: #4f46e5;  /* electric indigo                              */
+  --accent-light:   #7c71f8;  /* lighter indigo for hover states              */
+  --accent-green:   #059669;  /* emerald green — terminal success              */
+  --accent-cyan:    #0891b2;  /* ocean cyan                                   */
+  --accent-amber:   #d97706;  /* warm amber — highlight / warning              */
+
+  /* Glow values */
+  --glow-primary: rgba(79, 70, 229, 0.18);
+  --glow-green:   rgba(5, 150, 105, 0.15);
+  --glow-cyan:    rgba(8, 145, 178, 0.15);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DARK THEME — Terminal / Hacker Aesthetic
+   Background: deep obsidian / midnight black — true programmer darkness
+   Text: bright near-white with greenish tint like terminal output
+   Accents: electric green (terminal), violet plasma (UI), cyan (links)
+───────────────────────────────────────────────────────────────────────────── */
+.dark {
+  /* Backgrounds — obsidian terminal stack */
+  --bg-base:     #080a0f;   /* near-black with cool blue tint — terminal bg   */
+  --bg-card:     #0d1117;   /* GitHub dark — industry standard dark card      */
+  --bg-surface:  #161b22;   /* GitHub surface — elevated panel                */
+  --bg-elevated: #21262d;   /* even higher — menu, dropdown, badge            */
+
+  /* Text — terminal output palette */
+  --text-primary:   #e6edf3;  /* bright white-blue — crisp readable output    */
+  --text-secondary: #8b949e;  /* dimmed grey — like terminal comments         */
+  --text-tertiary:  #484f58;  /* darkest — placeholder / disabled             */
+
+  /* Borders — subtle dark structure */
+  --border-soft:   #21262d;
+  --border-med:    #30363d;
+  --border-strong: #484f58;
+
+  /* Accent Palette — electric hacker spectrum */
+  --accent-primary: #7c3aed;   /* violet plasma — primary CTA                 */
+  --accent-light:   #a78bfa;   /* lighter violet for hover                    */
+  --accent-green:   #3fb950;   /* GitHub green — terminal success / live      */
+  --accent-cyan:    #58e6d9;   /* electric teal — links, highlights            */
+  --accent-amber:   #f0a30a;   /* terminal amber — warnings, badges            */
+
+  /* Glow values */
+  --glow-primary: rgba(124, 58, 237, 0.25);
+  --glow-green:   rgba(63, 185, 80, 0.20);
+  --glow-cyan:    rgba(88, 230, 217, 0.18);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BASE STYLES
+───────────────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg-base);
   color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.35s ease, color 0.35s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* Display / heading font */
 .heading-font {
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  letter-spacing: -0.02em;
 }
 
-:root {
-  /* LIGHT THEME TOKENS */
-  --bg-base: #f8fafc;
-  --bg-card: #ffffff;
-  --bg-surface: #f1f5f9;
-  --bg-elevated: #ffffff;
-  
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-tertiary: #94a3b8;
-  
-  --border-soft: #e2e8f0;
-  --border-med: #cbd5e1;
-  --border-strong: #94a3b8;
-  
-  --accent-primary: #6366f1;
-  --accent-light: #818cf8;
-  --accent-lighter: #e0e7ff;
-  --accent-cyan: #06b6d4;
+/* Monospace — code snippets, badges */
+.mono-font {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
 }
 
-.dark {
-  /* DARK THEME TOKENS (Rich midnight zinc palette) */
-  --bg-base: #030712;
-  --bg-card: #090d16;
-  --bg-surface: #0f172a;
-  --bg-elevated: #1e293b;
-  
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-tertiary: #475569;
-  
-  --border-soft: #1e293b;
-  --border-med: #334155;
-  --border-strong: #475569;
-  
-  --accent-primary: #6366f1;
-  --accent-light: #818cf8;
-  --accent-lighter: #1e1b4b;
-  --accent-cyan: #06b6d4;
-}
-
-/* Glassmorphism primitives */
+/* ─────────────────────────────────────────────────────────────────────────────
+   GLASSMORPHISM
+───────────────────────────────────────────────────────────────────────────── */
 .glass {
-  background: color-mix(in srgb, var(--bg-card) 75%, transparent);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: color-mix(in srgb, var(--bg-card) 72%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid var(--border-soft);
+  border-radius: 24px;
 }
 
 .glass-md {
-  background: color-mix(in srgb, var(--bg-card) 60%, transparent);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: color-mix(in srgb, var(--bg-card) 55%, transparent);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid var(--border-med);
+  border-radius: 20px;
+}
+
+/* Stronger glass for modals / navbar */
+.glass-strong {
+  background: color-mix(in srgb, var(--bg-surface) 90%, transparent);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
   border: 1px solid var(--border-soft);
 }
 
-/* Dot Grid Background overlay */
+/* ─────────────────────────────────────────────────────────────────────────────
+   DOT GRID + SCAN LINE background textures
+───────────────────────────────────────────────────────────────────────────── */
+/* Subtle dot-matrix grid */
 .dot-grid {
-  background-image: radial-gradient(color-mix(in srgb, var(--border-strong) 15%, transparent) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--border-strong) 25%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
 }
 
-/* Premium Card hover lifting */
+/* Horizontal code-line grid overlay (for hero sections) */
+.grid-lines {
+  background-image: 
+    linear-gradient(color-mix(in srgb, var(--border-soft) 50%, transparent) 1px, transparent 1px);
+  background-size: 100% 40px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CARD INTERACTION — lift + glow on hover
+───────────────────────────────────────────────────────────────────────────── */
 .card-hover {
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+  transition: 
+    transform    0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow   0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.35s ease;
 }
 .card-hover:hover {
-  transform: translateY(-5px);
-  border-color: color-mix(in srgb, var(--accent-primary) 30%, var(--border-soft));
-  box-shadow: 0 20px 40px -15px color-mix(in srgb, var(--accent-primary) 12%, transparent),
-              0 0 50px -10px color-mix(in srgb, var(--accent-cyan) 8%, transparent);
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--accent-primary) 40%, var(--border-soft));
+  box-shadow: 
+    0 24px 48px -16px var(--glow-primary),
+    0  0   60px -20px var(--glow-cyan),
+    0  1px  0    0px  color-mix(in srgb, var(--accent-primary) 20%, transparent) inset;
 }
 
-/* Shimmer animated gradient text */
+/* Green glow variant — for stat cards, success elements */
+.card-hover-green:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--accent-green) 40%, var(--border-soft));
+  box-shadow: 
+    0 24px 48px -16px var(--glow-green),
+    0  0   60px -20px var(--glow-cyan);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SHIMMER TEXT — animated gradient headline
+───────────────────────────────────────────────────────────────────────────── */
+/* Dark mode: electric green → violet → cyan (terminal hacker)  */
+/* Light mode: deep indigo → violet → teal (editorial warmth)   */
 .shimmer-text {
   background: linear-gradient(
-    to right,
-    #6366f1 10%,
-    #a855f7 30%,
-    #06b6d4 50%,
-    #a855f7 70%,
-    #6366f1 90%
+    90deg,
+    var(--accent-primary)  0%,
+    var(--accent-light)   25%,
+    var(--accent-cyan)    50%,
+    var(--accent-light)   75%,
+    var(--accent-primary) 100%
   );
-  background-size: 200% auto;
+  background-size: 300% auto;
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  animation: shine 6s linear infinite;
+  animation: shimmer-flow 5s linear infinite;
 }
 
-@keyframes shine {
-  to {
-    background-position: 200% center;
-  }
+@keyframes shimmer-flow {
+  0%   { background-position: 0%   center; }
+  100% { background-position: 300% center; }
 }
 
-/* Premium input focus */
+/* Terminal green variant */
+.shimmer-green {
+  background: linear-gradient(
+    90deg,
+    var(--accent-green) 0%,
+    var(--accent-cyan)  40%,
+    var(--accent-green) 100%
+  );
+  background-size: 250% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shimmer-flow 4s linear infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SCROLLING MARQUEE
+───────────────────────────────────────────────────────────────────────────── */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee-scroll 32s linear infinite;
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.marquee-track-reverse {
+  animation: marquee-scroll 44s linear infinite reverse;
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TERMINAL BADGE — monospaced coder-style pill
+───────────────────────────────────────────────────────────────────────────── */
+.terminal-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--accent-green);
+  color: var(--accent-green);
+  background: color-mix(in srgb, var(--accent-green) 8%, transparent);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   GLOW ORBS — decorative blur blobs
+───────────────────────────────────────────────────────────────────────────── */
+.orb-violet {
+  background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+  filter: blur(80px);
+  opacity: 0.25;
+  pointer-events: none;
+}
+.orb-green {
+  background: radial-gradient(circle, var(--accent-green) 0%, transparent 70%);
+  filter: blur(80px);
+  opacity: 0.18;
+  pointer-events: none;
+}
+.orb-cyan {
+  background: radial-gradient(circle, var(--accent-cyan) 0%, transparent 70%);
+  filter: blur(80px);
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   PULSE / LIVE INDICATOR — green dot blinking
+───────────────────────────────────────────────────────────────────────────── */
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  box-shadow: 0 0 0 0 var(--glow-green);
+  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0   color-mix(in srgb, var(--accent-green) 70%, transparent); }
+  70%  { box-shadow: 0 0 0 8px transparent; }
+  100% { box-shadow: 0 0 0 0   transparent; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   INPUT — focus ring with glow
+───────────────────────────────────────────────────────────────────────────── */
 .input-premium {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
 }
 .input-premium:focus {
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-primary) 15%, transparent);
+  border-color: var(--accent-primary) !important;
+  box-shadow: 0 0 0 3px var(--glow-primary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SCROLLBAR — custom dark/light aware
+───────────────────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar              { width: 6px; height: 6px; }
+::-webkit-scrollbar-track        { background: var(--bg-base); }
+::-webkit-scrollbar-thumb        { background: var(--border-strong); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover  { background: var(--accent-primary); }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SELECTION highlight
+───────────────────────────────────────────────────────────────────────────── */
+::selection {
+  background: color-mix(in srgb, var(--accent-primary) 30%, transparent);
+  color: var(--text-primary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   GRADIENT BUTTON GLOW — extra visual punch for primary CTAs
+───────────────────────────────────────────────────────────────────────────── */
+.btn-glow {
+  box-shadow: 0 4px 20px -4px var(--glow-primary);
+  transition: box-shadow 0.3s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+.btn-glow:hover {
+  box-shadow: 0 8px 32px -4px var(--glow-primary);
+  transform: translateY(-1px);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CODE BLOCK aesthetic — for any inline code preview 
+───────────────────────────────────────────────────────────────────────────── */
+.code-block {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 16px 20px;
+  color: var(--accent-green);
+  overflow-x: auto;
+}
+.dark .code-block {
+  background: #0d1117;
+  border-color: #30363d;
+  color: #3fb950;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   FADE-IN ANIMATION — general purpose
+───────────────────────────────────────────────────────────────────────────── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }

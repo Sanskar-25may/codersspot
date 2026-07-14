@@ -8,26 +8,31 @@ export default function Navbar() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(true);
+  // Read saved preference; default to dark
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    const saved = localStorage.getItem('cs-theme');
+    return saved ? saved === 'dark' : true;
+  });
 
-  // Scroll listener to add backdrop blur styling
+  // Apply theme class on mount and whenever darkMode changes
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('cs-theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('cs-theme', 'light');
+    }
+  }, [darkMode]);
+
+  // Scroll listener
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Sync state with HTML dark class
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
-    if (darkMode) {
-      document.documentElement.classList.remove('dark');
-    } else {
-      document.documentElement.classList.add('dark');
-    }
-  };
+  const toggleTheme = () => setDarkMode((d) => !d);
 
   // Hide public navbar on portal routes
   const isPortalRoute = 
@@ -58,12 +63,16 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-violet-500 to-cyan-500 p-0.5 animate-pulse">
-            <div className="w-full h-full rounded-full" style={{ background: 'var(--bg-card)' }}></div>
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="relative w-9 h-9">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-violet-600 via-purple-500 to-cyan-400 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-200">
+              <span className="font-black text-xs text-white heading-font tracking-tight">CS</span>
+            </div>
+            {/* Live green dot */}
+            <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 ring-0 pulse-dot" style={{ borderColor: 'var(--bg-base)' }} />
           </div>
-          <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-violet-500 to-cyan-500 bg-clip-text text-transparent heading-font">
-            CodersSpot
+          <span className="font-extrabold text-xl tracking-tight heading-font" style={{ color: 'var(--text-primary)' }}>
+            Coders<span className="bg-gradient-to-r from-violet-500 to-cyan-400 bg-clip-text text-transparent">Spot</span>
           </span>
         </Link>
 
@@ -86,12 +95,33 @@ export default function Navbar() {
 
         {/* Actions (Auth / Mode Switcher) */}
         <div className="hidden md:flex items-center gap-4">
-          <button 
-            onClick={toggleTheme} 
-            className="p-2 rounded-xl border hover:opacity-80 transition-all"
-            style={{ borderColor: 'var(--border-soft)', background: 'var(--bg-surface)' }}
+          <button
+            onClick={toggleTheme}
+            title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-xl border font-mono text-[11px] font-bold tracking-widest transition-all duration-200 hover:scale-105"
+            style={{
+              borderColor: darkMode ? 'var(--accent-green)' : 'var(--accent-amber)',
+              background: darkMode
+                ? 'color-mix(in srgb, var(--accent-green) 10%, transparent)'
+                : 'color-mix(in srgb, var(--accent-amber) 10%, transparent)',
+              color: darkMode ? 'var(--accent-green)' : 'var(--accent-amber)',
+            }}
           >
-            {darkMode ? '☀️' : '🌙'}
+            {darkMode ? (
+              <>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M12 7a5 5 0 1 0 0 10A5 5 0 0 0 12 7z"/>
+                </svg>
+                LIGHT
+              </>
+            ) : (
+              <>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+                DARK
+              </>
+            )}
           </button>
           
           {user ? (
@@ -155,12 +185,18 @@ export default function Navbar() {
             </Link>
           ))}
           <div className="border-t pt-4 flex flex-col space-y-3" style={{ borderColor: 'var(--border-soft)' }}>
-            <button 
+            <button
               onClick={() => { toggleTheme(); setMobileOpen(false); }}
-              className="py-2 text-center text-xs font-bold border rounded-xl"
-              style={{ borderColor: 'var(--border-soft)', background: 'var(--bg-surface)' }}
+              className="py-2.5 text-center text-xs font-bold border rounded-xl mono-font tracking-widest transition-all"
+              style={{
+                borderColor: darkMode ? 'var(--accent-green)' : 'var(--accent-amber)',
+                color: darkMode ? 'var(--accent-green)' : 'var(--accent-amber)',
+                background: darkMode
+                  ? 'color-mix(in srgb, var(--accent-green) 8%, transparent)'
+                  : 'color-mix(in srgb, var(--accent-amber) 8%, transparent)',
+              }}
             >
-              Toggle {darkMode ? 'Light' : 'Dark'} Mode
+              {darkMode ? '☀ Switch to Light' : '🌙 Switch to Dark'}
             </button>
             {user ? (
               <>
