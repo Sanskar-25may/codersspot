@@ -25,37 +25,63 @@ export default function LandingPage() {
     );
   }
 
-  // Fallback defaults if content fails to load
-  const landingData = content || {
-    headline_normal: "Build skills that",
-    headline_bold: "ship real products.",
-    subtext: "Interactive project cohorts led by expert engineers from top tech organizations.",
-    stats: [],
-    features: []
+  // Fallback defaults with full premium specs if database is unseeded
+  const landingData = {
+    headline_normal: content?.headline_normal || "Build skills that",
+    headline_bold: content?.headline_bold || "ship real products.",
+    subtext: content?.subtext || "Interactive project cohorts led by expert engineers from top tech organizations.",
+    stats: content?.stats && content.stats.length > 0 ? content.stats : [
+      { value: "10,000+", label: "Students Trained" },
+      { value: "98%", label: "Satisfaction Rate" },
+      { value: "4.9★", label: "Mentor Rating" },
+      { value: "96%", label: "Placement Hikes" }
+    ],
+    features: content?.features && content.features.length > 0 ? content.features : [
+      { 
+        title: "Project-Based Learning", 
+        desc: "Build production apps using real architectures (Django REST, Vite SPAs, Docker containers) instead of just watching videos.",
+        col_span: "lg:col-span-2"
+      },
+      { 
+        title: "Live Peer Cohorts", 
+        desc: "Engage in daily standups and code reviews with fellow peer developers.",
+        col_span: ""
+      },
+      { 
+        title: "Verified Credentials", 
+        desc: "Get digital certificates cryptographically signed by industry mentors.",
+        col_span: ""
+      },
+      { 
+        title: "VPS Deployments", 
+        desc: "Configure Nginx, SSL domain routing, and PostgreSQL databases on live KVM containers.",
+        col_span: "lg:col-span-2"
+      }
+    ]
   };
 
   return (
-    <div className="min-h-screen flex flex-col pt-20" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
+    <div className="min-h-screen flex flex-col pt-20 dot-grid" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
       
       {/* 1. HERO SECTION */}
       <section className="relative py-24 px-6 overflow-hidden flex-1 flex flex-col items-center justify-center text-center max-w-5xl mx-auto space-y-8">
         {/* Blur orb backgrounds */}
-        <div className="absolute top-1/4 right-10 w-96 h-96 rounded-full blur-3xl opacity-10 bg-gradient-to-br from-violet-600 to-cyan-400"></div>
-        <div className="absolute bottom-1/4 left-10 w-96 h-96 rounded-full blur-3xl opacity-10 bg-gradient-to-tr from-cyan-600 to-violet-400"></div>
+        <div className="absolute -top-10 -right-10 w-[450px] h-[450px] rounded-full blur-[140px] opacity-15 bg-gradient-to-br from-indigo-500 to-purple-500 pointer-events-none"></div>
+        <div className="absolute -bottom-10 -left-10 w-[450px] h-[450px] rounded-full blur-[140px] opacity-15 bg-gradient-to-tr from-cyan-500 to-indigo-500 pointer-events-none"></div>
 
         {/* Feature badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border shadow-sm" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)', color: 'var(--accent-primary)' }}>
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider border shadow-sm" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)', color: 'var(--accent-primary)' }}>
           🚀 Interactive Project Cohorts
         </div>
 
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight heading-font max-w-4xl">
           {landingData.headline_normal}{' '}
-          <span className="bg-gradient-to-r from-violet-500 to-cyan-500 bg-clip-text text-transparent animate-pulse">
+          <span className="shimmer-text block sm:inline">
             {landingData.headline_bold}
           </span>
         </h1>
 
-        <p className="text-sm md:text-base font-medium max-w-2xl" style={{ color: 'var(--text-secondary)' }}>
+        <p className="text-sm md:text-base font-medium max-w-2xl leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
           {landingData.subtext}
         </p>
 
@@ -63,13 +89,13 @@ export default function LandingPage() {
         <div className="flex gap-4">
           <Link 
             to="/auth" 
-            className="px-6 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-violet-500 to-cyan-500 hover:opacity-90 shadow-lg transition-all"
+            className="px-6 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 shadow-md hover:scale-[1.02] transition-all"
           >
             Get Started Free
           </Link>
           <Link 
             to="/courses" 
-            className="px-6 py-3 rounded-xl text-sm font-bold border transition-all"
+            className="px-6 py-3 rounded-xl text-sm font-bold border hover:bg-gray-50 dark:hover:bg-gray-900/10 transition-all animate-fade-in-up"
             style={{ borderColor: 'var(--border-soft)', background: 'var(--bg-card)' }}
           >
             Explore Courses

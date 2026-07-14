@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -20,59 +21,119 @@
   --color-accent-cyan: var(--accent-cyan);
 }
 
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.heading-font {
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
 :root {
   /* LIGHT THEME TOKENS */
-  --bg-base: hsl(220 14% 96%);
-  --bg-card: hsl(0 0% 100%);
-  --bg-surface: hsl(210 16% 98%);
-  --bg-elevated: hsl(0 0% 100%);
+  --bg-base: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-surface: #f1f5f9;
+  --bg-elevated: #ffffff;
   
-  --text-primary: hsl(224 71% 4%);
-  --text-secondary: hsl(220 9% 46%);
-  --text-tertiary: hsl(220 9% 70%);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
   
-  --border-soft: hsl(220 13% 91%);
-  --border-med: hsl(220 13% 86%);
-  --border-strong: hsl(220 13% 76%);
+  --border-soft: #e2e8f0;
+  --border-med: #cbd5e1;
+  --border-strong: #94a3b8;
   
-  --accent-primary: hsl(263 70% 50%);
-  --accent-light: hsl(263 70% 65%);
-  --accent-lighter: hsl(263 70% 90%);
-  --accent-cyan: hsl(190 90% 45%);
+  --accent-primary: #6366f1;
+  --accent-light: #818cf8;
+  --accent-lighter: #e0e7ff;
+  --accent-cyan: #06b6d4;
 }
 
 .dark {
-  /* DARK THEME TOKENS */
-  --bg-base: hsl(224 71% 4%);
-  --bg-card: hsl(224 71% 7%);
-  --bg-surface: hsl(224 71% 10%);
-  --bg-elevated: hsl(224 71% 14%);
+  /* DARK THEME TOKENS (Rich midnight zinc palette) */
+  --bg-base: #030712;
+  --bg-card: #090d16;
+  --bg-surface: #0f172a;
+  --bg-elevated: #1e293b;
   
-  --text-primary: hsl(210 20% 98%);
-  --text-secondary: hsl(215 20% 65%);
-  --text-tertiary: hsl(215 20% 45%);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #475569;
   
-  --border-soft: hsl(224 71% 12%);
-  --border-med: hsl(224 71% 18%);
-  --border-strong: hsl(224 71% 28%);
+  --border-soft: #1e293b;
+  --border-med: #334155;
+  --border-strong: #475569;
   
-  --accent-primary: hsl(263 70% 55%);
-  --accent-light: hsl(263 70% 70%);
-  --accent-lighter: hsl(263 70% 25%);
-  --accent-cyan: hsl(190 90% 50%);
+  --accent-primary: #6366f1;
+  --accent-light: #818cf8;
+  --accent-lighter: #1e1b4b;
+  --accent-cyan: #06b6d4;
 }
 
 /* Glassmorphism primitives */
 .glass {
-  background: color-mix(in srgb, var(--bg-card) 70%, transparent);
-  backdrop-filter: blur(12px);
+  background: color-mix(in srgb, var(--bg-card) 75%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-soft);
 }
 
+.glass-md {
+  background: color-mix(in srgb, var(--bg-card) 60%, transparent);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-soft);
+}
+
+/* Dot Grid Background overlay */
+.dot-grid {
+  background-image: radial-gradient(color-mix(in srgb, var(--border-strong) 15%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Premium Card hover lifting */
 .card-hover {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
 }
 .card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px -10px color-mix(in srgb, var(--accent-primary) 15%, transparent);
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--accent-primary) 30%, var(--border-soft));
+  box-shadow: 0 20px 40px -15px color-mix(in srgb, var(--accent-primary) 12%, transparent),
+              0 0 50px -10px color-mix(in srgb, var(--accent-cyan) 8%, transparent);
+}
+
+/* Shimmer animated gradient text */
+.shimmer-text {
+  background: linear-gradient(
+    to right,
+    #6366f1 10%,
+    #a855f7 30%,
+    #06b6d4 50%,
+    #a855f7 70%,
+    #6366f1 90%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shine 6s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Premium input focus */
+.input-premium {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.input-premium:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-primary) 15%, transparent);
 }
