@@ -3,6 +3,8 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import DynamicBackground from './components/DynamicBackground';
+import { useState, useEffect } from 'react';
 
 // Public Pages
 import LandingPage from './pages/public/LandingPage';
@@ -50,8 +52,27 @@ function DashboardRouter() {
 }
 
 function AppRoutes() {
+  // Mirror the theme preference so DynamicBackground matches the Navbar toggle
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    const saved = localStorage.getItem('cs-theme');
+    return saved ? saved === 'dark' : true;
+  });
+
+  // Re-sync when localStorage changes (e.g., Navbar toggle)
+  useEffect(() => {
+    const onStorage = () => {
+      const saved = localStorage.getItem('cs-theme');
+      setDarkMode(saved ? saved === 'dark' : true);
+    };
+    // Poll every 200ms — lightweight, avoids cross-component prop-drilling
+    const id = setInterval(onStorage, 200);
+    return () => clearInterval(id);
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg-base)' }}>
+    <div className="min-h-screen flex flex-col" style={{ background: 'transparent' }}>
+      {/* Fixed looping dynamic background — sits behind all content */}
+      <DynamicBackground darkMode={darkMode} />
       <Navbar />
       
       <main className="flex-grow flex flex-col">

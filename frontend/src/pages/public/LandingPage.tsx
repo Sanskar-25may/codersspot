@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getPageContent } from '../../services/cms';
+import { useScrollReveal, useStaggerReveal, revealClass, revealStyle } from '../../hooks/useScrollReveal';
 
 const DEFAULT_STATS = [
   { value: '10,000+', label: 'Students Trained' },
@@ -97,17 +98,24 @@ export default function LandingPage() {
   const marqueeStack =
     'React • Next.js • TypeScript • Node.js • PostgreSQL • Docker • AWS • Redis • TailwindCSS • GraphQL';
 
+  // ── Scroll-reveal hooks — wired to each section ──
+  const heroReveal    = useScrollReveal({ variant: 'zoom-in',   threshold: 0.05 });
+  const marqueeReveal = useScrollReveal({ variant: 'fade-down', threshold: 0.1  });
+  const statsStagger  = useStaggerReveal(4, { variant: 'fade-up', staggerMs: 90, threshold: 0.15 });
+
   return (
     <div
-      className="min-h-screen flex flex-col pt-24 dot-grid"
-      style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}
+      className="min-h-screen flex flex-col pt-24"
+      style={{ color: 'var(--text-primary)' }}
     >
       {/* ── HERO ── */}
       <section className="relative py-24 px-6 overflow-hidden flex flex-col items-center justify-center text-center max-w-5xl mx-auto space-y-8 w-full">
-        <div className="absolute -top-16 -right-16 w-[480px] h-[480px] rounded-full blur-[150px] opacity-20 bg-gradient-to-br from-indigo-500 to-purple-600 pointer-events-none" />
-        <div className="absolute -bottom-16 -left-16 w-[480px] h-[480px] rounded-full blur-[150px] opacity-15 bg-gradient-to-tr from-cyan-500 to-indigo-500 pointer-events-none" />
 
-        {/* Badge */}
+        {/* Hero inner — zoom-in on load */}
+        <div
+          ref={heroReveal.ref as React.RefObject<HTMLDivElement>}
+          className={revealClass('zoom-in', heroReveal.isVisible, 'flex flex-col items-center gap-8 w-full')}
+        >
         <div className="terminal-badge flex items-center gap-2">
           <span className="pulse-dot flex-shrink-0" />
           Spring Cohort Enrolling Now
@@ -176,16 +184,22 @@ export default function LandingPage() {
             </p>
           </div>
         </div>
+        {/* close heroReveal wrapper */}
+        </div>
       </section>
 
       {/* ── STATS STRIP ── */}
       <section
         className="border-y py-14 px-6"
-        style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}
+        style={{ background: 'color-mix(in srgb, var(--bg-card) 85%, transparent)', borderColor: 'var(--border-soft)' }}
       >
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div ref={statsStagger.parentRef} className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {landingData.stats.map((stat: any, idx: number) => (
-            <div key={idx} className="text-center space-y-1.5">
+            <div
+              key={idx}
+              className={revealClass('fade-up', statsStagger.items[idx]?.visible ?? false, 'text-center space-y-1.5')}
+              style={revealStyle(statsStagger.items[idx]?.delay ?? 0)}
+            >
               <h3 className="text-4xl font-extrabold bg-gradient-to-r from-violet-500 to-cyan-500 bg-clip-text text-transparent heading-font">
                 {stat.value}
               </h3>
@@ -201,7 +215,11 @@ export default function LandingPage() {
       </section>
 
       {/* ── MARQUEE ── */}
-      <section className="py-16 px-6 overflow-hidden" style={{ background: 'var(--bg-base)' }}>
+      <section
+        ref={marqueeReveal.ref as React.RefObject<HTMLElement>}
+        className={revealClass('fade-down', marqueeReveal.isVisible, 'py-16 px-6 overflow-hidden')}
+        style={{ background: 'var(--bg-base)' }}
+      >
         <div className="max-w-6xl mx-auto text-center mb-10">
           <h2
             className="text-xs font-bold uppercase tracking-widest mono-font"
