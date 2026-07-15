@@ -4,6 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import DynamicBackground from './components/DynamicBackground';
+import ScrollToTop from './components/ScrollToTop';
 
 // Public Pages
 import LandingPage from './pages/public/LandingPage';
@@ -210,6 +211,7 @@ function AppRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <AuthProvider>
         <AppRoutes />
       </AuthProvider>
