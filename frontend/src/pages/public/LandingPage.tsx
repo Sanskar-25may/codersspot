@@ -351,7 +351,7 @@ export default function LandingPage() {
                   Meet the Engineers
                 </Link>
                 <Link
-                  to="/contact"
+                  to="/community"
                   className="px-5 py-2.5 rounded-xl text-sm font-bold border hover:opacity-75 transition-all duration-200"
                   style={{ borderColor: 'var(--border-med)', background: 'var(--bg-card)' }}
                 >

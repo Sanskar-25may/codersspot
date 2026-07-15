@@ -14,6 +14,7 @@ import ContactPage from './pages/public/ContactPage';
 import CoursesPage from './pages/public/CoursesPage';
 import ProjectsPage from './pages/public/ProjectsPage';
 import EngineersPage from './pages/public/EngineersPage';
+import CommunityPage from './pages/public/CommunityPage';
 
 // Auth Pages
 import AuthPage from './pages/auth/AuthPage';
@@ -70,6 +71,7 @@ function AppRoutes() {
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/engineers" element={<EngineersPage />} />
           <Route path="/engineers/:id" element={<EngineersPage />} />
+          <Route path="/community" element={<CommunityPage />} />
 
           {/* Auth Pages */}
           <Route path="/auth" element={<AuthPage />} />
