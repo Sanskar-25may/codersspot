@@ -53,8 +53,7 @@ export default function CoursesPage() {
     );
   }
 
-  // Fallback courses data if database is unseeded
-  const coursesList = courses.length > 0 ? courses : [
+  const defaultCourses = [
     {
       id: "c1-uuid",
       title: "Full Stack React & Next.js",
@@ -80,6 +79,18 @@ export default function CoursesPage() {
       level: "Advanced"
     }
   ];
+
+  // Merge database courses with fallbacks to always show at least 3 items
+  const coursesList = [...courses];
+  if (coursesList.length < 3) {
+    const existingTitles = new Set(coursesList.map(c => c.title.toLowerCase()));
+    for (const defCourse of defaultCourses) {
+      if (coursesList.length >= 3) break;
+      if (!existingTitles.has(defCourse.title.toLowerCase())) {
+        coursesList.push(defCourse);
+      }
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col p-6 space-y-6 pt-24 dot-grid" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
