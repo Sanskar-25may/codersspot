@@ -22,11 +22,33 @@ export default function Breadcrumb() {
   const segments = path.split('/').filter(Boolean);
   if (segments.length === 0) return null;
 
-  // Capitalize path segments for display
+  // Helper to query course title from database cache
+  const getCourseName = (id: string) => {
+    try {
+      const saved = localStorage.getItem('mock_courses');
+      if (saved) {
+        const courses = JSON.parse(saved);
+        const course = courses.find((c: any) => c.id === id);
+        if (course) return course.title;
+      }
+    } catch {}
+
+    const fallbacks: Record<string, string> = {
+      'c1-uuid': 'Full Stack React & Next.js',
+      'c2-uuid': 'System Design & Scale',
+      'c3-uuid': 'Applied Machine Learning & AI',
+      'full-stack-react': 'Full Stack React & Next.js',
+      'system-design': 'System Design & Scale',
+      'applied-ml': 'Applied Machine Learning & AI'
+    };
+    return fallbacks[id] || id;
+  };
+
+  // Capitalize path segments for display or translate IDs to names
   const formatSegment = (str: string) => {
-    // If it looks like a UUID or ID (contains dashes, numbers, or hash-like length)
-    if (str.length > 20 || str.includes('-') && /\d/.test(str)) {
-      return str; // return raw ID as in screenshot
+    const isId = str.length > 15 || (str.includes('-') && /\d/.test(str)) || (str.startsWith('c') && str.includes('uuid'));
+    if (isId) {
+      return getCourseName(str);
     }
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
