@@ -12,21 +12,24 @@ const DEFAULT_STATS = [
 const DEFAULT_FEATURES = [
   {
     title: 'Project-Based Learning',
-    desc: 'We threw out the video-course model. Every module ends with a deployable project reviewed by working engineers.',
-    colSpan: 'lg:col-span-2',
-    icon: '🚀',
+    desc: 'Build 10+ real-world applications that solve actual problems. Stop watching videos and start coding.',
+    colSpan: '',
+    iconColor: 'bg-indigo-600',
+    num: '1',
   },
   {
-    title: 'Live Cohorts',
-    desc: 'Weekly interactive code reviews and Q&A sessions with working engineers.',
+    title: 'Live Mentorship',
+    desc: 'Get unblocked instantly with 1-on-1 mentorship from engineers at top tech companies.',
     colSpan: '',
-    icon: '🎯',
+    iconColor: 'bg-cyan-500',
+    num: '2',
   },
   {
-    title: 'Verified Credentials',
-    desc: 'All certificates are cryptographically verified and linked to your GitHub profile.',
+    title: 'Code Reviews',
+    desc: 'Every line of code you write gets reviewed by an expert. Learn best practices from day one.',
     colSpan: '',
-    icon: '🏅',
+    iconColor: 'bg-emerald-500',
+    num: '3',
   },
 ];
 
@@ -289,59 +292,76 @@ export default function LandingPage() {
       </section>
 
       {/* ── WHY CODERSSPOT (BENTO) ── */}
-      <section className="py-24 px-6 max-w-6xl mx-auto w-full space-y-12">
-        <div className="text-center space-y-3">
-          <h2 className="text-4xl font-extrabold tracking-tight heading-font">
-            Why CodersSpot
-          </h2>
-          <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-            A curriculum engineered around real deployments, code reviews, and production benchmarks.
-          </p>
-        </div>
+      <section
+        className="border-y py-24 px-6"
+        style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}
+      >
+        <div className="max-w-6xl mx-auto space-y-12">
+          <div className="text-center space-y-3">
+            <h2 className="text-4xl font-extrabold tracking-tight heading-font">
+              Why CodersSpot is different.
+            </h2>
+            <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
+              We threw out the traditional video-course model and built a platform optimized for actual skill acquisition.
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          {DEFAULT_FEATURES.map((feature, idx) => (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            {DEFAULT_FEATURES.map((feature, idx) => (
+              <div
+                key={idx}
+                className="p-8 rounded-3xl glass card-hover flex flex-col justify-between min-h-[240px]"
+              >
+                <div className="space-y-4">
+                  {/* Circle number */}
+                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm text-white ${feature.iconColor}`}>
+                    {feature.num}
+                  </div>
+                  <h3 className="text-xl font-bold heading-font">{feature.title}</h3>
+                  <p
+                    className="text-sm font-medium leading-relaxed"
+                    style={{ color: 'var(--text-secondary)' }}
+                  >
+                    {feature.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+
+            {/* CTA card */}
             <div
-              key={idx}
-              className={`p-8 rounded-3xl glass card-hover flex flex-col justify-between min-h-[220px] ${feature.colSpan}`}
+              className="lg:col-span-3 p-8 rounded-3xl glass card-hover flex flex-col md:flex-row items-center justify-between gap-6 min-h-[140px] relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(6,182,212,0.06) 100%)',
+              }}
             >
-              <div className="space-y-4">
-                <div className="text-3xl">{feature.icon}</div>
-                <h3 className="text-xl font-bold heading-font">{feature.title}</h3>
-                <p
-                  className="text-sm font-medium leading-relaxed"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  {feature.desc}
+              {/* Circuit board aesthetic overlay */}
+              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center mix-blend-overlay opacity-5 pointer-events-none" />
+              
+              <div className="relative z-10 space-y-1">
+                <h3 className="text-xl font-bold heading-font">
+                  Join 10,000+ developers today
+                </h3>
+                <p className="text-xs font-semibold" style={{ color: 'var(--text-secondary)' }}>
+                  Get instant access to all courses, projects, and the community.
                 </p>
               </div>
-            </div>
-          ))}
 
-          {/* CTA card */}
-          <div
-            className="lg:col-span-2 p-8 rounded-3xl glass card-hover flex flex-col md:flex-row items-center justify-between gap-6 min-h-[140px]"
-            style={{
-              background: 'linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(6,182,212,0.08) 100%)',
-            }}
-          >
-            <h3 className="text-xl font-bold heading-font">
-              Join 10,000+ developers today
-            </h3>
-            <div className="flex gap-3 flex-shrink-0 flex-wrap">
-              <Link
-                to="/courses"
-                className="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:scale-[1.03] transition-all duration-200"
-              >
-                Browse Courses
-              </Link>
-              <Link
-                to="/contact"
-                className="px-5 py-2.5 rounded-xl text-sm font-bold border hover:opacity-75 transition-all duration-200"
-                style={{ borderColor: 'var(--border-med)' }}
-              >
-                Contact Us
-              </Link>
+              <div className="flex gap-3 flex-shrink-0 flex-wrap relative z-10">
+                <Link
+                  to="/placements"
+                  className="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:scale-[1.03] transition-all duration-200"
+                >
+                  Meet the Engineers
+                </Link>
+                <Link
+                  to="/contact"
+                  className="px-5 py-2.5 rounded-xl text-sm font-bold border hover:opacity-75 transition-all duration-200"
+                  style={{ borderColor: 'var(--border-med)', background: 'var(--bg-card)' }}
+                >
+                  Join the Community
+                </Link>
+              </div>
             </div>
           </div>
         </div>
