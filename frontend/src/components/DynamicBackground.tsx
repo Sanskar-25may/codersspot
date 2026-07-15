@@ -1,164 +1,220 @@
 import { useEffect, useRef, useState } from 'react';
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   DynamicBackground
-   Renders a full-viewport looping animated layer behind all page content.
-   • Dark  → Aurora Borealis mesh + drifting particle grid + scanline pulse
-   • Light → Flowing gradient waves + floating soft blobs + geometric lattice
-   Pure CSS animations — zero JS canvas, zero performance hit.
-───────────────────────────────────────────────────────────────────────────── */
-
-interface DynamicBackgroundProps {
-  darkMode?: boolean;
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  color: string;
+  text?: string;
+  alpha: number;
 }
 
-// Generate deterministic "random" positions for particles
-function generateParticles(count: number) {
-  return Array.from({ length: count }, (_, i) => ({
-    id: i,
-    x: ((i * 137.508) % 100),           // golden-angle distribution
-    y: ((i * 97.31 + 13) % 100),
-    size: 1 + (i % 3),
-    delay: (i * 0.3) % 8,
-    duration: 4 + (i % 6),
-    opacity: 0.15 + (i % 5) * 0.07,
-  }));
-}
+export default function DynamicBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isDark, setIsDark] = useState(true);
 
-const PARTICLES = generateParticles(48);
-
-export default function DynamicBackground({ darkMode = true }: DynamicBackgroundProps) {
-  const [scrollY, setScrollY] = useState(0);
-  const rafRef = useRef<number | null>(null);
-
+  // Monitor document.documentElement class list for dark mode changes
   useEffect(() => {
-    const onScroll = () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(() => {
-        setScrollY(window.scrollY);
+    const checkTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    };
+
+    checkTheme(); // Initial check
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          checkTheme();
+        }
       });
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    return () => observer.disconnect();
   }, []);
 
-  // Parallax offset — orbs move at different rates
-  const slowPar  = scrollY * 0.08;
-  const midPar   = scrollY * 0.14;
-  const fastPar  = scrollY * 0.22;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    // Code snippets / syntax keywords to float in dark mode
+    const codeKeywords = [
+      'const', 'await', 'import', 'export', 'function', 'class', '=>',
+      'interface', 'return', 'async', 'promise', 'git commit', 'npm run',
+      'docker up', 'Vite', 'React', 'Django', 'Postgres', 'Redis', 'AWS'
+    ];
+
+    let particles: Particle[] = [];
+    const maxParticles = 65;
+
+    const createParticle = (initRandom = false): Particle => {
+      const size = Math.random() * 2 + 1;
+      const isText = Math.random() > 0.85;
+      return {
+        x: Math.random() * width,
+        y: initRandom ? Math.random() * height : height + 20,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: -(Math.random() * 0.5 + 0.1), // Float upwards slowly
+        size: isText ? Math.random() * 4 + 10 : size,
+        color: '',
+        text: isText ? codeKeywords[Math.floor(Math.random() * codeKeywords.length)] : undefined,
+        alpha: Math.random() * 0.5 + 0.1,
+      };
+    };
+
+    // Initialize particles
+    for (let i = 0; i < maxParticles; i++) {
+      particles.push(createParticle(true));
+    }
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener('resize', handleResize);
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // ── THEME COLORS SWITCH ──
+      // Dark Mode Palette: Cyber terminal (Neon Greens, Glowing Cyans, Deep Purples)
+      // Light Mode Palette: Warm editorial (Warm Amber, Peach, Lavender, Soft Lilac)
+      const particleColors = isDark
+        ? ['#3fb950', '#58e6d9', '#7c3aed', '#a78bfa'] // green, cyan, violet, light violet
+        : ['#4f46e5', '#7c71f8', '#d97706', '#0891b2']; // indigo, light indigo, amber, cyan
+
+      // Set canvas composition
+      ctx.globalCompositeOperation = 'source-over';
+
+      // 1. Draw large blurry gradient blobs in background (combining CSS blur feel + Canvas speed)
+      if (isDark) {
+        // Blob 1 - Deep violet top right
+        const grad1 = ctx.createRadialGradient(width * 0.8, height * 0.2, 0, width * 0.8, height * 0.2, Math.max(width, height) * 0.35);
+        grad1.addColorStop(0, 'rgba(124, 58, 237, 0.12)');
+        grad1.addColorStop(1, 'rgba(8, 10, 15, 0)');
+        ctx.fillStyle = grad1;
+        ctx.fillRect(0, 0, width, height);
+
+        // Blob 2 - Cyan bottom left
+        const grad2 = ctx.createRadialGradient(width * 0.2, height * 0.8, 0, width * 0.2, height * 0.8, Math.max(width, height) * 0.35);
+        grad2.addColorStop(0, 'rgba(88, 230, 217, 0.08)');
+        grad2.addColorStop(1, 'rgba(8, 10, 15, 0)');
+        ctx.fillStyle = grad2;
+        ctx.fillRect(0, 0, width, height);
+      } else {
+        // Light theme blobs - warm amber & lavender
+        // Blob 1 - Warm Amber top right
+        const grad1 = ctx.createRadialGradient(width * 0.8, height * 0.15, 0, width * 0.8, height * 0.15, Math.max(width, height) * 0.4);
+        grad1.addColorStop(0, 'rgba(217, 119, 6, 0.06)');
+        grad1.addColorStop(1, 'rgba(250, 249, 247, 0)');
+        ctx.fillStyle = grad1;
+        ctx.fillRect(0, 0, width, height);
+
+        // Blob 2 - Lilac bottom left
+        const grad2 = ctx.createRadialGradient(width * 0.15, height * 0.8, 0, width * 0.15, height * 0.8, Math.max(width, height) * 0.4);
+        grad2.addColorStop(0, 'rgba(79, 70, 229, 0.06)');
+        grad2.addColorStop(1, 'rgba(250, 249, 247, 0)');
+        ctx.fillStyle = grad2;
+        ctx.fillRect(0, 0, width, height);
+      }
+
+      // 2. Draw & animate particles/floating code snippets
+      particles.forEach((p, idx) => {
+        // Move particle
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // If particle moves off-screen, reset to bottom
+        if (p.y < -30 || p.x < -30 || p.x > width + 30) {
+          particles[idx] = createParticle(false);
+          return;
+        }
+
+        // Apply theme color
+        if (!p.color) {
+          p.color = particleColors[Math.floor(Math.random() * particleColors.length)];
+        }
+
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+
+        if (p.text) {
+          // Draw floating code text
+          ctx.fillStyle = p.color;
+          ctx.font = `500 ${p.size}px 'JetBrains Mono', monospace`;
+          ctx.fillText(p.text, p.x, p.y);
+        } else {
+          // Draw circular particle node
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.shadowBlur = isDark ? 10 : 0;
+          ctx.shadowColor = p.color;
+          ctx.fill();
+        }
+        ctx.restore();
+      });
+
+      // 3. Constellation web connecting close particles (only in Dark mode for dynamic cyber theme)
+      if (isDark) {
+        ctx.save();
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const p1 = particles[i];
+            const p2 = particles[j];
+
+            // Don't connect text blocks, only connect normal dots
+            if (p1.text || p2.text) continue;
+
+            const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+            const maxDist = 120;
+
+            if (dist < maxDist) {
+              const alpha = (1 - dist / maxDist) * 0.12;
+              ctx.strokeStyle = `rgba(88, 230, 217, ${alpha})`; // Electric Cyan webs
+              ctx.lineWidth = 0.6;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          }
+        }
+        ctx.restore();
+      }
+
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [isDark]);
 
   return (
-    <div
-      aria-hidden="true"
-      className="dynamic-bg-root"
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 w-full h-full pointer-events-none z-[-1] transition-all duration-500"
       style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 0,
-        pointerEvents: 'none',
-        overflow: 'hidden',
+        background: 'var(--bg-base)',
       }}
-    >
-      {darkMode ? <DarkBackground slow={slowPar} mid={midPar} fast={fastPar} /> : <LightBackground slow={slowPar} mid={midPar} fast={fastPar} />}
-    </div>
-  );
-}
-
-/* ── DARK BACKGROUND ──────────────────────────────────────────────────────── */
-function DarkBackground({ slow, mid, fast }: { slow: number; mid: number; fast: number }) {
-  return (
-    <>
-      {/* Base: deep space gradient that slowly rotates hue */}
-      <div className="db-base-dark" />
-
-      {/* Layer 1: Aurora mesh — large slow colour blobs */}
-      <div
-        className="db-aurora-1"
-        style={{ transform: `translateY(${slow}px)` }}
-      />
-      <div
-        className="db-aurora-2"
-        style={{ transform: `translateY(${-mid}px) translateX(${slow * 0.3}px)` }}
-      />
-      <div
-        className="db-aurora-3"
-        style={{ transform: `translateY(${fast * 0.5}px)` }}
-      />
-
-      {/* Layer 2: Particle field — tiny drifting dots */}
-      <div className="db-particle-field">
-        {PARTICLES.map((p) => (
-          <span
-            key={p.id}
-            className="db-particle"
-            style={{
-              left: `${p.x}%`,
-              top: `${p.y}%`,
-              width: `${p.size}px`,
-              height: `${p.size}px`,
-              opacity: p.opacity,
-              animationDelay: `${p.delay}s`,
-              animationDuration: `${p.duration}s`,
-              transform: `translateY(${-slow * (0.05 + p.id % 5 * 0.02)}px)`,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Layer 3: Horizontal scan line that sweeps vertically */}
-      <div className="db-scanline" />
-
-      {/* Layer 4: Dot grid overlay */}
-      <div className="db-dot-grid-dark" />
-
-      {/* Layer 5: Bottom vignette to fade into content */}
-      <div className="db-vignette" />
-    </>
-  );
-}
-
-/* ── LIGHT BACKGROUND ─────────────────────────────────────────────────────── */
-function LightBackground({ slow, mid, fast }: { slow: number; mid: number; fast: number }) {
-  return (
-    <>
-      {/* Base: warm cream canvas */}
-      <div className="db-base-light" />
-
-      {/* Layer 1: Soft flowing gradient waves */}
-      <div
-        className="db-wave-1"
-        style={{ transform: `translateY(${slow}px)` }}
-      />
-      <div
-        className="db-wave-2"
-        style={{ transform: `translateY(${-mid * 0.6}px) translateX(${slow * 0.2}px)` }}
-      />
-      <div
-        className="db-wave-3"
-        style={{ transform: `translateY(${fast * 0.3}px)` }}
-      />
-
-      {/* Layer 2: Floating geometric shapes */}
-      <div className="db-geo-shapes">
-        {[0,1,2,3,4,5].map((i) => (
-          <div
-            key={i}
-            className={`db-geo db-geo-${i}`}
-            style={{
-              transform: `translateY(${-slow * (0.04 + i * 0.015)}px) rotate(${slow * 0.02 * (i % 2 === 0 ? 1 : -1)}deg)`,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Layer 3: Fine grid lattice */}
-      <div className="db-lattice-light" />
-
-      {/* Layer 4: Subtle vignette */}
-      <div className="db-vignette-light" />
-    </>
+    />
   );
 }

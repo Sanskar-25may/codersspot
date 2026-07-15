@@ -12,12 +12,15 @@
   --color-bg-card:     var(--bg-card);
   --color-bg-surface:  var(--bg-surface);
   --color-bg-elevated: var(--bg-elevated);
+
   --color-text-primary:   var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-tertiary:  var(--text-tertiary);
+
   --color-border-soft:   var(--border-soft);
   --color-border-med:    var(--border-med);
   --color-border-strong: var(--border-strong);
+
   --color-accent-primary: var(--accent-primary);
   --color-accent-light:   var(--accent-light);
   --color-accent-green:   var(--accent-green);
@@ -26,24 +29,36 @@
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   LIGHT THEME — Warm code-editor feel
+   LIGHT THEME — Warm code-editor feel (VS Code Light inspired)
+   Background: warm off-white / creamy paper
+   Text: deep navy-charcoal — high contrast, editorial
+   Accents: deep indigo primary, electric amber secondary, emerald green
 ───────────────────────────────────────────────────────────────────────────── */
 :root {
-  --bg-base:     #faf9f7;
+  /* Backgrounds — warm paper stack */
+  --bg-base:     #faf9f7;   /* warm off-white, like a Monokai light canvas  */
   --bg-card:     #ffffff;
-  --bg-surface:  #f3f0eb;
-  --bg-elevated: #edeae3;
-  --text-primary:   #1a1a2e;
-  --text-secondary: #4a4060;
-  --text-tertiary:  #8b7fa8;
+  --bg-surface:  #f3f0eb;   /* warm light grey — sidebar / panel feel       */
+  --bg-elevated: #edeae3;   /* slightly deeper, for badges / pills           */
+
+  /* Text — deep navy editorial */
+  --text-primary:   #1a1a2e;  /* deep navy — sharp code contrast              */
+  --text-secondary: #4a4060;  /* muted purple-navy — secondary metadata       */
+  --text-tertiary:  #8b7fa8;  /* lilac-grey — labels, captions                */
+
+  /* Borders — warm neutral */
   --border-soft:   #e8e3db;
   --border-med:    #d4ccbf;
   --border-strong: #b8ae9f;
-  --accent-primary: #4f46e5;
-  --accent-light:   #7c71f8;
-  --accent-green:   #059669;
-  --accent-cyan:    #0891b2;
-  --accent-amber:   #d97706;
+
+  /* Accent Palette */
+  --accent-primary: #4f46e5;  /* electric indigo                              */
+  --accent-light:   #7c71f8;  /* lighter indigo for hover states              */
+  --accent-green:   #059669;  /* emerald green — terminal success              */
+  --accent-cyan:    #0891b2;  /* ocean cyan                                   */
+  --accent-amber:   #d97706;  /* warm amber — highlight / warning              */
+
+  /* Glow values */
   --glow-primary: rgba(79, 70, 229, 0.18);
   --glow-green:   rgba(5, 150, 105, 0.15);
   --glow-cyan:    rgba(8, 145, 178, 0.15);
@@ -51,286 +66,73 @@
 
 /* ─────────────────────────────────────────────────────────────────────────────
    DARK THEME — Terminal / Hacker Aesthetic
+   Background: deep obsidian / midnight black — true programmer darkness
+   Text: bright near-white with greenish tint like terminal output
+   Accents: electric green (terminal), violet plasma (UI), cyan (links)
 ───────────────────────────────────────────────────────────────────────────── */
 .dark {
-  --bg-base:     #080a0f;
-  --bg-card:     #0d1117;
-  --bg-surface:  #161b22;
-  --bg-elevated: #21262d;
-  --text-primary:   #e6edf3;
-  --text-secondary: #8b949e;
-  --text-tertiary:  #484f58;
+  /* Backgrounds — obsidian terminal stack */
+  --bg-base:     #080a0f;   /* near-black with cool blue tint — terminal bg   */
+  --bg-card:     #0d1117;   /* GitHub dark — industry standard dark card      */
+  --bg-surface:  #161b22;   /* GitHub surface — elevated panel                */
+  --bg-elevated: #21262d;   /* even higher — menu, dropdown, badge            */
+
+  /* Text — terminal output palette */
+  --text-primary:   #e6edf3;  /* bright white-blue — crisp readable output    */
+  --text-secondary: #8b949e;  /* dimmed grey — like terminal comments         */
+  --text-tertiary:  #484f58;  /* darkest — placeholder / disabled             */
+
+  /* Borders — subtle dark structure */
   --border-soft:   #21262d;
   --border-med:    #30363d;
   --border-strong: #484f58;
-  --accent-primary: #7c3aed;
-  --accent-light:   #a78bfa;
-  --accent-green:   #3fb950;
-  --accent-cyan:    #58e6d9;
-  --accent-amber:   #f0a30a;
+
+  /* Accent Palette — electric hacker spectrum */
+  --accent-primary: #7c3aed;   /* violet plasma — primary CTA                 */
+  --accent-light:   #a78bfa;   /* lighter violet for hover                    */
+  --accent-green:   #3fb950;   /* GitHub green — terminal success / live      */
+  --accent-cyan:    #58e6d9;   /* electric teal — links, highlights            */
+  --accent-amber:   #f0a30a;   /* terminal amber — warnings, badges            */
+
+  /* Glow values */
   --glow-primary: rgba(124, 58, 237, 0.25);
   --glow-green:   rgba(63, 185, 80, 0.20);
   --glow-cyan:    rgba(88, 230, 217, 0.18);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   BASE
+   BASE STYLES
 ───────────────────────────────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg-base);
   color: var(--text-primary);
-  transition: background-color 0.4s ease, color 0.4s ease;
+  transition: background-color 0.35s ease, color 0.35s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  position: relative;
 }
 
-/* All page content sits above the fixed background */
-#root { position: relative; z-index: 1; }
-
-.heading-font { font-family: 'Space Grotesk', -apple-system, sans-serif; letter-spacing: -0.02em; }
-.mono-font    { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   ██████████  DYNAMIC BACKGROUND LAYERS  ██████████
-───────────────────────────────────────────────────────────────────────────── */
-
-/* ── DARK: Base deep-space canvas ── */
-.db-base-dark {
-  position: absolute; inset: 0;
-  background: radial-gradient(
-    ellipse 120% 80% at 50% -20%,
-    #0e0b20 0%,
-    #080a0f 60%,
-    #030508 100%
-  );
+/* Display / heading font */
+.heading-font {
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  letter-spacing: -0.02em;
 }
 
-/* ── DARK: Aurora blobs — large drifting coloured halos ── */
-.db-aurora-1 {
-  position: absolute;
-  top: -15%; left: -10%;
-  width: 70vw; height: 70vw;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(124,58,237,0.22) 0%, rgba(88,230,217,0.08) 50%, transparent 70%);
-  filter: blur(80px);
-  animation: aurora-drift-1 18s ease-in-out infinite alternate;
-  will-change: transform;
-}
-.db-aurora-2 {
-  position: absolute;
-  top: 20%; right: -20%;
-  width: 60vw; height: 60vw;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(63,185,80,0.16) 0%, rgba(88,230,217,0.10) 45%, transparent 70%);
-  filter: blur(100px);
-  animation: aurora-drift-2 22s ease-in-out infinite alternate;
-  will-change: transform;
-}
-.db-aurora-3 {
-  position: absolute;
-  bottom: 5%; left: 20%;
-  width: 55vw; height: 55vw;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(88,230,217,0.14) 0%, rgba(124,58,237,0.09) 50%, transparent 70%);
-  filter: blur(90px);
-  animation: aurora-drift-3 26s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-@keyframes aurora-drift-1 {
-  0%   { transform: translate(0px, 0px)     scale(1);    }
-  33%  { transform: translate(60px, 40px)   scale(1.08); }
-  66%  { transform: translate(-40px, 80px)  scale(0.95); }
-  100% { transform: translate(80px, -30px)  scale(1.05); }
-}
-@keyframes aurora-drift-2 {
-  0%   { transform: translate(0px, 0px)    scale(1);    }
-  40%  { transform: translate(-70px, 50px) scale(1.12); }
-  80%  { transform: translate(50px, -60px) scale(0.92); }
-  100% { transform: translate(-30px, 30px) scale(1.04); }
-}
-@keyframes aurora-drift-3 {
-  0%   { transform: translate(0px, 0px)    scale(1);    }
-  50%  { transform: translate(40px, -50px) scale(1.06); }
-  100% { transform: translate(-60px, 40px) scale(0.98); }
-}
-
-/* ── DARK: Particle field ── */
-.db-particle-field { position: absolute; inset: 0; }
-.db-particle {
-  position: absolute;
-  border-radius: 50%;
-  background: var(--accent-cyan);
-  animation: particle-float linear infinite;
-  will-change: transform, opacity;
-}
-@keyframes particle-float {
-  0%   { transform: translateY(0px);   opacity: var(--op, 0.2); }
-  50%  { transform: translateY(-18px); opacity: calc(var(--op, 0.2) * 1.6); }
-  100% { transform: translateY(0px);   opacity: var(--op, 0.2); }
-}
-
-/* ── DARK: Horizontal scanline sweep ── */
-.db-scanline {
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent            0px,
-    transparent            3px,
-    rgba(63,185,80,0.015)  3px,
-    rgba(63,185,80,0.015)  4px
-  );
-  animation: scanline-move 12s linear infinite;
-  pointer-events: none;
-}
-@keyframes scanline-move {
-  0%   { background-position-y: 0px; }
-  100% { background-position-y: 400px; }
-}
-
-/* ── DARK: Dot grid ── */
-.db-dot-grid-dark {
-  position: absolute; inset: 0;
-  background-image: radial-gradient(rgba(88,230,217,0.07) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-/* ── DARK: Edge vignette ── */
-.db-vignette {
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(8,10,15,0.85) 100%);
-}
-
-/* ─────────────────────────────────────────────── LIGHT BG ── */
-
-/* ── LIGHT: Warm paper base ── */
-.db-base-light {
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 120% 80% at 50% -10%, #f0eef8 0%, #faf9f7 55%, #f5f0e8 100%);
-}
-
-/* ── LIGHT: Flowing gradient waves ── */
-.db-wave-1 {
-  position: absolute;
-  top: -20%; left: -15%;
-  width: 80vw; height: 60vw;
-  border-radius: 40% 60% 70% 30% / 50% 30% 70% 50%;
-  background: radial-gradient(ellipse, rgba(79,70,229,0.12) 0%, rgba(124,113,248,0.06) 50%, transparent 70%);
-  filter: blur(60px);
-  animation: wave-morph-1 20s ease-in-out infinite alternate;
-  will-change: transform, border-radius;
-}
-.db-wave-2 {
-  position: absolute;
-  top: 30%; right: -20%;
-  width: 65vw; height: 55vw;
-  border-radius: 60% 40% 30% 70% / 40% 60% 40% 60%;
-  background: radial-gradient(ellipse, rgba(217,119,6,0.10) 0%, rgba(5,150,105,0.06) 50%, transparent 70%);
-  filter: blur(70px);
-  animation: wave-morph-2 24s ease-in-out infinite alternate;
-  will-change: transform, border-radius;
-}
-.db-wave-3 {
-  position: absolute;
-  bottom: -10%; left: 15%;
-  width: 70vw; height: 50vw;
-  border-radius: 50% 50% 30% 70% / 60% 40% 60% 40%;
-  background: radial-gradient(ellipse, rgba(8,145,178,0.08) 0%, rgba(79,70,229,0.05) 50%, transparent 70%);
-  filter: blur(80px);
-  animation: wave-morph-3 28s ease-in-out infinite alternate;
-  will-change: transform, border-radius;
-}
-
-@keyframes wave-morph-1 {
-  0%   { transform: translate(0,0)      scale(1);    border-radius: 40% 60% 70% 30%/50% 30% 70% 50%; }
-  50%  { transform: translate(50px,40px) scale(1.1); border-radius: 70% 30% 40% 60%/30% 70% 50% 50%; }
-  100% { transform: translate(-30px,70px) scale(0.95); border-radius: 50% 50% 60% 40%/60% 40% 50% 50%; }
-}
-@keyframes wave-morph-2 {
-  0%   { transform: translate(0,0)       scale(1);    border-radius: 60% 40% 30% 70%/40% 60% 40% 60%; }
-  50%  { transform: translate(-60px,30px) scale(1.08); border-radius: 30% 70% 60% 40%/60% 40% 60% 40%; }
-  100% { transform: translate(40px,-50px) scale(0.95); border-radius: 50% 50% 40% 60%/40% 60% 50% 50%; }
-}
-@keyframes wave-morph-3 {
-  0%   { transform: translate(0,0)        scale(1);    border-radius: 50% 50% 30% 70%/60% 40% 60% 40%; }
-  50%  { transform: translate(30px,-40px) scale(1.05); border-radius: 70% 30% 50% 50%/40% 60% 40% 60%; }
-  100% { transform: translate(-50px,20px) scale(0.98); border-radius: 40% 60% 60% 40%/50% 50% 60% 40%; }
-}
-
-/* ── LIGHT: Floating geometric shapes ── */
-.db-geo-shapes { position: absolute; inset: 0; }
-.db-geo {
-  position: absolute;
-  border: 1.5px solid;
-  opacity: 0.12;
-  animation: geo-spin linear infinite;
-}
-.db-geo-0 { top: 8%;  left: 5%;  width: 80px;  height: 80px;  border-radius: 12px;  border-color: #4f46e5; animation-duration: 30s; }
-.db-geo-1 { top: 15%; right: 8%; width: 60px;  height: 60px;  border-radius: 50%;   border-color: #d97706; animation-duration: 24s; animation-direction: reverse; }
-.db-geo-2 { top: 50%; left: 3%;  width: 50px;  height: 50px;  border-radius: 8px;   border-color: #059669; animation-duration: 36s; }
-.db-geo-3 { top: 60%; right: 4%; width: 70px;  height: 70px;  border-radius: 50%;   border-color: #0891b2; animation-duration: 28s; animation-direction: reverse; }
-.db-geo-4 { top: 80%; left: 10%; width: 40px;  height: 40px;  border-radius: 6px;   border-color: #7c3aed; animation-duration: 22s; }
-.db-geo-5 { top: 30%; left: 50%; width: 90px;  height: 90px;  border-radius: 14px;  border-color: #d97706; opacity: 0.07; animation-duration: 40s; animation-direction: reverse; }
-
-@keyframes geo-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-/* ── LIGHT: Fine lattice grid ── */
-.db-lattice-light {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(79,70,229,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(79,70,229,0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-
-/* ── LIGHT: Soft vignette ── */
-.db-vignette-light {
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 50%, rgba(250,249,247,0.7) 100%);
+/* Monospace — code snippets, badges */
+.mono-font {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   ██████████  SCROLL REVEAL ANIMATIONS  ██████████
-   All animated via CSS classes + IntersectionObserver toggling `reveal-visible`
-───────────────────────────────────────────────────────────────────────────── */
-
-/* Base: all hidden by default */
-.reveal-base {
-  transition-property: opacity, transform, filter;
-  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  transition-duration: 800ms;
-  will-change: opacity, transform;
-}
-
-/* Visible state — resets everything */
-.reveal-visible {
-  opacity: 1 !important;
-  transform: none !important;
-  filter: none !important;
-}
-
-/* ── Variants ── */
-.reveal-fade-up     { opacity: 0; transform: translateY(40px); }
-.reveal-fade-down   { opacity: 0; transform: translateY(-40px); }
-.reveal-fade-left   { opacity: 0; transform: translateX(50px); }
-.reveal-fade-right  { opacity: 0; transform: translateX(-50px); }
-.reveal-zoom-in     { opacity: 0; transform: scale(0.85); }
-.reveal-zoom-out    { opacity: 0; transform: scale(1.15); filter: blur(4px); }
-.reveal-flip-x      { opacity: 0; transform: perspective(600px) rotateX(25deg); }
-.reveal-flip-y      { opacity: 0; transform: perspective(600px) rotateY(30deg); }
-.reveal-slide-up    { opacity: 0; transform: translateY(80px) scale(0.96); }
-.reveal-rotate-in   { opacity: 0; transform: rotate(-8deg) scale(0.9); }
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   GLASS
+   GLASSMORPHISM
 ───────────────────────────────────────────────────────────────────────────── */
 .glass {
   background: color-mix(in srgb, var(--bg-card) 72%, transparent);
@@ -339,6 +141,7 @@ body {
   border: 1px solid var(--border-soft);
   border-radius: 24px;
 }
+
 .glass-md {
   background: color-mix(in srgb, var(--bg-card) 55%, transparent);
   backdrop-filter: blur(32px) saturate(200%);
@@ -346,6 +149,8 @@ body {
   border: 1px solid var(--border-med);
   border-radius: 20px;
 }
+
+/* Stronger glass for modals / navbar */
 .glass-strong {
   background: color-mix(in srgb, var(--bg-surface) 90%, transparent);
   backdrop-filter: blur(40px) saturate(180%);
@@ -354,8 +159,9 @@ body {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   DOT GRID
+   DOT GRID + SCAN LINE background textures
 ───────────────────────────────────────────────────────────────────────────── */
+/* Subtle dot-matrix grid */
 .dot-grid {
   background-image: radial-gradient(
     color-mix(in srgb, var(--border-strong) 25%, transparent) 1px,
@@ -364,11 +170,18 @@ body {
   background-size: 28px 28px;
 }
 
+/* Horizontal code-line grid overlay (for hero sections) */
+.grid-lines {
+  background-image: 
+    linear-gradient(color-mix(in srgb, var(--border-soft) 50%, transparent) 1px, transparent 1px);
+  background-size: 100% 40px;
+}
+
 /* ─────────────────────────────────────────────────────────────────────────────
-   CARD HOVER
+   CARD INTERACTION — lift + glow on hover
 ───────────────────────────────────────────────────────────────────────────── */
 .card-hover {
-  transition:
+  transition: 
     transform    0.35s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow   0.35s cubic-bezier(0.16, 1, 0.3, 1),
     border-color 0.35s ease;
@@ -376,15 +189,26 @@ body {
 .card-hover:hover {
   transform: translateY(-6px);
   border-color: color-mix(in srgb, var(--accent-primary) 40%, var(--border-soft));
-  box-shadow:
+  box-shadow: 
     0 24px 48px -16px var(--glow-primary),
     0  0   60px -20px var(--glow-cyan),
     0  1px  0    0px  color-mix(in srgb, var(--accent-primary) 20%, transparent) inset;
 }
 
+/* Green glow variant — for stat cards, success elements */
+.card-hover-green:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--accent-green) 40%, var(--border-soft));
+  box-shadow: 
+    0 24px 48px -16px var(--glow-green),
+    0  0   60px -20px var(--glow-cyan);
+}
+
 /* ─────────────────────────────────────────────────────────────────────────────
-   SHIMMER TEXT
+   SHIMMER TEXT — animated gradient headline
 ───────────────────────────────────────────────────────────────────────────── */
+/* Dark mode: electric green → violet → cyan (terminal hacker)  */
+/* Light mode: deep indigo → violet → teal (editorial warmth)   */
 .shimmer-text {
   background: linear-gradient(
     90deg,
@@ -400,13 +224,20 @@ body {
   -webkit-background-clip: text;
   animation: shimmer-flow 5s linear infinite;
 }
+
 @keyframes shimmer-flow {
   0%   { background-position: 0%   center; }
   100% { background-position: 300% center; }
 }
 
+/* Terminal green variant */
 .shimmer-green {
-  background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-cyan) 40%, var(--accent-green) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--accent-green) 0%,
+    var(--accent-cyan)  40%,
+    var(--accent-green) 100%
+  );
   background-size: 250% auto;
   color: transparent;
   background-clip: text;
@@ -415,7 +246,7 @@ body {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   MARQUEE
+   SCROLLING MARQUEE
 ───────────────────────────────────────────────────────────────────────────── */
 @keyframes marquee-scroll {
   from { transform: translateX(0); }
@@ -423,56 +254,85 @@ body {
 }
 .marquee-track {
   animation: marquee-scroll 32s linear infinite;
-  display: flex; width: max-content; will-change: transform;
+  display: flex;
+  width: max-content;
+  will-change: transform;
 }
 .marquee-track-reverse {
   animation: marquee-scroll 44s linear infinite reverse;
-  display: flex; width: max-content; will-change: transform;
+  display: flex;
+  width: max-content;
+  will-change: transform;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   TERMINAL BADGE
+   TERMINAL BADGE — monospaced coder-style pill
 ───────────────────────────────────────────────────────────────────────────── */
 .terminal-badge {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
-  padding: 4px 14px; border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 4px 12px;
+  border-radius: 6px;
   border: 1px solid var(--accent-green);
   color: var(--accent-green);
   background: color-mix(in srgb, var(--accent-green) 8%, transparent);
-  display: inline-flex; align-items: center; gap: 8px;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   PULSE DOT (live indicator)
+   GLOW ORBS — decorative blur blobs
+───────────────────────────────────────────────────────────────────────────── */
+.orb-violet {
+  background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+  filter: blur(80px);
+  opacity: 0.25;
+  pointer-events: none;
+}
+.orb-green {
+  background: radial-gradient(circle, var(--accent-green) 0%, transparent 70%);
+  filter: blur(80px);
+  opacity: 0.18;
+  pointer-events: none;
+}
+.orb-cyan {
+  background: radial-gradient(circle, var(--accent-cyan) 0%, transparent 70%);
+  filter: blur(80px);
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   PULSE / LIVE INDICATOR — green dot blinking
 ───────────────────────────────────────────────────────────────────────────── */
 .pulse-dot {
-  display: inline-block;
-  width: 7px; height: 7px; border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
   background: var(--accent-green);
-  flex-shrink: 0;
+  box-shadow: 0 0 0 0 var(--glow-green);
   animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
 }
 @keyframes pulse-ring {
   0%   { box-shadow: 0 0 0 0   color-mix(in srgb, var(--accent-green) 70%, transparent); }
-  70%  { box-shadow: 0 0 0 6px transparent; }
+  70%  { box-shadow: 0 0 0 8px transparent; }
   100% { box-shadow: 0 0 0 0   transparent; }
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   INPUT — focus glow
+   INPUT — focus ring with glow
 ───────────────────────────────────────────────────────────────────────────── */
-.input-premium { transition: border-color 0.2s ease, box-shadow 0.2s ease; outline: none; }
-.input-premium:focus { border-color: var(--accent-primary) !important; box-shadow: 0 0 0 3px var(--glow-primary); }
+.input-premium {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+.input-premium:focus {
+  border-color: var(--accent-primary) !important;
+  box-shadow: 0 0 0 3px var(--glow-primary);
+}
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   BUTTON GLOW
-───────────────────────────────────────────────────────────────────────────── */
-.btn-glow { box-shadow: 0 4px 20px -4px var(--glow-primary); transition: box-shadow 0.3s, transform 0.2s; }
-.btn-glow:hover { box-shadow: 0 8px 32px -4px var(--glow-primary); transform: translateY(-1px); }
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   SCROLLBAR
+   SCROLLBAR — custom dark/light aware
 ───────────────────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar              { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track        { background: var(--bg-base); }
@@ -480,7 +340,7 @@ body {
 ::-webkit-scrollbar-thumb:hover  { background: var(--accent-primary); }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   SELECTION
+   SELECTION highlight
 ───────────────────────────────────────────────────────────────────────────── */
 ::selection {
   background: color-mix(in srgb, var(--accent-primary) 30%, transparent);
@@ -488,20 +348,44 @@ body {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   SECTION DIVIDER — subtle gradient line
+   GRADIENT BUTTON GLOW — extra visual punch for primary CTAs
 ───────────────────────────────────────────────────────────────────────────── */
-.section-divider {
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--border-med), transparent);
-  margin: 0 auto;
-  max-width: 80%;
+.btn-glow {
+  box-shadow: 0 4px 20px -4px var(--glow-primary);
+  transition: box-shadow 0.3s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+.btn-glow:hover {
+  box-shadow: 0 8px 32px -4px var(--glow-primary);
+  transform: translateY(-1px);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   FADE-IN UP — general utility
+   CODE BLOCK aesthetic — for any inline code preview 
+───────────────────────────────────────────────────────────────────────────── */
+.code-block {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 16px 20px;
+  color: var(--accent-green);
+  overflow-x: auto;
+}
+.dark .code-block {
+  background: #0d1117;
+  border-color: #30363d;
+  color: #3fb950;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   FADE-IN ANIMATION — general purpose
 ───────────────────────────────────────────────────────────────────────────── */
 @keyframes fade-in-up {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.animate-fade-in-up { animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
