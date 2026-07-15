@@ -345,7 +345,7 @@ export default function LandingPage() {
 
               <div className="flex gap-3 flex-shrink-0 flex-wrap relative z-10">
                 <Link
-                  to="/placements"
+                  to="/engineers"
                   className="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:scale-[1.03] transition-all duration-200"
                 >
                   Meet the Engineers
