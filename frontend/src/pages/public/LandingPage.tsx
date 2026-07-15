@@ -92,10 +92,25 @@ export default function LandingPage() {
         : DEFAULT_FEATURES,
   };
 
-  const marqueeCompanies =
-    'Google • Microsoft • Amazon • Razorpay • Paytm • Cred • Flipkart • Meta • Netflix • Zepto';
-  const marqueeStack =
-    'React • Next.js • TypeScript • Node.js • PostgreSQL • Docker • AWS • Redis • TailwindCSS • GraphQL';
+  // Helper to repeat items to avoid visual gaps in short lists
+  const prepareItems = (list: string[]) => {
+    let repeated = [...list];
+    while (repeated.length < 15) {
+      repeated = [...repeated, ...list];
+    }
+    return repeated;
+  };
+
+  const marqueeCompaniesList = content?.marquee_companies && content.marquee_companies.length > 0 
+    ? content.marquee_companies 
+    : ['Google', 'Microsoft', 'Amazon', 'Razorpay', 'Paytm', 'Cred', 'Flipkart', 'Meta', 'Netflix', 'Zepto'];
+
+  const marqueeStackList = content?.marquee_stack && content.marquee_stack.length > 0 
+    ? content.marquee_stack 
+    : ['React', 'Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Docker', 'AWS', 'Redis', 'TailwindCSS', 'GraphQL'];
+
+  const preparedCompanies = prepareItems(marqueeCompaniesList);
+  const preparedStack = prepareItems(marqueeStackList);
 
   return (
     <div
@@ -176,11 +191,12 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── STATS STRIP ── */}
+      {/* ── COMBINED STATS & MARQUEE SECTION ── */}
       <section
-        className="border-y py-14 px-6"
+        className="border-y py-16 px-6 space-y-12"
         style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}
       >
+        {/* Stats Grid */}
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {landingData.stats.map((stat: any, idx: number) => (
             <div key={idx} className="text-center space-y-1.5">
@@ -196,45 +212,75 @@ export default function LandingPage() {
             </div>
           ))}
         </div>
-      </section>
 
-      {/* ── MARQUEE ── */}
-      <section className="py-16 px-6 overflow-hidden" style={{ background: 'transparent' }}>
-        <div className="max-w-6xl mx-auto text-center mb-10">
-          <h2
-            className="text-xs font-bold uppercase tracking-widest mono-font"
-            style={{ color: 'var(--text-tertiary)' }}
-          >
-            Engineers from top companies learn here
-          </h2>
-        </div>
+        {/* Separator line */}
+        <div className="border-t max-w-6xl mx-auto opacity-50" style={{ borderColor: 'var(--border-soft)' }} />
 
-        <div className="overflow-hidden relative mb-4">
-          <div className="marquee-track">
-            {[marqueeCompanies, marqueeCompanies].map((text, i) => (
-              <span
-                key={i}
-                className="text-sm font-bold whitespace-nowrap pr-16 mono-font"
-                style={{ color: 'var(--accent-green)' }}
-              >
-                {text}
-              </span>
-            ))}
+        {/* Marquee Banners */}
+        <div className="max-w-6xl mx-auto space-y-10 overflow-hidden">
+          
+          {/* Banner 1: Companies */}
+          <div className="space-y-4">
+            <h4
+              className="text-center text-xs font-bold uppercase tracking-widest mono-font"
+              style={{ color: 'var(--text-tertiary)' }}
+            >
+              Engineers from top companies learn here
+            </h4>
+            
+            <div className="overflow-hidden relative w-full flex">
+              <div className="marquee-track flex items-center">
+                {/* First loop */}
+                <div className="flex items-center gap-12 pr-12 flex-shrink-0">
+                  {preparedCompanies.map((item: string, idx: number) => (
+                    <span key={idx} className="text-sm font-bold mono-font flex items-center gap-2" style={{ color: 'var(--accent-green)' }}>
+                      <span>•</span> {item}
+                    </span>
+                  ))}
+                </div>
+                {/* Second loop (exact duplicate for seamless flow) */}
+                <div className="flex items-center gap-12 pr-12 flex-shrink-0">
+                  {preparedCompanies.map((item: string, idx: number) => (
+                    <span key={`dup-${idx}`} className="text-sm font-bold mono-font flex items-center gap-2" style={{ color: 'var(--accent-green)' }}>
+                      <span>•</span> {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className="overflow-hidden relative">
-          <div className="marquee-track-reverse">
-            {[marqueeStack, marqueeStack].map((text, i) => (
-              <span
-                key={i}
-                className="text-sm font-bold whitespace-nowrap pr-16 mono-font"
-                style={{ color: 'var(--text-tertiary)' }}
-              >
-                {text}
-              </span>
-            ))}
+          {/* Banner 2: Tech Stacks */}
+          <div className="space-y-4">
+            <h4
+              className="text-center text-xs font-bold uppercase tracking-widest mono-font"
+              style={{ color: 'var(--text-tertiary)' }}
+            >
+              Mastering the most in-demand technologies
+            </h4>
+            
+            <div className="overflow-hidden relative w-full flex">
+              <div className="marquee-track-reverse flex items-center">
+                {/* First loop */}
+                <div className="flex items-center gap-12 pr-12 flex-shrink-0">
+                  {preparedStack.map((item: string, idx: number) => (
+                    <span key={idx} className="text-sm font-bold mono-font flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
+                      <span style={{ color: 'var(--accent-primary)' }}>•</span> {item}
+                    </span>
+                  ))}
+                </div>
+                {/* Second loop (exact duplicate for seamless flow) */}
+                <div className="flex items-center gap-12 pr-12 flex-shrink-0">
+                  {preparedStack.map((item: string, idx: number) => (
+                    <span key={`dup-${idx}`} className="text-sm font-bold mono-font flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
+                      <span style={{ color: 'var(--accent-primary)' }}>•</span> {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
+
         </div>
       </section>
 
