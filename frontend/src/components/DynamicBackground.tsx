@@ -50,11 +50,28 @@ export default function DynamicBackground() {
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    // Code snippets / syntax keywords to float in dark mode
+    // Expanded developer keywords from multiple modern tech stacks
     const codeKeywords = [
-      'const', 'await', 'import', 'export', 'function', 'class', '=>',
-      'interface', 'return', 'async', 'promise', 'git commit', 'npm run',
-      'docker up', 'Vite', 'React', 'Django', 'Postgres', 'Redis', 'AWS'
+      // JavaScript / TypeScript / React
+      'const [state, setState]', 'useEffect(() => {})', 'import React', 'export default', '=>',
+      'async/await', 'Promise.resolve()', 'interface User {}', 'console.log()', 'map()', 'filter()',
+      'reduce()', 'npm install', 'yarn dev', 'tsconfig.json', 'Next.js', 'Vite', 'TailwindCSS',
+      
+      // Python / Django / FastAPI
+      'def __init__(self):', 'pip install', 'manage.py migrate', 'import pandas as pd',
+      '@app.get("/api")', 'list comprehension', 'django.db', 'SQLAlchemy',
+      
+      // Backend / Databases
+      'SELECT * FROM users', 'INSERT INTO', 'PrismaClient', 'PostgreSQL', 'Redis.get()',
+      'MongoDB', 'docker-compose up', 'docker build', 'nginx.conf', 'port 8000', 'HTTP 200 OK',
+      
+      // Git / Workflow / DevOps
+      'git commit -m "feat:"', 'git push origin main', 'pull request', 'CI/CD pipeline',
+      'GitHub Actions', 'kubectl get pods', 'AWS S3', 'serverless', 'KVM container',
+      
+      // Logic / Structures
+      'try/catch', 'if/else', 'while (true)', 'throw new Error()', 'JSON.stringify()',
+      'null', 'undefined', 'boolean', 'Array.prototype'
     ];
 
     let particles: Particle[] = [];
@@ -62,16 +79,17 @@ export default function DynamicBackground() {
 
     const createParticle = (initRandom = false): Particle => {
       const size = Math.random() * 2 + 1;
-      const isText = Math.random() > 0.85;
+      // 40% keyword terms, 60% standard particles
+      const isText = Math.random() > 0.60;
       return {
         x: Math.random() * width,
         y: initRandom ? Math.random() * height : height + 20,
         vx: (Math.random() - 0.5) * 0.4,
         vy: -(Math.random() * 0.5 + 0.1), // Float upwards slowly
-        size: isText ? Math.random() * 4 + 10 : size,
+        size: isText ? Math.random() * 3 + 11 : size, // Crisp, readable font sizes
         color: '',
         text: isText ? codeKeywords[Math.floor(Math.random() * codeKeywords.length)] : undefined,
-        alpha: Math.random() * 0.5 + 0.1,
+        alpha: isText ? Math.random() * 0.4 + 0.15 : Math.random() * 0.5 + 0.1,
       };
     };
 
@@ -169,33 +187,7 @@ export default function DynamicBackground() {
         ctx.restore();
       });
 
-      // 3. Constellation web connecting close particles (only in Dark mode for dynamic cyber theme)
-      if (isDark) {
-        ctx.save();
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const p1 = particles[i];
-            const p2 = particles[j];
-
-            // Don't connect text blocks, only connect normal dots
-            if (p1.text || p2.text) continue;
-
-            const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
-            const maxDist = 120;
-
-            if (dist < maxDist) {
-              const alpha = (1 - dist / maxDist) * 0.12;
-              ctx.strokeStyle = `rgba(88, 230, 217, ${alpha})`; // Electric Cyan webs
-              ctx.lineWidth = 0.6;
-              ctx.beginPath();
-              ctx.moveTo(p1.x, p1.y);
-              ctx.lineTo(p2.x, p2.y);
-              ctx.stroke();
-            }
-          }
-        }
-        ctx.restore();
-      }
+      // 3. Constellation web connecting close particles removed (clean developer coding background focus)
 
       animationFrameId = requestAnimationFrame(draw);
     };
