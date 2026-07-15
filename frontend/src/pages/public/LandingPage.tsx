@@ -100,7 +100,7 @@ export default function LandingPage() {
   return (
     <div
       className="min-h-screen flex flex-col pt-24 dot-grid"
-      style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}
+      style={{ background: 'transparent', color: 'var(--text-primary)' }}
     >
       {/* ── HERO ── */}
       <section className="relative py-24 px-6 overflow-hidden flex flex-col items-center justify-center text-center max-w-5xl mx-auto space-y-8 w-full">
@@ -201,7 +201,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── MARQUEE ── */}
-      <section className="py-16 px-6 overflow-hidden" style={{ background: 'var(--bg-base)' }}>
+      <section className="py-16 px-6 overflow-hidden" style={{ background: 'transparent' }}>
         <div className="max-w-6xl mx-auto text-center mb-10">
           <h2
             className="text-xs font-bold uppercase tracking-widest mono-font"

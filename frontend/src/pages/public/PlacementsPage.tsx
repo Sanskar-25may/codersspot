@@ -73,7 +73,7 @@ export default function PlacementsPage() {
   return (
     <div
       className="min-h-screen flex flex-col pt-24 dot-grid"
-      style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}
+      style={{ background: 'transparent', color: 'var(--text-primary)' }}
     >
       {/* ── HERO ── */}
       <section className="relative py-24 px-6 max-w-4xl mx-auto space-y-6 text-center w-full overflow-hidden">

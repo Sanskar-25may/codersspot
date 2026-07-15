@@ -52,7 +52,7 @@ function DashboardRouter() {
 
 function AppRoutes() {
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg-base)' }}>
+    <div className="min-h-screen flex flex-col" style={{ background: 'transparent' }}>
       <DynamicBackground />
       <Navbar />
       

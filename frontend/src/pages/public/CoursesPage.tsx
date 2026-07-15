@@ -82,7 +82,7 @@ export default function CoursesPage() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col p-6 space-y-6 pt-24 dot-grid" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
+    <div className="min-h-screen flex flex-col p-6 space-y-6 pt-24 dot-grid" style={{ background: 'transparent', color: 'var(--text-primary)' }}>
       
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3 py-6 relative z-10">
