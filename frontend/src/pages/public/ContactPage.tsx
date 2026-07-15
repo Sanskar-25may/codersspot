@@ -66,7 +66,7 @@ export default function ContactPage() {
   return (
     <div
       className="min-h-screen flex flex-col pt-24 dot-grid"
-      style={{ background: 'transparent', color: 'var(--text-primary)' }}
+      style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}
     >
       <section className="relative py-20 px-6 max-w-6xl mx-auto w-full flex-1">
         <div className="absolute -top-16 -right-16 w-[400px] h-[400px] rounded-full blur-[150px] opacity-15 bg-gradient-to-br from-indigo-500 to-purple-600 pointer-events-none" />

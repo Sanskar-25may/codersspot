@@ -47,13 +47,14 @@ export default function CoursesPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'transparent' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-base)' }}>
         <div className="w-8 h-8 rounded-full border-4 border-t-violet-500 animate-spin" style={{ borderColor: 'var(--border-soft) var(--border-soft) var(--border-soft) var(--accent-primary)' }}></div>
       </div>
     );
   }
 
-  const defaultCourses = [
+  // Fallback courses data if database is unseeded
+  const coursesList = courses.length > 0 ? courses : [
     {
       id: "c1-uuid",
       title: "Full Stack React & Next.js",
@@ -80,20 +81,8 @@ export default function CoursesPage() {
     }
   ];
 
-  // Merge database courses with fallbacks to always show at least 3 items
-  const coursesList = [...courses];
-  if (coursesList.length < 3) {
-    const existingTitles = new Set(coursesList.map(c => c.title.toLowerCase()));
-    for (const defCourse of defaultCourses) {
-      if (coursesList.length >= 3) break;
-      if (!existingTitles.has(defCourse.title.toLowerCase())) {
-        coursesList.push(defCourse);
-      }
-    }
-  }
-
   return (
-    <div className="min-h-screen flex flex-col p-6 space-y-6 pt-24 dot-grid" style={{ background: 'transparent', color: 'var(--text-primary)' }}>
+    <div className="min-h-screen flex flex-col p-6 space-y-6 pt-24 dot-grid" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
       
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3 py-6 relative z-10">
