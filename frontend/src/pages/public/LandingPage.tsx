@@ -292,11 +292,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── WHY CODERSSPOT (BENTO) ── */}
-      <section
-        className="border-y py-24 px-6"
-        style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}
-      >
-        <div className="max-w-6xl mx-auto space-y-12">
+      <section className="py-24 px-6 max-w-6xl mx-auto w-full space-y-12">
           <div className="text-center space-y-3">
             <h2 className="text-4xl font-extrabold tracking-tight heading-font">
               Why CodersSpot is different.
@@ -364,7 +360,6 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-        </div>
       </section>
 
       {/* ── HOW IT WORKS ── */}
