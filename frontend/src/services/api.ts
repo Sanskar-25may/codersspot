@@ -8,15 +8,19 @@ const resolveMockData = (url: string, data: any) => {
   if (normalizedUrl.includes('/cms/')) {
     const pageId = normalizedUrl.split('/cms/')[1].replace('/', '');
     if (pageId === 'landing') {
-      const saved = localStorage.getItem('mock_cms_landing');
+      let saved = localStorage.getItem('mock_cms_landing');
+      if (saved && saved.includes('Build skills that')) {
+        localStorage.removeItem('mock_cms_landing');
+        saved = null;
+      }
       if (saved) {
         return { data: { content: JSON.parse(saved) } };
       }
       
       const initial = {
-        headline_normal: "Build skills that",
-        headline_bold: "ship real products.",
-        subtext: "Interactive project cohorts led by expert engineers from top tech organizations.",
+        headline_normal: "Master Skills that",
+        headline_bold: "get you hired",
+        subtext: "Project-based engineering courses taught by the industry's top 1%.",
         stats: [
           { value: "10,000+", label: "Students Trained" },
           { value: "98%", label: "Satisfaction Rate" },

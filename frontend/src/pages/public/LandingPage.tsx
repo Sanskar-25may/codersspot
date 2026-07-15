@@ -82,9 +82,11 @@ export default function LandingPage() {
   }, []);
 
   const landingData = {
-    headline_normal: 'Master Skills that',
-    headline_bold: 'get you hired',
-    subtext: "Project-based engineering courses taught by the industry's top 1%.",
+    headline_normal: content?.headline_normal || 'Master Skills that',
+    headline_bold: content?.headline_bold || 'get you hired',
+    subtext:
+      content?.subtext ||
+      "Project-based engineering courses taught by the industry's top 1%.",
     stats:
       content?.stats && content.stats.length > 0 ? content.stats : DEFAULT_STATS,
     features:
