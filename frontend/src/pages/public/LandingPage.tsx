@@ -144,7 +144,7 @@ export default function LandingPage() {
       {/* ─── MARQUEE ─── */}
       <section
         className="overflow-hidden section-pad"
-        style={{ background:'var(--bg-base)' }}
+        style={{ background:'transparent' }}
       >
         <div className="container-fluid text-center mb-8">
           <p className="font-bold uppercase tracking-widest mono-font"
