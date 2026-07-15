@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import DynamicBackground from './components/DynamicBackground';
 import ScrollToTop from './components/ScrollToTop';
+import Breadcrumb from './components/Breadcrumb';
 
 // Public Pages
 import LandingPage from './pages/public/LandingPage';
@@ -61,6 +62,7 @@ function AppRoutes() {
       <Navbar />
       
       <main className="flex-grow flex flex-col">
+        <Breadcrumb />
         <Routes>
           {/* Public Pages */}
           <Route path="/" element={<LandingPage />} />
