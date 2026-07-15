@@ -2,22 +2,18 @@ import { Link } from 'react-router-dom';
 
 const VALUES = [
   {
-    icon: '🚀',
     title: 'Ship Over Read',
     desc: 'Theory is useless without practice. We prioritize building over watching.',
   },
   {
-    icon: '💬',
     title: 'Radical Candor',
     desc: 'Code reviews shouldn\'t be nice; they should be honest and constructive.',
   },
   {
-    icon: '🎯',
     title: 'Skin in the Game',
     desc: 'Our instructors actively work in the industry. No career academics.',
   },
   {
-    icon: '🤝',
     title: 'Community First',
     desc: 'Your network is your net worth. We foster deep peer relationships.',
   },
@@ -25,25 +21,47 @@ const VALUES = [
 
 const TEAM = [
   {
-    name: 'Ananya Sharma',
-    role: 'Founder & CEO',
-    avatar: 'https://i.pravatar.cc/200?img=47',
+    name: 'Ashutosh Pandey',
+    role: 'Founder & Lead Instructor',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+    hasImage: true
   },
   {
-    name: 'Vikram Malhotra',
-    role: 'Head of Curriculum',
-    avatar: 'https://i.pravatar.cc/200?img=52',
+    name: 'Naman Sharma',
+    role: 'Devops Engineer',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+    hasImage: true
   },
   {
-    name: 'Sarah Jenkins',
-    role: 'Lead Faculty (AI/ML)',
-    avatar: 'https://i.pravatar.cc/200?img=25',
+    name: 'Amit Dwivedi',
+    role: 'Senior Instructor (Advance Java)',
+    avatar: '',
+    hasImage: false
   },
   {
-    name: 'Karan Mehta',
-    role: 'Head of Placements',
-    avatar: 'https://i.pravatar.cc/200?img=64',
+    name: 'Pankaj Hasmukh',
+    role: 'Front-end Lead JavaScript with React/Angular',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
+    hasImage: true
   },
+  {
+    name: 'Vikas Sharma',
+    role: 'Instructor (UI/UX)',
+    avatar: '',
+    hasImage: false
+  },
+  {
+    name: 'Anoop Bopanna',
+    role: 'Gen AI Developer',
+    avatar: '',
+    hasImage: false
+  },
+  {
+    name: 'Shashwat Shukla',
+    role: 'Database Engineer',
+    avatar: '',
+    hasImage: false
+  }
 ];
 
 export default function AboutPage() {
@@ -121,19 +139,19 @@ export default function AboutPage() {
             <h2 className="text-4xl font-extrabold tracking-tight heading-font">
               Our Core Values
             </h2>
-            <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-              The principles that drive everything we build.
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {VALUES.map((val, idx) => (
               <div
                 key={idx}
                 className="p-8 rounded-3xl glass card-hover flex flex-col space-y-4"
               >
-                <div className="text-3xl">{val.icon}</div>
-                <h3 className="text-lg font-bold bg-gradient-to-r from-violet-500 to-cyan-500 bg-clip-text text-transparent">
+                {/* Number Badge */}
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm text-white bg-indigo-600">
+                  {idx + 1}
+                </div>
+                <h3 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
                   {val.title}
                 </h3>
                 <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
@@ -149,31 +167,42 @@ export default function AboutPage() {
       <section className="py-24 px-6 max-w-6xl mx-auto w-full space-y-14">
         <div className="text-center space-y-3">
           <h2 className="text-4xl font-extrabold tracking-tight heading-font">
-            Meet the Team
+            The Team Behind CodersSpot
           </h2>
-          <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-            Engineers and educators who've been in the trenches.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="flex flex-wrap justify-center gap-8">
           {TEAM.map((member, idx) => (
             <div
               key={idx}
-              className="p-6 rounded-3xl glass card-hover flex flex-col items-center text-center space-y-4"
+              className="p-6 rounded-3xl glass card-hover flex flex-col items-center text-center space-y-4 w-full sm:w-[220px]"
             >
-              <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-violet-500 to-cyan-500 p-0.5 shadow-lg">
-                <img
-                  src={member.avatar}
-                  alt={member.name}
-                  className="w-full h-full rounded-full object-cover"
-                />
-              </div>
+              {member.hasImage ? (
+                <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg border border-soft">
+                  <img
+                    src={member.avatar}
+                    alt={member.name}
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div
+                  className="w-24 h-24 rounded-full flex flex-col items-center justify-center text-[10px] font-bold text-center border select-none"
+                  style={{
+                    background: 'var(--bg-card)',
+                    borderColor: 'var(--border-soft)',
+                    color: 'var(--text-tertiary)',
+                  }}
+                >
+                  No Image
+                </div>
+              )}
+              
               <div className="space-y-1">
                 <h3 className="text-sm font-bold">{member.name}</h3>
                 <p
-                  className="text-[11px] font-bold uppercase tracking-wider"
-                  style={{ color: 'var(--text-tertiary)' }}
+                  className="text-[10px] leading-snug font-medium uppercase tracking-wider"
+                  style={{ color: 'var(--text-secondary)' }}
                 >
                   {member.role}
                 </p>
