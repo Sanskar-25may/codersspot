@@ -24,43 +24,36 @@ const TEAM = [
     name: 'Ashutosh Pandey',
     role: 'Founder & Lead Instructor',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
-    hasImage: true
   },
   {
     name: 'Naman Sharma',
     role: 'Devops Engineer',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
-    hasImage: true
   },
   {
     name: 'Amit Dwivedi',
     role: 'Senior Instructor (Advance Java)',
-    avatar: '',
-    hasImage: false
+    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
   },
   {
     name: 'Pankaj Hasmukh',
     role: 'Front-end Lead JavaScript with React/Angular',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
-    hasImage: true
   },
   {
     name: 'Vikas Sharma',
     role: 'Instructor (UI/UX)',
-    avatar: '',
-    hasImage: false
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
   },
   {
     name: 'Anoop Bopanna',
     role: 'Gen AI Developer',
-    avatar: '',
-    hasImage: false
+    avatar: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=400&q=80',
   },
   {
     name: 'Shashwat Shukla',
     role: 'Database Engineer',
-    avatar: '',
-    hasImage: false
+    avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=400&q=80',
   }
 ];
 
@@ -177,26 +170,13 @@ export default function AboutPage() {
               key={idx}
               className="p-6 rounded-3xl glass card-hover flex flex-col items-center text-center space-y-4 w-full sm:w-[220px]"
             >
-              {member.hasImage ? (
-                <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg border border-soft">
-                  <img
-                    src={member.avatar}
-                    alt={member.name}
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                </div>
-              ) : (
-                <div
-                  className="w-24 h-24 rounded-full flex flex-col items-center justify-center text-[10px] font-bold text-center border select-none"
-                  style={{
-                    background: 'var(--bg-card)',
-                    borderColor: 'var(--border-soft)',
-                    color: 'var(--text-tertiary)',
-                  }}
-                >
-                  No Image
-                </div>
-              )}
+              <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg border border-soft">
+                <img
+                  src={member.avatar}
+                  alt={member.name}
+                  className="w-full h-full rounded-full object-cover"
+                />
+              </div>
               
               <div className="space-y-1">
                 <h3 className="text-sm font-bold">{member.name}</h3>
