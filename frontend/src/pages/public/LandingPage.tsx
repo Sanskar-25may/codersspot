@@ -233,16 +233,16 @@ export default function LandingPage() {
                 {/* First loop */}
                 <div className="flex items-center gap-12 pr-12 flex-shrink-0">
                   {preparedCompanies.map((item: string, idx: number) => (
-                    <span key={idx} className="text-sm font-bold mono-font flex items-center gap-2" style={{ color: 'var(--accent-green)' }}>
-                      <span>•</span> {item}
+                    <span key={idx} className="text-sm font-bold mono-font flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                      <span style={{ color: 'var(--accent-green)' }}>•</span> {item}
                     </span>
                   ))}
                 </div>
                 {/* Second loop (exact duplicate for seamless flow) */}
                 <div className="flex items-center gap-12 pr-12 flex-shrink-0">
                   {preparedCompanies.map((item: string, idx: number) => (
-                    <span key={`dup-${idx}`} className="text-sm font-bold mono-font flex items-center gap-2" style={{ color: 'var(--accent-green)' }}>
-                      <span>•</span> {item}
+                    <span key={`dup-${idx}`} className="text-sm font-bold mono-font flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                      <span style={{ color: 'var(--accent-green)' }}>•</span> {item}
                     </span>
                   ))}
                 </div>
@@ -264,16 +264,16 @@ export default function LandingPage() {
                 {/* First loop */}
                 <div className="flex items-center gap-12 pr-12 flex-shrink-0">
                   {preparedStack.map((item: string, idx: number) => (
-                    <span key={idx} className="text-sm font-bold mono-font flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                      <span style={{ color: 'var(--accent-primary)' }}>•</span> {item}
+                    <span key={idx} className="text-sm font-bold mono-font flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                      <span style={{ color: 'var(--accent-cyan)' }}>•</span> {item}
                     </span>
                   ))}
                 </div>
                 {/* Second loop (exact duplicate for seamless flow) */}
                 <div className="flex items-center gap-12 pr-12 flex-shrink-0">
                   {preparedStack.map((item: string, idx: number) => (
-                    <span key={`dup-${idx}`} className="text-sm font-bold mono-font flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                      <span style={{ color: 'var(--accent-primary)' }}>•</span> {item}
+                    <span key={`dup-${idx}`} className="text-sm font-bold mono-font flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                      <span style={{ color: 'var(--accent-cyan)' }}>•</span> {item}
                     </span>
                   ))}
                 </div>
