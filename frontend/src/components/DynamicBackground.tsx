@@ -209,12 +209,23 @@ export default function DynamicBackground() {
   }, [isDark]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 w-full h-full pointer-events-none z-[-1] transition-all duration-500"
-      style={{
-        background: 'var(--bg-base)',
-      }}
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        className="fixed inset-0 w-full h-full pointer-events-none z-[-2] transition-all duration-500"
+        style={{
+          background: 'var(--bg-base)',
+        }}
+      />
+      {/* Color Gradient Filter Overlay Layer */}
+      <div
+        className="fixed inset-0 w-full h-full pointer-events-none z-[-1] transition-all duration-500"
+        style={{
+          background: isDark
+            ? 'radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.2) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(88, 230, 217, 0.12) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 70%)'
+            : 'radial-gradient(circle at 80% 20%, rgba(217, 119, 6, 0.08) 0%, transparent 60%), radial-gradient(circle at 20% 80%, rgba(79, 70, 229, 0.08) 0%, transparent 60%)',
+        }}
+      />
+    </>
   );
 }

@@ -51,7 +51,6 @@ export default function TestimonialsPage() {
     >
       {/* ── HERO ── */}
       <section className="relative py-24 px-6 max-w-4xl mx-auto space-y-6 text-center w-full overflow-hidden">
-        <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full blur-[150px] opacity-15 bg-gradient-to-br from-violet-500 to-cyan-500 pointer-events-none" />
 
         <div
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider border"

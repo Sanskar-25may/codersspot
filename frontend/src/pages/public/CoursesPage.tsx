@@ -86,8 +86,6 @@ export default function CoursesPage() {
       
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3 py-6 relative z-10">
-        {/* Blur orb backgrounds */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full blur-3xl opacity-10 bg-gradient-to-br from-violet-600 to-cyan-400 pointer-events-none"></div>
 
         <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight heading-font">
           Explore Our <span className="shimmer-text">Syllabus Tracks</span>

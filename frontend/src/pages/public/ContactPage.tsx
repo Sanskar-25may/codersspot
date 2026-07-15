@@ -69,7 +69,6 @@ export default function ContactPage() {
       style={{ background: 'transparent', color: 'var(--text-primary)' }}
     >
       <section className="relative py-20 px-6 max-w-6xl mx-auto w-full flex-1">
-        <div className="absolute -top-16 -right-16 w-[400px] h-[400px] rounded-full blur-[150px] opacity-15 bg-gradient-to-br from-indigo-500 to-purple-600 pointer-events-none" />
 
         {/* Two-column layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">

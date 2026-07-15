@@ -104,8 +104,6 @@ export default function LandingPage() {
     >
       {/* ── HERO ── */}
       <section className="relative py-24 px-6 overflow-hidden flex flex-col items-center justify-center text-center max-w-5xl mx-auto space-y-8 w-full">
-        <div className="absolute -top-16 -right-16 w-[480px] h-[480px] rounded-full blur-[150px] opacity-20 bg-gradient-to-br from-indigo-500 to-purple-600 pointer-events-none" />
-        <div className="absolute -bottom-16 -left-16 w-[480px] h-[480px] rounded-full blur-[150px] opacity-15 bg-gradient-to-tr from-cyan-500 to-indigo-500 pointer-events-none" />
 
         {/* Badge */}
         <div className="terminal-badge flex items-center gap-2">
