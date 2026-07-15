@@ -60,36 +60,39 @@ export default function Navbar() {
         borderColor: scrolled ? 'var(--border-soft)' : 'transparent'
       }}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between" style={{ padding:'0 clamp(1rem,4vw,2rem)', height:'clamp(56px,8vw,72px)' }}>
+      <div className="max-w-7xl mx-auto flex items-center justify-between w-full" style={{ padding:'0 clamp(1rem,4vw,2rem)', height:'clamp(56px,8vw,72px)' }}>
         
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2.5 group flex-shrink-0">
-          <div className="relative" style={{ width:'clamp(30px,3.5vw,36px)', height:'clamp(30px,3.5vw,36px)' }}>
-            <div className="w-full h-full rounded-xl bg-gradient-to-tr from-violet-600 via-purple-500 to-cyan-400 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-200">
-              <span className="font-black text-white heading-font" style={{ fontSize:'clamp(0.55rem,1vw,0.7rem)' }}>CS</span>
+        {/* Left: Logo & Links Group */}
+        <div className="flex items-center gap-12">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2.5 group flex-shrink-0">
+            <div className="relative" style={{ width:'clamp(30px,3.5vw,36px)', height:'clamp(30px,3.5vw,36px)' }}>
+              <div className="w-full h-full rounded-xl bg-gradient-to-tr from-violet-600 via-purple-500 to-cyan-400 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-200">
+                <span className="font-black text-white heading-font" style={{ fontSize:'clamp(0.55rem,1vw,0.7rem)' }}>CS</span>
+              </div>
+              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 border-2 pulse-dot" style={{ borderColor:'var(--bg-base)' }} />
             </div>
-            <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 border-2 pulse-dot" style={{ borderColor:'var(--bg-base)' }} />
-          </div>
-          <span className="font-extrabold tracking-tight heading-font" style={{ color:'var(--text-primary)', fontSize:'clamp(1rem,2vw,1.2rem)' }}>
-            Coders<span className="bg-gradient-to-r from-violet-500 to-cyan-400 bg-clip-text text-transparent">Spot</span>
-          </span>
-        </Link>
+            <span className="font-extrabold tracking-tight heading-font" style={{ color:'var(--text-primary)', fontSize:'clamp(1rem,2vw,1.2rem)' }}>
+              Coders<span className="bg-gradient-to-r from-violet-500 to-cyan-400 bg-clip-text text-transparent">Spot</span>
+            </span>
+          </Link>
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8">
-          {links.map((link) => {
-            const active = location.pathname === link.path;
-            return (
-              <Link 
-                key={link.path}
-                to={link.path}
-                className="text-sm font-semibold tracking-wide hover:opacity-80 transition-all"
-                style={{ color: active ? 'var(--accent-primary)' : 'var(--text-secondary)' }}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
+          {/* Desktop Links */}
+          <div className="hidden md:flex items-center gap-6">
+            {links.map((link) => {
+              const active = location.pathname === link.path;
+              return (
+                <Link 
+                  key={link.path}
+                  to={link.path}
+                  className="text-xs font-bold uppercase tracking-wider hover:opacity-80 transition-all"
+                  style={{ color: active ? 'var(--accent-primary)' : 'var(--text-secondary)' }}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
+          </div>
         </div>
 
         {/* Actions (Auth / Mode Switcher) */}

@@ -49,7 +49,7 @@ export default function LandingPage() {
     <div className="min-h-screen flex flex-col" style={{ color: 'var(--text-primary)' }}>
 
       {/* ─── HERO ─── */}
-      <section className="relative section-pad overflow-hidden animate-fade-in-up" style={{ paddingTop: 'clamp(5rem, 12vw, 8rem)' }}>
+      <section className="relative section-pad overflow-hidden" style={{ paddingTop: 'clamp(5rem, 12vw, 8rem)' }}>
         <div className="container-fluid flex flex-col items-center text-center">
           <div className="flex flex-col items-center gap-6 w-full max-w-4xl">
             {/* Gradient pill badge — matches glass design */}
@@ -125,8 +125,7 @@ export default function LandingPage() {
           {landingData.stats.map((stat: any, idx: number) => (
             <div
               key={idx}
-              className="text-center space-y-1 animate-fade-in-up"
-              style={{ animationDelay: `${idx * 100}ms` }}
+              className="text-center space-y-1"
             >
               <h3 className="font-extrabold bg-gradient-to-r from-violet-500 to-cyan-500 bg-clip-text text-transparent heading-font"
                   style={{ fontSize:'clamp(1.6rem,4vw,2.5rem)' }}>
