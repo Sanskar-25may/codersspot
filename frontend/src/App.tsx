@@ -12,6 +12,7 @@ import PlacementsPage from './pages/public/PlacementsPage';
 import TestimonialsPage from './pages/public/TestimonialsPage';
 import ContactPage from './pages/public/ContactPage';
 import CoursesPage from './pages/public/CoursesPage';
+import ProjectsPage from './pages/public/ProjectsPage';
 
 // Auth Pages
 import AuthPage from './pages/auth/AuthPage';
@@ -65,6 +66,7 @@ function AppRoutes() {
           <Route path="/testimonials" element={<TestimonialsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
 
           {/* Auth Pages */}
           <Route path="/auth" element={<AuthPage />} />
