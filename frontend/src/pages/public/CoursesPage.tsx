@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { getCourses, enrollInCourse } from '../../services/courses';
+import { Link } from 'react-router-dom';
+import { getCourses } from '../../services/courses';
 
 const DEFAULT_COURSES = [
   {
@@ -70,12 +69,8 @@ const DEFAULT_COURSES = [
 ];
 
 export default function CoursesPage() {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
   const [courses, setCourses] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [actionMessage, setActionMessage] = useState<string | null>(null);
   
   // Search & category states
   const [searchQuery, setSearchQuery] = useState('');
@@ -92,27 +87,7 @@ export default function CoursesPage() {
       });
   }, []);
 
-  const handleEnroll = async (courseId: string) => {
-    if (!user) {
-      navigate('/auth');
-      return;
-    }
 
-    if (user.role !== 'STUDENT') {
-      setActionMessage("Only student accounts can enroll in courses.");
-      return;
-    }
-
-    try {
-      await enrollInCourse(courseId);
-      setActionMessage("Enrolled successfully! Redirecting to classroom...");
-      setTimeout(() => {
-        navigate(`/student/classroom/${courseId}`);
-      }, 1500);
-    } catch {
-      setActionMessage("Failed to enroll in this course.");
-    }
-  };
 
   if (isLoading) {
     return (
@@ -183,11 +158,7 @@ export default function CoursesPage() {
         </div>
       </div>
 
-      {actionMessage && (
-        <div className="max-w-6xl mx-auto w-full p-4 rounded-xl border border-violet-500/20 text-xs font-bold text-violet-500 text-center" style={{ background: 'rgba(99, 102, 241, 0.05)' }}>
-          {actionMessage}
-        </div>
-      )}
+
 
       {/* Categories Filter Grid */}
       <div className="max-w-6xl mx-auto w-full flex flex-wrap gap-2.5 relative z-10">
@@ -308,13 +279,13 @@ export default function CoursesPage() {
                   </div>
                 </div>
                 
-                <button
-                  onClick={() => handleEnroll(course.id)}
+                <Link
+                  to={`/courses/${course.id}`}
                   className="text-xs font-bold flex items-center gap-1 hover:underline transition-all"
                   style={{ color: 'var(--text-secondary)' }}
                 >
                   View More →
-                </button>
+                </Link>
               </div>
             </div>
           </div>

@@ -14,6 +14,7 @@ import PlacementsPage from './pages/public/PlacementsPage';
 import TestimonialsPage from './pages/public/TestimonialsPage';
 import ContactPage from './pages/public/ContactPage';
 import CoursesPage from './pages/public/CoursesPage';
+import CourseDetailPage from './pages/public/CourseDetailPage';
 import ProjectsPage from './pages/public/ProjectsPage';
 import EngineersPage from './pages/public/EngineersPage';
 import CommunityPage from './pages/public/CommunityPage';
@@ -71,6 +72,7 @@ function AppRoutes() {
           <Route path="/testimonials" element={<TestimonialsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/courses/:id" element={<CourseDetailPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/engineers" element={<EngineersPage />} />
           <Route path="/engineers/:id" element={<EngineersPage />} />
