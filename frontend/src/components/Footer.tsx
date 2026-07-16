@@ -9,7 +9,7 @@ const LEARN_LINKS = [
 
 const COMPANY_LINKS = [
   { label: 'About Us', to: '/about' },
-  { label: 'Careers', to: '#' },
+  { label: 'Careers', to: '/careers' },
   { label: 'Contact', to: '/contact' },
   { label: 'Feedback', to: '/feedback' },
 ];

@@ -20,6 +20,7 @@ import EngineersPage from './pages/public/EngineersPage';
 import CommunityPage from './pages/public/CommunityPage';
 import InsightsPage from './pages/public/InsightsPage';
 import FeedbackPage from './pages/public/FeedbackPage';
+import CareersPage from './pages/public/CareersPage';
 
 // Auth Pages
 import AuthPage from './pages/auth/AuthPage';
@@ -81,6 +82,7 @@ function AppRoutes() {
           <Route path="/community" element={<CommunityPage />} />
           <Route path="/insights" element={<InsightsPage />} />
           <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/careers" element={<CareersPage />} />
 
           {/* Auth Pages */}
           <Route path="/auth" element={<AuthPage />} />
