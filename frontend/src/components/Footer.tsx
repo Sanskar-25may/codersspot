@@ -4,7 +4,7 @@ const LEARN_LINKS = [
   { label: 'Courses', to: '/courses' },
   { label: 'Placements', to: '/placements' },
   { label: 'Testimonials', to: '/testimonials' },
-  { label: 'Insights', to: '/projects' },
+  { label: 'Insights', to: '/insights' },
 ];
 
 const COMPANY_LINKS = [

@@ -18,6 +18,7 @@ import CourseDetailPage from './pages/public/CourseDetailPage';
 import ProjectsPage from './pages/public/ProjectsPage';
 import EngineersPage from './pages/public/EngineersPage';
 import CommunityPage from './pages/public/CommunityPage';
+import InsightsPage from './pages/public/InsightsPage';
 
 // Auth Pages
 import AuthPage from './pages/auth/AuthPage';
@@ -77,6 +78,7 @@ function AppRoutes() {
           <Route path="/engineers" element={<EngineersPage />} />
           <Route path="/engineers/:id" element={<EngineersPage />} />
           <Route path="/community" element={<CommunityPage />} />
+          <Route path="/insights" element={<InsightsPage />} />
 
           {/* Auth Pages */}
           <Route path="/auth" element={<AuthPage />} />
