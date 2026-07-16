@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { getStudentDashboard } from '../../services/courses';
@@ -58,7 +58,6 @@ const generateHeatmapData = () => {
     const d = new Date(today);
     d.setDate(today.getDate() - i);
     const dateStr = d.toISOString().split('T')[0];
-    // Random activity level between 0 and 4
     if (Math.random() > 0.4) {
       data[dateStr] = Math.floor(Math.random() * 4) + 1;
     } else {
@@ -73,28 +72,38 @@ export default function StudentDashboard() {
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Unified student portal navigation tabs state
-  const [activeTab, setActiveTab] = useState<'home' | 'courses' | 'assignments' | 'messages'>('home');
+  // Tab view states: 'home' | 'courses' | 'assignments' | 'messages' | 'settings'
+  const [activeTab, setActiveTab] = useState<'home' | 'courses' | 'assignments' | 'messages' | 'settings'>('home');
 
-  // Courses Tab detailed view state
+  // Theme control state
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    const saved = localStorage.getItem('cs-theme');
+    return saved ? saved === 'dark' : true;
+  });
+
+  // Profile Dropdown Toggle
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Courses Tab state
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
   const [activeLecture, setActiveLecture] = useState<any>(null);
 
-  // Heatmap tracking state
+  // Heatmap contribution tracking
   const [heatmap, setHeatmap] = useState<Record<string, number>>(generateHeatmapData());
 
-  // Collapsible Gemini sidebar for Assignments
+  // Collapsible Assignments Workspace
   const [geminiTab, setGeminiTab] = useState<'dpp' | 'challenge' | 'doubts' | 'collab'>('dpp');
   const [geminiExpanded, setGeminiExpanded] = useState(true);
 
-  // Assignment states
+  // Form Submissions
   const [dppSubmitted, setDppSubmitted] = useState(false);
   const [dppFile, setDppFile] = useState<File | null>(null);
   const [dppText, setDppText] = useState('');
   const [challengeSubmitted, setChallengeSubmitted] = useState(false);
   const [challengeCode, setChallengeCode] = useState('// Write your solution here\nfunction solveProblem() {\n  \n}');
 
-  // Chat message states
+  // Chat message logs
   const [selectedChat, setSelectedChat] = useState<'group' | 'faculty' | 'admin'>('group');
   const [messageText, setMessageText] = useState('');
   const [chatMessages, setChatMessages] = useState<Record<string, Array<{ sender: 'student' | 'other'; text: string; time: string; authorName?: string }>>>({
@@ -109,6 +118,35 @@ export default function StudentDashboard() {
       { sender: 'other', text: "Your enrollment transaction has been verified. Welcome to CodersSpot!", time: "2 days ago" }
     ]
   });
+
+  // Settings fields
+  const [settingsName, setSettingsName] = useState(user?.full_name || 'DEVELOPER STUDENT');
+  const [settingsEmail, setSettingsEmail] = useState(user?.email || 'student@codersspot.com');
+  const [settingsPhone, setSettingsPhone] = useState(user?.phone_number || '+91 9988776655');
+  const [settingsBio, setSettingsBio] = useState('Enthusiastic full-stack student building scalable distributed clusters.');
+  const [settingsSuccess, setSettingsSuccess] = useState(false);
+
+  // Sync Dark/Light theme values
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('cs-theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('cs-theme', 'light');
+    }
+  }, [darkMode]);
+
+  // Click outside listener to close profile dropdown
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setShowProfileDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
 
   useEffect(() => {
     getStudentDashboard()
@@ -139,7 +177,6 @@ export default function StudentDashboard() {
     const sentText = messageText;
     setMessageText('');
 
-    // Trigger mock automated replies after 1.5 seconds
     setTimeout(() => {
       let replyText = '';
       let author = '';
@@ -164,7 +201,6 @@ export default function StudentDashboard() {
 
   const handleDppSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate updating heatmap with new contribution block
     const todayStr = new Date().toISOString().split('T')[0];
     setHeatmap((prev) => ({
       ...prev,
@@ -181,6 +217,12 @@ export default function StudentDashboard() {
       [todayStr]: (prev[todayStr] || 0) + 2
     }));
     setChallengeSubmitted(true);
+  };
+
+  const handleSaveSettings = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSettingsSuccess(true);
+    setTimeout(() => setSettingsSuccess(false), 3000);
   };
 
   if (isLoading) {
@@ -200,26 +242,118 @@ export default function StudentDashboard() {
     enrollments: []
   };
 
+  const navTabs = [
+    { id: 'home', label: 'Dashboard', icon: '🏠' },
+    { id: 'courses', label: 'My Courses', icon: '📚' },
+    { id: 'assignments', label: 'Assignments', icon: '📝' },
+    { id: 'messages', label: 'Messages', icon: '💬' },
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col md:flex-row" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
       
-      {/* ── DESKTOP PORTAL SIDEBAR ── */}
-      <aside className="hidden md:flex flex-col justify-between w-64 border-r shrink-0 pt-20 p-6" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
-        <div className="space-y-8">
-          {/* Brand header */}
-          <div className="space-y-1">
-            <span className="text-[10px] font-black tracking-widest text-violet-500 uppercase">Student Portal</span>
-            <h2 className="text-lg font-black heading-font">Learning Control</h2>
+      {/* ── UNIFIED STUDENT PORTAL TOP NAVBAR ── */}
+      <header className="sticky top-0 z-50 border-b backdrop-blur-md shadow-sm" style={{ background: 'color-mix(in srgb, var(--bg-card) 90%, transparent)', borderColor: 'var(--border-soft)' }}>
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
+          
+          {/* Logo & Platform Title */}
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-cyan-400 flex items-center justify-center font-black text-white text-sm shadow-md">
+              cs
+            </div>
+            <span className="font-bold text-lg tracking-tight heading-font">CodersSpot</span>
+            <span className="hidden sm:inline text-[9px] font-black tracking-widest text-violet-500 uppercase bg-violet-500/10 px-2 py-0.5 rounded">Student</span>
           </div>
 
-          {/* Nav menu links */}
-          <nav className="flex flex-col gap-1.5">
-            {[
-              { id: 'home', label: 'Dashboard Home', icon: '🏠' },
-              { id: 'courses', label: 'My Enrolled Courses', icon: '📚' },
-              { id: 'assignments', label: 'Assignments & DPPs', icon: '📝' },
-              { id: 'messages', label: 'Messages Chat', icon: '💬' },
-            ].map((tab) => (
+          {/* Desktop Navigation Links */}
+          <nav className="hidden md:flex items-center gap-1.5">
+            {navTabs.map((tab) => {
+              const isSelected = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id as any);
+                    setSelectedCourse(null);
+                    setActiveLecture(null);
+                  }}
+                  className="px-4 py-2 text-xs font-black rounded-xl transition-all"
+                  style={{
+                    color: isSelected ? 'var(--accent-primary)' : 'var(--text-secondary)',
+                    background: isSelected ? 'var(--bg-surface)' : 'transparent'
+                  }}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Right Header Options (ThemeToggle + Profile Avatar Dropdown) */}
+          <div className="flex items-center gap-4">
+            
+            {/* Theme Toggle */}
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="p-2 rounded-xl border hover:bg-zinc-800/5 transition-all text-sm"
+              style={{ borderColor: 'var(--border-soft)', background: 'var(--bg-surface)' }}
+              title="Toggle Theme Mode"
+            >
+              {darkMode ? '☀️' : '🌙'}
+            </button>
+
+            {/* Profile Dropdown Trigger */}
+            <div className="relative" ref={dropdownRef}>
+              <div 
+                onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                className="w-9 h-9 rounded-full bg-gradient-to-tr from-violet-500 to-cyan-400 flex items-center justify-center text-white text-xs font-black cursor-pointer relative shadow-sm border border-white/20 hover:scale-[1.03] transition-all"
+              >
+                {settingsName.substring(0, 2).toUpperCase()}
+              </div>
+
+              {/* Profile Dropdown Panel */}
+              {showProfileDropdown && (
+                <div 
+                  className="absolute right-0 mt-2 w-48 rounded-2xl border shadow-xl p-2 z-50 animate-fade-in-up" 
+                  style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}
+                >
+                  <div className="px-3 py-2 border-b mb-1" style={{ borderColor: 'var(--border-soft)' }}>
+                    <p className="text-xs font-black truncate">{settingsName}</p>
+                    <p className="text-[10px] text-zinc-400 truncate mt-0.5">{settingsEmail}</p>
+                  </div>
+                  
+                  <button
+                    onClick={() => {
+                      setActiveTab('settings');
+                      setShowProfileDropdown(false);
+                    }}
+                    className="w-full text-left px-3 py-2 text-xs font-bold rounded-lg hover:bg-zinc-850/5 text-zinc-700 dark:text-zinc-300 transition-colors"
+                  >
+                    ⚙️ Settings
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      logout();
+                      setShowProfileDropdown(false);
+                    }}
+                    className="w-full text-left px-3 py-2 text-xs font-bold rounded-lg hover:bg-red-500/10 text-red-500 transition-colors mt-0.5"
+                  >
+                    🚪 Log Out
+                  </button>
+                </div>
+              )}
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* Mobile Navigation sub-tabs (Compact tab strip, Vercel-style) */}
+        <div className="md:hidden flex items-center gap-1 overflow-x-auto no-scrollbar py-2 px-4 border-t" style={{ borderColor: 'var(--border-soft)' }}>
+          {navTabs.map((tab) => {
+            const isSelected = activeTab === tab.id;
+            return (
               <button
                 key={tab.id}
                 onClick={() => {
@@ -227,65 +361,29 @@ export default function StudentDashboard() {
                   setSelectedCourse(null);
                   setActiveLecture(null);
                 }}
-                className="flex items-center gap-3 px-4 py-3 text-xs font-black rounded-xl hover:scale-[1.01] transition-all text-left"
+                className="px-3.5 py-1.5 text-[10px] font-black rounded-lg transition-all shrink-0"
                 style={{
-                  background: activeTab === tab.id ? 'var(--bg-base)' : 'transparent',
-                  color: activeTab === tab.id ? 'var(--accent-primary)' : 'var(--text-secondary)',
-                  border: activeTab === tab.id ? '1px solid var(--border-soft)' : '1px solid transparent'
+                  color: isSelected ? 'var(--accent-primary)' : 'var(--text-secondary)',
+                  background: isSelected ? 'var(--bg-surface)' : 'transparent'
                 }}
               >
-                <span>{tab.icon}</span>
-                <span>{tab.label}</span>
+                {tab.label}
               </button>
-            ))}
-          </nav>
+            );
+          })}
         </div>
-
-        <div className="space-y-3">
-          <button 
-            onClick={logout}
-            className="w-full py-2.5 rounded-xl text-xs font-bold border hover:bg-zinc-800/10 transition-all text-center"
-            style={{ borderColor: 'var(--border-soft)', background: 'var(--bg-card)' }}
-          >
-            Sign Out
-          </button>
-        </div>
-      </aside>
-
-      {/* ── MOBILE STICKY BOTTOM NAV BAR ── */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t flex items-center justify-around py-3 px-4 backdrop-blur-md shadow-lg" style={{ background: 'color-mix(in srgb, var(--bg-card) 90%, transparent)', borderColor: 'var(--border-soft)' }}>
-        {[
-          { id: 'home', label: 'Home', icon: '🏠' },
-          { id: 'courses', label: 'Courses', icon: '📚' },
-          { id: 'assignments', label: 'Tasks', icon: '📝' },
-          { id: 'messages', label: 'Chat', icon: '💬' },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => {
-              setActiveTab(tab.id as any);
-              setSelectedCourse(null);
-              setActiveLecture(null);
-            }}
-            className="flex flex-col items-center gap-1 text-[10px] font-black"
-            style={{ color: activeTab === tab.id ? 'var(--accent-primary)' : 'var(--text-tertiary)' }}
-          >
-            <span className="text-lg">{tab.icon}</span>
-            <span>{tab.label}</span>
-          </button>
-        ))}
-      </nav>
+      </header>
 
       {/* ── MAIN WORKSPACE CONTAINER ── */}
-      <main className="flex-1 flex flex-col pt-20 md:pt-20 pb-20 md:pb-6 px-6 overflow-hidden">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-6 py-8">
         
         {/* TAB 1: HOME / DASHBOARD */}
         {activeTab === 'home' && (
-          <div className="space-y-6 pt-4 max-h-[85vh] overflow-y-auto no-scrollbar pr-1">
+          <div className="space-y-6">
             {/* Welcome banner */}
             <div className="relative rounded-3xl p-8 overflow-hidden bg-gradient-to-r from-violet-500 to-cyan-500 text-white shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
               <div className="space-y-2 z-10">
-                <h1 className="text-3xl font-extrabold tracking-tight">Welcome back, {user?.full_name || 'Student'}!</h1>
+                <h1 className="text-3xl font-extrabold tracking-tight">Welcome back, {settingsName}!</h1>
                 <p className="text-sm opacity-90 max-w-md">Track learning statistics, view scheduled Zoom classes, and complete assignments reference metrics.</p>
               </div>
             </div>
@@ -299,7 +397,6 @@ export default function StudentDashboard() {
 
               {/* Grid heatmap */}
               <div className="flex gap-1 overflow-x-auto py-2 no-scrollbar">
-                {/* 52 Columns Grid representing weeks */}
                 {Array.from({ length: 40 }).map((_, weekIdx) => (
                   <div key={weekIdx} className="flex flex-col gap-1 shrink-0">
                     {Array.from({ length: 7 }).map((_, dayIdx) => {
@@ -377,7 +474,7 @@ export default function StudentDashboard() {
                         setSelectedCourse(c.course);
                       }
                     }}
-                    className="w-full py-2 rounded-xl text-xs font-bold text-white bg-amber-500 hover:opacity-90 shadow-md text-center"
+                    className="w-full py-2.5 rounded-xl text-xs font-bold text-white bg-amber-500 hover:opacity-90 shadow-md text-center"
                   >
                     Resume Video lecture ➔
                   </button>
@@ -408,7 +505,7 @@ export default function StudentDashboard() {
                       const c = data.enrollments.find((e: any) => e.course.id === 'c2-uuid');
                       if (c) setSelectedCourse(c.course);
                     }}
-                    className="w-full py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-violet-500 to-cyan-500 hover:opacity-90 shadow-md text-center"
+                    className="w-full py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-violet-500 to-cyan-500 hover:opacity-90 shadow-md text-center"
                   >
                     Watch Live zoom Call 📺
                   </button>
@@ -421,7 +518,7 @@ export default function StudentDashboard() {
 
         {/* TAB 2: MY COURSES */}
         {activeTab === 'courses' && (
-          <div className="space-y-6 pt-4 max-h-[85vh] overflow-y-auto no-scrollbar pr-1">
+          <div className="space-y-6">
             {!selectedCourse ? (
               <>
                 <div className="space-y-1">
@@ -429,7 +526,6 @@ export default function StudentDashboard() {
                   <p className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>Select any of your enrolled courses below to view Zoom recordings and lecture playlists.</p>
                 </div>
 
-                {/* Enrolled course cards list */}
                 {data.enrollments.length === 0 ? (
                   <div className="text-center py-16 border rounded-3xl" style={{ borderColor: 'var(--border-soft)' }}>
                     <p className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>You are not enrolled in any modules yet.</p>
@@ -480,8 +576,6 @@ export default function StudentDashboard() {
             ) : (
               /* DETAILED SYLLABUS & PLAYLIST VIEW */
               <div className="space-y-6">
-                
-                {/* Back Link and description header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b" style={{ borderColor: 'var(--border-soft)' }}>
                   <div className="space-y-1">
                     <button 
@@ -498,7 +592,6 @@ export default function StudentDashboard() {
                   </div>
                 </div>
 
-                {/* Main YouTube style split player */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   
                   {/* LEFT COLUMN: Player & Video description */}
@@ -533,7 +626,6 @@ export default function StudentDashboard() {
                       )}
                     </div>
 
-                    {/* Active Lecture details card */}
                     <div className="p-6 rounded-3xl border space-y-3" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
                       <div className="flex justify-between items-center">
                         <span className="text-[10px] font-black uppercase text-violet-500 tracking-wider">Active Lecture Module</span>
@@ -546,8 +638,8 @@ export default function StudentDashboard() {
                     </div>
                   </div>
 
-                  {/* RIGHT COLUMN: Playlist Sidebar grouped by modules */}
-                  <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1 no-scrollbar">
+                  {/* RIGHT COLUMN: Playlist Sidebar */}
+                  <div className="space-y-4">
                     <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400 pl-2">Course Playlist Syllabus</h3>
                     
                     {(COURSE_MODULES[selectedCourse.id] || []).map((mod, modIdx) => (
@@ -600,22 +692,20 @@ export default function StudentDashboard() {
                   </div>
 
                 </div>
-
               </div>
             )}
           </div>
         )}
 
-        {/* TAB 3: ASSIGNMENTS (GEMINI COLLAPSIBLE SIDEBAR STYLE) */}
+        {/* TAB 3: ASSIGNMENTS */}
         {activeTab === 'assignments' && (
-          <div className="flex flex-1 overflow-hidden h-[80vh] border rounded-3xl mt-4" style={{ borderColor: 'var(--border-soft)' }}>
+          <div className="flex border rounded-3xl h-[70vh] overflow-hidden" style={{ borderColor: 'var(--border-soft)' }}>
             
             {/* COLLAPSIBLE SIDEBAR */}
             <aside 
               className={`flex flex-col border-r transition-all duration-300 ${geminiExpanded ? 'w-56' : 'w-16'}`}
               style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}
             >
-              {/* Header block with collapse toggle button */}
               <div className="p-4 border-b flex items-center justify-between gap-3" style={{ borderColor: 'var(--border-soft)' }}>
                 {geminiExpanded && <span className="text-[10px] font-black tracking-widest text-zinc-500 uppercase">Gemini Workspace</span>}
                 <button 
@@ -627,8 +717,7 @@ export default function StudentDashboard() {
                 </button>
               </div>
 
-              {/* Navigation Menu */}
-              <nav className="flex-1 p-3 flex flex-col gap-1">
+              <nav className="flex-grow p-3 flex flex-col gap-1">
                 {[
                   { id: 'dpp', label: 'Daily Practice (DPP)', icon: '📝' },
                   { id: 'challenge', label: 'HackerRank Challenge', icon: '🏆' },
@@ -652,10 +741,8 @@ export default function StudentDashboard() {
               </nav>
             </aside>
 
-            {/* MAIN ASSIGNMENTS PANEL DISPLAY */}
-            <section className="flex-1 p-8 overflow-y-auto no-scrollbar flex flex-col justify-between" style={{ background: 'var(--bg-base)' }}>
-              
-              {/* TAB SUB-DISPLAY PANES */}
+            {/* MAIN ASSIGNMENTS PANEL */}
+            <section className="flex-grow p-8 overflow-y-auto no-scrollbar flex flex-col justify-between" style={{ background: 'var(--bg-base)' }}>
               <div className="space-y-6">
                 
                 {/* 1. Daily Practice Problem (DPP) */}
@@ -673,7 +760,6 @@ export default function StudentDashboard() {
                           <h3 className="text-sm font-bold text-primary">Explain how failover cluster routing behaves when a Redis shard replica database disconnects. Submit a detailed response using text or diagram image.</h3>
                         </div>
 
-                        {/* Text Submission Box */}
                         <div className="space-y-1.5">
                           <label className="text-xs font-black">Write Explanation Code/Text *</label>
                           <textarea
@@ -681,13 +767,12 @@ export default function StudentDashboard() {
                             onChange={(e) => setDppText(e.target.value)}
                             required
                             placeholder="Type explanation code or system workflow paragraphs here..."
-                            rows={6}
+                            rows={5}
                             className="w-full p-4 rounded-xl border text-xs font-medium focus:outline-none"
                             style={{ background: 'var(--bg-base)', borderColor: 'var(--border-soft)', color: 'var(--text-primary)' }}
                           />
                         </div>
 
-                        {/* Image Drag & Drop Mock */}
                         <div className="space-y-1.5">
                           <label className="text-xs font-black">Submit Diagram Image (Optional)</label>
                           <div 
@@ -835,11 +920,11 @@ export default function StudentDashboard() {
           </div>
         )}
 
-        {/* TAB 4: MESSAGES (WHATSAPP/TELEGRAM LAYOUT) */}
+        {/* TAB 4: MESSAGES */}
         {activeTab === 'messages' && (
-          <div className="flex flex-1 overflow-hidden h-[80vh] border rounded-3xl mt-4" style={{ borderColor: 'var(--border-soft)' }}>
+          <div className="flex border rounded-3xl h-[70vh] overflow-hidden" style={{ borderColor: 'var(--border-soft)' }}>
             
-            {/* THREADS LIST SIDEBAR */}
+            {/* THREADS LIST */}
             <aside className="w-80 border-r flex flex-col shrink-0" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
               <div className="p-4 border-b space-y-3" style={{ borderColor: 'var(--border-soft)' }}>
                 <h3 className="text-sm font-black heading-font">Conversations</h3>
@@ -877,10 +962,9 @@ export default function StudentDashboard() {
               </div>
             </aside>
 
-            {/* CHAT DISPLAY WORKSPACE */}
-            <section className="flex-1 flex flex-col justify-between" style={{ background: 'var(--bg-base)' }}>
+            {/* CHAT DISPLAY */}
+            <section className="flex-grow flex flex-col justify-between" style={{ background: 'var(--bg-base)' }}>
               
-              {/* Thread Header */}
               <div className="p-4 border-b flex items-center justify-between" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
                 <div className="space-y-0.5">
                   <h4 className="text-xs font-black">
@@ -892,8 +976,8 @@ export default function StudentDashboard() {
                 </div>
               </div>
 
-              {/* Message bubbles log list */}
-              <div className="flex-1 p-6 overflow-y-auto space-y-4 no-scrollbar">
+              {/* Messages thread */}
+              <div className="flex-grow p-6 overflow-y-auto space-y-4 no-scrollbar">
                 {chatMessages[selectedChat].map((msg, i) => {
                   const isSelf = msg.sender === 'student';
                   return (
@@ -901,14 +985,12 @@ export default function StudentDashboard() {
                       key={i} 
                       className={`flex flex-col max-w-[70%] space-y-1 ${isSelf ? 'ml-auto items-end' : 'mr-auto items-start'}`}
                     >
-                      {/* Optional group author label */}
                       {!isSelf && msg.authorName && (
                         <span className="text-[9px] font-bold text-violet-500">{msg.authorName}</span>
                       )}
                       
-                      {/* Message Bubble box */}
                       <div 
-                        className={`p-3.5 rounded-2xl text-xs font-medium shadow-sm leading-relaxed`}
+                        className="p-3.5 rounded-2xl text-xs font-medium shadow-sm leading-relaxed"
                         style={{
                           background: isSelf ? 'var(--accent-primary)' : 'var(--bg-card)',
                           color: isSelf ? '#ffffff' : 'var(--text-primary)',
@@ -925,7 +1007,6 @@ export default function StudentDashboard() {
                 })}
               </div>
 
-              {/* TextInput Send Action bar */}
               <form onSubmit={handleSendMessage} className="p-4 border-t flex gap-3" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
                 <input
                   type="text"
@@ -944,6 +1025,82 @@ export default function StudentDashboard() {
               </form>
 
             </section>
+          </div>
+        )}
+
+        {/* TAB 5: SETTINGS */}
+        {activeTab === 'settings' && (
+          <div className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-2xl font-black heading-font">Student Settings</h2>
+              <p className="text-xs text-zinc-400">Manage your profile credentials, billing tags, and workspace preferences.</p>
+            </div>
+
+            <form onSubmit={handleSaveSettings} className="p-8 border rounded-3xl space-y-6 max-w-2xl" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
+              
+              {settingsSuccess && (
+                <div className="p-4 rounded-xl border border-emerald-500/20 text-xs font-bold text-emerald-500" style={{ background: 'rgba(16, 185, 129, 0.05)' }}>
+                  ✓ Profile settings saved successfully!
+                </div>
+              )}
+
+              <div className="space-y-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-black text-zinc-700 dark:text-zinc-300">Full Name</label>
+                  <input
+                    type="text"
+                    value={settingsName}
+                    onChange={(e) => setSettingsName(e.target.value)}
+                    required
+                    className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all input-premium"
+                    style={{ borderColor: 'var(--border-med)', background: 'var(--bg-surface)', color: 'var(--text-primary)' }}
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-black text-zinc-700 dark:text-zinc-300">Email Address</label>
+                  <input
+                    type="email"
+                    value={settingsEmail}
+                    onChange={(e) => setSettingsEmail(e.target.value)}
+                    required
+                    className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all input-premium"
+                    style={{ borderColor: 'var(--border-med)', background: 'var(--bg-surface)', color: 'var(--text-primary)' }}
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-black text-zinc-700 dark:text-zinc-300">Phone Number</label>
+                  <input
+                    type="text"
+                    value={settingsPhone}
+                    onChange={(e) => setSettingsPhone(e.target.value)}
+                    required
+                    className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all input-premium"
+                    style={{ borderColor: 'var(--border-med)', background: 'var(--bg-surface)', color: 'var(--text-primary)' }}
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-black text-zinc-700 dark:text-zinc-300">Bio Description</label>
+                  <textarea
+                    value={settingsBio}
+                    onChange={(e) => setSettingsBio(e.target.value)}
+                    rows={4}
+                    className="w-full p-4 rounded-xl border text-sm font-medium focus:outline-none transition-all input-premium"
+                    style={{ borderColor: 'var(--border-med)', background: 'var(--bg-surface)', color: 'var(--text-primary)' }}
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#6366F1] hover:bg-[#5558e6] shadow-md transition-all"
+              >
+                Save Settings Profile
+              </button>
+
+            </form>
           </div>
         )}
 
