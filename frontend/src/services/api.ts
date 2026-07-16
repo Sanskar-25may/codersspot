@@ -80,7 +80,61 @@ const resolveMockData = (url: string, data: any) => {
           email,
           full_name: email.split('@')[0].toUpperCase(),
           role,
-          isOnboarded: true
+          isOnboarded: false
+        }
+      }
+    };
+  }
+
+  if (normalizedUrl.includes('/auth/register/')) {
+    const parsed = JSON.parse(data || '{}');
+    return {
+      data: {
+        user: {
+          id: "mock-user-id-uuid",
+          email: parsed.email || "newuser@codersspot.com",
+          full_name: parsed.full_name || "New Coder",
+          role: "STUDENT",
+          isOnboarded: false
+        },
+        tokens: {
+          access: "mock_access_token",
+          refresh: "mock_refresh_token"
+        }
+      }
+    };
+  }
+
+  if (normalizedUrl.includes('/auth/verify-otp/')) {
+    const parsed = JSON.parse(data || '{}');
+    return {
+      data: {
+        user: {
+          id: "mock-user-id-uuid",
+          email: parsed.email || "newuser@codersspot.com",
+          full_name: "New Coder",
+          role: "STUDENT",
+          isOnboarded: false
+        },
+        tokens: {
+          access: "mock_access_token",
+          refresh: "mock_refresh_token"
+        }
+      }
+    };
+  }
+
+  if (normalizedUrl.includes('/user/onboarding/')) {
+    const parsed = JSON.parse(data || '{}');
+    return {
+      data: {
+        user: {
+          id: "mock-user-id-uuid",
+          email: "student@codersspot.com",
+          full_name: "DEVELOPER STUDENT",
+          role: parsed.role || "STUDENT",
+          isOnboarded: true,
+          profile: parsed
         }
       }
     };

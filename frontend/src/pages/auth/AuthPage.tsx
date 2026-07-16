@@ -96,8 +96,8 @@ export default function AuthPage() {
 
         {/* Branding Logo */}
         <div className="flex items-center gap-3 relative z-10">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-violet-500 to-cyan-500 p-0.5">
-            <div className="w-full h-full rounded-full" style={{ background: 'var(--bg-card)' }}></div>
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-400 flex items-center justify-center font-black text-white text-base tracking-tighter shadow-md">
+            cs
           </div>
           <span className="font-bold text-2xl tracking-tight heading-font">CodersSpot</span>
         </div>
@@ -137,7 +137,9 @@ export default function AuthPage() {
 
       {/* RIGHT SPLIT-PANE: Interactive Forms */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative">
-        <div className="w-full max-w-md p-8 rounded-3xl glass flex flex-col space-y-6">
+        <div className="w-full max-w-md p-8 rounded-3xl border flex flex-col space-y-6"
+          style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}
+        >
           
           {/* Header toggles */}
           {!showOtpScreen && (
@@ -145,12 +147,14 @@ export default function AuthPage() {
               <button 
                 onClick={() => { setIsLogin(true); setValidationError(null); clearError(); }}
                 className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${isLogin ? 'bg-gradient-to-r from-violet-500 to-cyan-500 text-white shadow-md' : ''}`}
+                style={{ color: isLogin ? 'white' : 'var(--text-secondary)' }}
               >
                 Sign In
               </button>
               <button 
                 onClick={() => { setIsLogin(false); setValidationError(null); clearError(); }}
                 className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${!isLogin ? 'bg-gradient-to-r from-violet-500 to-cyan-500 text-white shadow-md' : ''}`}
+                style={{ color: !isLogin ? 'white' : 'var(--text-secondary)' }}
               >
                 Sign Up
               </button>
@@ -191,7 +195,7 @@ export default function AuthPage() {
                   placeholder="------"
                   value={otpCode}
                   onChange={(e) => setOtpCode(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border text-center text-xl font-bold tracking-widest focus:outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-xl border text-center text-xl font-bold tracking-widest focus:outline-none transition-all input-premium"
                   style={{ 
                     borderColor: 'var(--border-med)', 
                     background: 'var(--bg-surface)',
@@ -207,7 +211,7 @@ export default function AuthPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r from-violet-500 to-cyan-500 hover:opacity-90 shadow-lg transition-all"
+                className="w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r from-violet-500 to-cyan-500 hover:scale-[1.01] shadow-lg transition-all"
               >
                 {isLoading ? "Verifying..." : "Verify & Continue"}
               </button>
@@ -225,7 +229,7 @@ export default function AuthPage() {
                     placeholder="Enter your name"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all input-premium"
                     style={{ 
                       borderColor: 'var(--border-med)', 
                       background: 'var(--bg-surface)',
@@ -244,7 +248,7 @@ export default function AuthPage() {
                   placeholder="name@domain.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all input-premium"
                   style={{ 
                     borderColor: 'var(--border-med)', 
                     background: 'var(--bg-surface)',
@@ -263,7 +267,7 @@ export default function AuthPage() {
                     placeholder="+91 XXXXX XXXXX"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all input-premium"
                     style={{ 
                       borderColor: 'var(--border-med)', 
                       background: 'var(--bg-surface)',
@@ -282,7 +286,7 @@ export default function AuthPage() {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-xl border text-sm font-medium focus:outline-none transition-all input-premium"
                   style={{ 
                     borderColor: 'var(--border-med)', 
                     background: 'var(--bg-surface)',
@@ -304,7 +308,7 @@ export default function AuthPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r from-violet-500 to-cyan-500 hover:opacity-90 shadow-lg transition-all"
+                className="w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r from-violet-500 to-cyan-500 hover:scale-[1.01] shadow-lg transition-all"
               >
                 {isLoading ? "Loading..." : isLogin ? "Sign In to Account" : "Submit & Request OTP"}
               </button>
