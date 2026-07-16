@@ -144,14 +144,7 @@ export default function Navbar() {
             <div className="flex items-center gap-2">
               <Link 
                 to="/auth" 
-                className="px-4 py-2 rounded-xl text-xs font-bold border transition-all"
-                style={{ borderColor: 'var(--border-soft)', background: 'var(--bg-card)' }}
-              >
-                Sign In
-              </Link>
-              <Link 
-                to="/auth" 
-                className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-violet-500 to-cyan-500 hover:opacity-90 shadow-md transition-all"
+                className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-violet-500 to-cyan-500 hover:opacity-90 shadow-lg transition-all"
               >
                 Get Started
               </Link>
@@ -220,15 +213,7 @@ export default function Navbar() {
                 <Link 
                   to="/auth" 
                   onClick={() => setMobileOpen(false)}
-                  className="py-2 text-center text-xs font-bold border rounded-xl"
-                  style={{ borderColor: 'var(--border-soft)', background: 'var(--bg-card)' }}
-                >
-                  Sign In
-                </Link>
-                <Link 
-                  to="/auth" 
-                  onClick={() => setMobileOpen(false)}
-                  className="py-2.5 text-center text-xs font-bold text-white bg-gradient-to-r from-violet-500 to-cyan-500 rounded-xl"
+                  className="py-2.5 text-center text-xs font-bold text-white bg-gradient-to-r from-violet-500 to-cyan-500 rounded-xl w-full"
                 >
                   Get Started
                 </Link>
