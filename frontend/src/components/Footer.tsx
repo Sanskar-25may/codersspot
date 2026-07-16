@@ -11,7 +11,7 @@ const COMPANY_LINKS = [
   { label: 'About Us', to: '/about' },
   { label: 'Careers', to: '#' },
   { label: 'Contact', to: '/contact' },
-  { label: 'Feedback', to: '/testimonials' },
+  { label: 'Feedback', to: '/feedback' },
 ];
 
 const LEGAL_LINKS = [
