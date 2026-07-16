@@ -137,8 +137,10 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 pt-24 pb-20" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
-      <div className="w-full max-w-2xl p-8 rounded-3xl glass flex flex-col space-y-6">
+    <div className="min-h-screen flex items-center justify-center p-6 pt-24 pb-20" style={{ background: 'transparent', color: 'var(--text-primary)' }}>
+      <div className="w-full max-w-2xl p-8 rounded-3xl border flex flex-col space-y-6"
+        style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}
+      >
         
         {/* Progress Bar & Header */}
         <div className="space-y-4">
