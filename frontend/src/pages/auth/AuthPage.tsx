@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 export default function AuthPage() {
@@ -87,8 +87,15 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex pt-24 pb-20" style={{ background: 'transparent', color: 'var(--text-primary)' }}>
+    <div className="h-screen w-screen overflow-hidden flex relative" style={{ background: 'transparent', color: 'var(--text-primary)' }}>
       
+      {/* Absolute Breadcrumb path */}
+      <div className="absolute top-6 left-8 flex items-center gap-1.5 text-xs font-semibold select-none z-50" style={{ color: 'var(--text-tertiary)' }}>
+        <Link to="/" className="hover:text-violet-500 transition-colors" style={{ color: 'var(--text-secondary)' }}>Home</Link>
+        <span>/</span>
+        <span style={{ color: 'var(--text-primary)' }}>Auth</span>
+      </div>
+
       {/* LEFT SPLIT-PANE: Branding (Hidden on Mobile) */}
       <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-16 overflow-hidden">
         {/* Background Dot grid & Violet Orb overlay */}

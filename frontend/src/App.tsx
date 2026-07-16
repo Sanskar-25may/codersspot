@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
@@ -60,13 +60,16 @@ function DashboardRouter() {
 }
 
 function AppRoutes() {
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/auth';
+
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'transparent' }}>
+    <div className={isAuthPage ? "h-screen w-screen overflow-hidden flex flex-col relative" : "min-h-screen flex flex-col"} style={{ background: 'transparent' }}>
       <DynamicBackground />
       <Navbar />
       
       <main className="flex-grow flex flex-col">
-        <Breadcrumb />
+        {!isAuthPage && <Breadcrumb />}
         <Routes>
           {/* Public Pages */}
           <Route path="/" element={<LandingPage />} />
@@ -213,7 +216,7 @@ function AppRoutes() {
         </Routes>
       </main>
 
-      <Footer />
+      {!isAuthPage && <Footer />}
     </div>
   );
 }
