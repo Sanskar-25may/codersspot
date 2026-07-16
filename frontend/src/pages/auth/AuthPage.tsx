@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 export default function AuthPage() {
@@ -94,12 +94,20 @@ export default function AuthPage() {
         <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-3xl opacity-20 bg-gradient-to-br from-violet-600 to-cyan-500"></div>
         <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full blur-3xl opacity-10 bg-gradient-to-tr from-cyan-600 to-violet-500"></div>
 
-        {/* Branding Logo */}
-        <div className="flex items-center gap-3 relative z-10">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-400 flex items-center justify-center font-black text-white text-base tracking-tighter shadow-md">
-            cs
+        {/* Branding Logo & Breadcrumb */}
+        <div className="flex items-center justify-between relative z-10 w-full">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-400 flex items-center justify-center font-black text-white text-base tracking-tighter shadow-md">
+              cs
+            </div>
+            <span className="font-bold text-2xl tracking-tight heading-font">CodersSpot</span>
           </div>
-          <span className="font-bold text-2xl tracking-tight heading-font">CodersSpot</span>
+          
+          <div className="flex items-center gap-1.5 text-xs font-semibold select-none" style={{ color: 'var(--text-tertiary)' }}>
+            <Link to="/" className="hover:text-violet-500 transition-colors" style={{ color: 'var(--text-secondary)' }}>Home</Link>
+            <span>/</span>
+            <span style={{ color: 'var(--text-primary)' }}>Auth</span>
+          </div>
         </div>
 
         {/* Shimmer Promo Message */}
