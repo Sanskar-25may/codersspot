@@ -138,7 +138,7 @@ export default function OnboardingPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 pt-24 pb-20" style={{ background: 'transparent', color: 'var(--text-primary)' }}>
-      <div className="w-full max-w-2xl p-8 rounded-3xl border flex flex-col space-y-6"
+      <div className="w-full max-w-4xl p-10 md:p-14 rounded-[32px] border flex flex-col space-y-8 shadow-xl"
         style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}
       >
         
@@ -184,21 +184,21 @@ export default function OnboardingPage() {
 
         {/* STEP 1: CHOOSE ROLE */}
         {step === 1 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Student Card */}
             <div 
               onClick={() => setRole('STUDENT')}
-              className={`p-6 rounded-2xl border cursor-pointer transition-all flex flex-col items-center text-center space-y-3 hover:scale-[1.01] ${role === 'STUDENT' ? 'shadow-lg' : ''}`}
+              className={`p-10 rounded-3xl border cursor-pointer transition-all flex flex-col items-center text-center space-y-4 hover:scale-[1.01] ${role === 'STUDENT' ? 'shadow-lg' : ''}`}
               style={{ 
                 background: 'var(--bg-surface)', 
                 borderColor: role === 'STUDENT' ? 'var(--accent-primary)' : 'var(--border-soft)'
               }}
             >
-              <div className="w-14 h-14 rounded-full flex items-center justify-center text-2xl" style={{ background: 'color-mix(in srgb, var(--accent-primary) 10%, transparent)' }}>
+              <div className="w-20 h-20 rounded-full flex items-center justify-center text-3xl" style={{ background: 'color-mix(in srgb, var(--accent-primary) 10%, transparent)' }}>
                 🎓
               </div>
-              <h3 className="text-lg font-bold heading-font">I am a Student</h3>
-              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <h3 className="text-xl font-bold heading-font">I am a Student</h3>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                 I want to enroll in classes, practice programming, complete assignments, and track my skills.
               </p>
             </div>
@@ -206,17 +206,17 @@ export default function OnboardingPage() {
             {/* Instructor Card */}
             <div 
               onClick={() => setRole('FACULTY')}
-              className={`p-6 rounded-2xl border cursor-pointer transition-all flex flex-col items-center text-center space-y-3 hover:scale-[1.01] ${role === 'FACULTY' ? 'shadow-lg' : ''}`}
+              className={`p-10 rounded-3xl border cursor-pointer transition-all flex flex-col items-center text-center space-y-4 hover:scale-[1.01] ${role === 'FACULTY' ? 'shadow-lg' : ''}`}
               style={{ 
                 background: 'var(--bg-surface)', 
                 borderColor: role === 'FACULTY' ? 'var(--accent-cyan)' : 'var(--border-soft)'
               }}
             >
-              <div className="w-14 h-14 rounded-full flex items-center justify-center text-2xl" style={{ background: 'color-mix(in srgb, var(--accent-cyan) 10%, transparent)' }}>
+              <div className="w-20 h-20 rounded-full flex items-center justify-center text-3xl" style={{ background: 'color-mix(in srgb, var(--accent-cyan) 10%, transparent)' }}>
                 👨‍🏫
               </div>
-              <h3 className="text-lg font-bold heading-font">I am an Instructor</h3>
-              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <h3 className="text-xl font-bold heading-font">I am an Instructor</h3>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                 I want to craft code challenges, design course curriculums, and review student submissions.
               </p>
             </div>
