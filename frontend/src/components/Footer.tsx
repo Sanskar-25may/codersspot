@@ -4,18 +4,20 @@ const LEARN_LINKS = [
   { label: 'Courses', to: '/courses' },
   { label: 'Placements', to: '/placements' },
   { label: 'Testimonials', to: '/testimonials' },
-  { label: 'About', to: '/about' },
+  { label: 'Insights', to: '/projects' },
 ];
 
 const COMPANY_LINKS = [
-  { label: 'About', to: '/about' },
+  { label: 'About Us', to: '/about' },
+  { label: 'Careers', to: '#' },
   { label: 'Contact', to: '/contact' },
-  { label: 'Careers', to: '#', disabled: true },
+  { label: 'Feedback', to: '/testimonials' },
 ];
 
 const LEGAL_LINKS = [
   { label: 'Privacy Policy', to: '#' },
   { label: 'Terms of Service', to: '#' },
+  { label: 'Cookie Policy', to: '#' },
   { label: 'Refund Policy', to: '#' },
 ];
 
@@ -89,19 +91,22 @@ export default function Footer() {
         {/* Col 1 — Brand */}
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-violet-500 to-cyan-500 flex items-center justify-center text-white font-extrabold text-sm heading-font">
-              CS
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-violet-500 via-purple-500 to-cyan-400 flex items-center justify-center text-[11px] font-black text-white heading-font shadow-md">
+              cs
             </div>
-            <span className="font-bold text-lg heading-font">CodersSpot</span>
+            <span className="font-extrabold text-lg heading-font" style={{ color: 'var(--text-primary)' }}>
+              CodersSpot
+            </span>
           </div>
-          <p className="text-xs font-medium leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-            Engineering education for the future. Built by engineers, for engineers.
+          <p className="text-xs font-semibold leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            Engineering education for the future.<br />
+            Built by engineers, for engineers.
           </p>
         </div>
 
         {/* Col 2 — Learn */}
         <div className="space-y-4">
-          <h4 className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>
+          <h4 className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-primary)' }}>
             Learn
           </h4>
           <ul className="space-y-2">
@@ -121,31 +126,19 @@ export default function Footer() {
 
         {/* Col 3 — Company */}
         <div className="space-y-4">
-          <h4 className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>
+          <h4 className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-primary)' }}>
             Company
           </h4>
           <ul className="space-y-2">
             {COMPANY_LINKS.map((link) => (
               <li key={link.label}>
-                {link.disabled ? (
-                  <span
-                    className="text-xs font-semibold flex items-center gap-2"
-                    style={{ color: 'var(--text-tertiary)' }}
-                  >
-                    {link.label}
-                    <span className="text-[9px] px-1.5 py-0.5 rounded-full border font-bold uppercase tracking-wider" style={{ borderColor: 'var(--border-soft)', color: 'var(--text-tertiary)' }}>
-                      Soon
-                    </span>
-                  </span>
-                ) : (
-                  <Link
-                    to={link.to}
-                    className="text-xs font-semibold transition-colors duration-150 hover:opacity-80"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
-                    {link.label}
-                  </Link>
-                )}
+                <Link
+                  to={link.to}
+                  className="text-xs font-semibold transition-colors duration-150 hover:opacity-80"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  {link.label}
+                </Link>
               </li>
             ))}
           </ul>
@@ -153,19 +146,19 @@ export default function Footer() {
 
         {/* Col 4 — Legal */}
         <div className="space-y-4">
-          <h4 className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>
+          <h4 className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-primary)' }}>
             Legal
           </h4>
           <ul className="space-y-2">
             {LEGAL_LINKS.map((link) => (
               <li key={link.label}>
-                <a
-                  href={link.to}
+                <Link
+                  to={link.to}
                   className="text-xs font-semibold transition-colors duration-150 hover:opacity-80"
                   style={{ color: 'var(--text-secondary)' }}
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -179,7 +172,7 @@ export default function Footer() {
       >
         <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <span className="text-[11px] font-semibold" style={{ color: 'var(--text-tertiary)' }}>
-            © 2026 CodersSpot Education. All rights reserved.
+            © 2026 CodersSpot Education Inc. All rights reserved.
           </span>
           <div className="flex items-center gap-4">
             {SOCIAL.map((social) => (
