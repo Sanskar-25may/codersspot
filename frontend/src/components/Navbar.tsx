@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, logout, isLoading } = useAuth();
   const location = useLocation();
 
   const [scrolled, setScrolled] = useState(false);
@@ -124,7 +124,9 @@ export default function Navbar() {
             )}
           </button>
           
-          {user ? (
+           {isLoading ? (
+            <div className="w-24 h-9 rounded-xl bg-zinc-800/10 dark:bg-white/5 animate-pulse" />
+          ) : user ? (
             <div className="flex items-center gap-3">
               <Link 
                 to={user.role === 'ADMIN' ? '/admin' : user.role === 'FACULTY' ? '/faculty' : '/student'}
@@ -191,7 +193,9 @@ export default function Navbar() {
             >
               {darkMode ? '☀ Switch to Light' : '🌙 Switch to Dark'}
             </button>
-            {user ? (
+            {isLoading ? (
+              <div className="w-full h-10 rounded-xl bg-zinc-800/10 dark:bg-white/5 animate-pulse" />
+            ) : user ? (
               <>
                 <Link 
                   to={user.role === 'ADMIN' ? '/admin' : user.role === 'FACULTY' ? '/faculty' : '/student'}
