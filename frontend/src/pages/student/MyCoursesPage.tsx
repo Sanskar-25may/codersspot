@@ -19,14 +19,14 @@ export default function MyCoursesPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-base)' }}>
+      <div className="flex-grow flex items-center justify-center" style={{ background: 'var(--bg-base)' }}>
         <div className="w-8 h-8 rounded-full border-4 border-t-violet-500 animate-spin" style={{ borderColor: 'var(--border-soft) var(--border-soft) var(--border-soft) var(--accent-primary)' }}></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col p-6 space-y-6 pt-24" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
+    <div className="flex-grow flex flex-col p-6 space-y-6 pt-6" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
       
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-6" style={{ borderColor: 'var(--border-soft)' }}>

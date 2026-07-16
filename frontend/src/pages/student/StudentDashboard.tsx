@@ -250,7 +250,7 @@ export default function StudentDashboard() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
+    <div className="flex-grow flex flex-col" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
       
       {/* ── UNIFIED STUDENT PORTAL TOP NAVBAR ── */}
       <header className="sticky top-0 z-50 border-b backdrop-blur-md shadow-sm" style={{ background: 'color-mix(in srgb, var(--bg-card) 90%, transparent)', borderColor: 'var(--border-soft)' }}>

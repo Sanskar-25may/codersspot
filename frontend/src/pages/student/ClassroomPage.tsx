@@ -66,7 +66,7 @@ export default function ClassroomPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-base)' }}>
+      <div className="flex-grow flex items-center justify-center" style={{ background: 'var(--bg-base)' }}>
         <div className="w-8 h-8 rounded-full border-4 border-t-violet-500 animate-spin" style={{ borderColor: 'var(--border-soft) var(--border-soft) var(--border-soft) var(--accent-primary)' }}></div>
       </div>
     );
@@ -74,7 +74,7 @@ export default function ClassroomPage() {
 
   if (!courseData) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center space-y-4" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
+      <div className="flex-grow flex flex-col items-center justify-center space-y-4" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
         <p className="text-sm font-medium">Failed to load classroom content.</p>
         <Link to="/student/courses" className="text-xs font-bold text-violet-500 hover:underline">Back to Dashboard</Link>
       </div>
@@ -84,7 +84,7 @@ export default function ClassroomPage() {
   const lessons = courseData.lessons || [];
 
   return (
-    <div className="min-h-screen flex flex-col pt-20" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
+    <div className="flex-grow flex flex-col pt-6" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
       
       {/* Classroom Header */}
       <div className="border-b px-6 py-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>

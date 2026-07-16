@@ -62,6 +62,12 @@ function DashboardRouter() {
 function AppRoutes() {
   const location = useLocation();
   const isAuthPage = location.pathname === '/auth';
+  const isPortalRoute = 
+    location.pathname.startsWith('/student') || 
+    location.pathname.startsWith('/faculty') || 
+    location.pathname.startsWith('/admin') ||
+    location.pathname.startsWith('/onboarding') ||
+    location.pathname.startsWith('/chat');
 
   return (
     <div className={isAuthPage ? "h-screen w-screen overflow-hidden flex flex-col relative" : "min-h-screen flex flex-col"} style={{ background: 'transparent' }}>
@@ -69,7 +75,7 @@ function AppRoutes() {
       <Navbar />
       
       <main className="flex-grow flex flex-col">
-        {!isAuthPage && <Breadcrumb />}
+        {!isAuthPage && !isPortalRoute && <Breadcrumb />}
         <Routes>
           {/* Public Pages */}
           <Route path="/" element={<LandingPage />} />

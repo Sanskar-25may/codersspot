@@ -50,28 +50,11 @@ export default function DynamicBackground() {
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    // Expanded developer keywords from multiple modern tech stacks
     const codeKeywords = [
-      // JavaScript / TypeScript / React
-      'const [state, setState]', 'useEffect(() => {})', 'import React', 'export default', '=>',
-      'async/await', 'Promise.resolve()', 'interface User {}', 'console.log()', 'map()', 'filter()',
-      'reduce()', 'npm install', 'yarn dev', 'tsconfig.json', 'Next.js', 'Vite', 'TailwindCSS',
-      
-      // Python / Django / FastAPI
-      'def __init__(self):', 'pip install', 'manage.py migrate', 'import pandas as pd',
-      '@app.get("/api")', 'list comprehension', 'django.db', 'SQLAlchemy',
-      
-      // Backend / Databases
-      'SELECT * FROM users', 'INSERT INTO', 'PrismaClient', 'PostgreSQL', 'Redis.get()',
-      'MongoDB', 'docker-compose up', 'docker build', 'nginx.conf', 'port 8000', 'HTTP 200 OK',
-      
-      // Git / Workflow / DevOps
-      'git commit -m "feat:"', 'git push origin main', 'pull request', 'CI/CD pipeline',
-      'GitHub Actions', 'kubectl get pods', 'AWS S3', 'serverless', 'KVM container',
-      
-      // Logic / Structures
-      'try/catch', 'if/else', 'while (true)', 'throw new Error()', 'JSON.stringify()',
-      'null', 'undefined', 'boolean', 'Array.prototype'
+      'Next.js', 'Vite', 'React', 'TypeScript', 'TailwindCSS',
+      'Python', 'Django', 'FastAPI', 'Pandas', 'SQLAlchemy',
+      'PostgreSQL', 'Prisma', 'Redis', 'MongoDB', 'Docker',
+      'Nginx', 'GitHub', 'CI/CD', 'AWS', 'Kubernetes', 'Serverless'
     ];
 
     let particles: Particle[] = [];
