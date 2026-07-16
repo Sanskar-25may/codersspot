@@ -158,7 +158,7 @@ export default function CourseDetailPage() {
 
   return (
     <div
-      className="min-h-screen flex flex-col pt-24 dot-grid pb-20"
+      className="min-h-screen flex flex-col pt-4 dot-grid pb-20"
       style={{ background: 'transparent', color: 'var(--text-primary)' }}
     >
       <div className="max-w-7xl mx-auto px-6 w-full z-10 space-y-10">

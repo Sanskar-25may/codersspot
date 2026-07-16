@@ -59,7 +59,7 @@ export default function Breadcrumb() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 pt-6 pb-2 w-full z-20 flex items-center gap-1.5 text-xs font-semibold select-none">
+    <div className="max-w-7xl mx-auto px-6 pt-24 pb-2 w-full z-20 flex items-center gap-1.5 text-xs font-semibold select-none">
       {/* Home link */}
       <Link
         to="/"
