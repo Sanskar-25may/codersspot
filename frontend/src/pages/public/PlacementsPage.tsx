@@ -1,72 +1,59 @@
 const STATS = [
   {
-    value: '93%',
-    label: 'Job Offer Rate',
-    desc: 'of graduates receive a job offer within 90 days',
+    value: '+67k',
+    label: 'Average Salary Increase',
+    desc: 'For students switching jobs',
   },
   {
-    value: '62%',
-    label: 'Average Hike',
-    desc: 'average salary increase after completing our programs',
+    value: '98.2%',
+    label: 'Placement Rate',
+    desc: 'Within 6 months of graduation',
   },
   {
-    value: '44 LPA',
-    label: 'Top Package',
-    desc: 'highest salary package received by a CodersSpot graduate',
+    value: '15+',
+    label: 'Hiring Partners',
+    desc: 'Top tech companies Nation wide',
   },
 ];
 
 const PARTNERS = [
   'Google',
-  'Microsoft',
   'Amazon',
-  'Razorpay',
-  'Paytm',
-  'Cred',
-  'Flipkart',
+  'Microsoft',
   'Meta',
   'Netflix',
-  'Zepto',
 ];
 
 const ALUMNI = [
   {
-    name: 'Rohan D.',
-    prev: 'Junior PHP Dev',
-    now: 'Senior React Engineer @ Razorpay',
-    quote:
-      'The curriculum is exactly what the industry needs. I went from tutorial hell to production codebases in 3 months.',
-    initial: 'R',
+    name: 'Student1',
+    prev: 'Backend Engineer',
+    now: 'Senior Backend Engineer @ Citius Tech Pvt. Ltd.',
+    quote: 'CodersSpot helped me transition from a service-based company to a product-based giant.',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
   },
   {
-    name: 'Priya N.',
-    prev: 'Data Entry Analyst',
-    now: 'Data Engineer @ Google',
-    quote:
-      'The SQL and data pipeline modules were the best I\'ve ever seen. I got promoted twice in 8 months.',
-    initial: 'P',
+    name: 'Student2',
+    prev: 'Software Engineer',
+    now: 'Senior Software Engineer @ Globex Digital Solution Pvt. Ltd.',
+    quote: 'The focus on System Design and advanced React concepts was exactly what I needed.',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
   },
   {
-    name: 'Aman V.',
-    prev: 'IT Support',
-    now: 'DevOps Engineer @ Amazon',
-    quote:
-      'I learned more in 3 months at CodersSpot than in 3 years of self-study.',
-    initial: 'A',
+    name: 'Amar Sahu',
+    prev: 'Software Developer',
+    now: 'Senior Software Engineer @ Techblocks and L&T',
+    quote: 'The intense focus on system architecture helped me ace my design interviews effortlessly.',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
   },
 ];
 
 const PARTNER_COLORS: Record<string, string> = {
   Google: '#4285F4',
-  Microsoft: '#00BCF2',
   Amazon: '#FF9900',
-  Razorpay: '#528FF0',
-  Paytm: '#002970',
-  Cred: '#1C1C1E',
-  Flipkart: '#2874F0',
+  Microsoft: '#00BCF2',
   Meta: '#0668E1',
   Netflix: '#E50914',
-  Zepto: '#8A2BE2',
 };
 
 export default function PlacementsPage() {
@@ -90,13 +77,13 @@ export default function PlacementsPage() {
         </div>
 
         <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight heading-font">
-          Where our <span className="shimmer-text">alumni work</span>
+          Our Alumni Work At
         </h1>
         <p
           className="text-base font-medium max-w-2xl mx-auto leading-relaxed"
           style={{ color: 'var(--text-secondary)' }}
         >
-          CodersSpot graduates don't just pass interviews; they hit the ground running on day one.
+          Join thousands of engineers at top companies.
         </p>
       </section>
 
@@ -182,40 +169,40 @@ export default function PlacementsPage() {
               key={idx}
               className="p-8 rounded-3xl glass card-hover flex flex-col justify-between gap-6"
             >
-              <div className="space-y-3">
-                <div className="text-amber-400 font-bold">★★★★★</div>
-                <p
-                  className="text-sm leading-relaxed italic"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  "{alumnus.quote}"
-                </p>
+              {/* Profile Card Header */}
+              <div className="space-y-4">
+                <div className="w-14 h-14 rounded-full overflow-hidden shadow-lg border" style={{ borderColor: 'var(--border-soft)' }}>
+                  <img src={alumnus.avatar} alt={alumnus.name} className="w-full h-full object-cover rounded-full" />
+                </div>
+                <h4 className="text-lg font-bold heading-font">{alumnus.name}</h4>
               </div>
 
-              <div className="space-y-3 border-t pt-4" style={{ borderColor: 'var(--border-soft)' }}>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white bg-gradient-to-br from-violet-500 to-cyan-500 flex-shrink-0">
-                    {alumnus.initial}
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold">{alumnus.name}</h4>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1 text-[11px]">
+              {/* Before and After details */}
+              <div className="space-y-4">
+                <div className="flex flex-col gap-2.5 text-xs">
                   <div className="flex items-center gap-2">
-                    <span style={{ color: 'var(--text-tertiary)' }}>Before:</span>
+                    <span style={{ color: 'var(--text-tertiary)' }} className="font-bold">Before</span>
                     <span className="font-semibold" style={{ color: 'var(--text-secondary)' }}>
                       {alumnus.prev}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span style={{ color: 'var(--text-tertiary)' }}>Now:</span>
-                    <span
-                      className="font-bold bg-gradient-to-r from-violet-500 to-cyan-500 bg-clip-text text-transparent"
-                    >
+                  <div className="flex items-start gap-2">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold text-white bg-indigo-600 flex-shrink-0 mt-0.5">
+                      After
+                    </span>
+                    <span className="font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
                       {alumnus.now}
                     </span>
                   </div>
+                </div>
+
+                <div className="border-t pt-4" style={{ borderColor: 'var(--border-soft)' }}>
+                  <p
+                    className="text-xs leading-relaxed italic"
+                    style={{ color: 'var(--text-secondary)' }}
+                  >
+                    "{alumnus.quote}"
+                  </p>
                 </div>
               </div>
             </div>
