@@ -71,32 +71,40 @@ const resolveMockData = (url: string, data: any) => {
     const parsed = JSON.parse(data || '{}');
     const role = parsed.email?.includes('faculty') ? 'FACULTY' : parsed.email?.includes('admin') ? 'ADMIN' : 'STUDENT';
     const email = parsed.email || 'student@codersspot.com';
+    const userSession = {
+      id: "mock-user-id-uuid",
+      email,
+      full_name: email.split('@')[0].toUpperCase(),
+      role,
+      onboarded: true,
+      isOnboarded: true
+    };
+    localStorage.setItem('mock_user_session', JSON.stringify(userSession));
+    
     return {
       data: {
         access: "mock_access_token",
         refresh: "mock_refresh_token",
-        user: {
-          id: "mock-user-id-uuid",
-          email,
-          full_name: email.split('@')[0].toUpperCase(),
-          role,
-          isOnboarded: false
-        }
+        user: userSession
       }
     };
   }
 
   if (normalizedUrl.includes('/auth/register/')) {
     const parsed = JSON.parse(data || '{}');
+    const userSession = {
+      id: "mock-user-id-uuid",
+      email: parsed.email || "newuser@codersspot.com",
+      full_name: parsed.full_name || "New Coder",
+      role: "STUDENT",
+      onboarded: false,
+      isOnboarded: false
+    };
+    localStorage.setItem('mock_user_session', JSON.stringify(userSession));
+
     return {
       data: {
-        user: {
-          id: "mock-user-id-uuid",
-          email: parsed.email || "newuser@codersspot.com",
-          full_name: parsed.full_name || "New Coder",
-          role: "STUDENT",
-          isOnboarded: false
-        },
+        user: userSession,
         tokens: {
           access: "mock_access_token",
           refresh: "mock_refresh_token"
@@ -107,15 +115,19 @@ const resolveMockData = (url: string, data: any) => {
 
   if (normalizedUrl.includes('/auth/verify-otp/')) {
     const parsed = JSON.parse(data || '{}');
+    const userSession = {
+      id: "mock-user-id-uuid",
+      email: parsed.email || "newuser@codersspot.com",
+      full_name: "New Coder",
+      role: "STUDENT",
+      onboarded: true,
+      isOnboarded: true
+    };
+    localStorage.setItem('mock_user_session', JSON.stringify(userSession));
+
     return {
       data: {
-        user: {
-          id: "mock-user-id-uuid",
-          email: parsed.email || "newuser@codersspot.com",
-          full_name: "New Coder",
-          role: "STUDENT",
-          isOnboarded: false
-        },
+        user: userSession,
         tokens: {
           access: "mock_access_token",
           refresh: "mock_refresh_token"
@@ -126,26 +138,36 @@ const resolveMockData = (url: string, data: any) => {
 
   if (normalizedUrl.includes('/user/onboarding/')) {
     const parsed = JSON.parse(data || '{}');
+    const userSession = {
+      id: "mock-user-id-uuid",
+      email: "student@codersspot.com",
+      full_name: "DEVELOPER STUDENT",
+      role: parsed.role || "STUDENT",
+      onboarded: true,
+      isOnboarded: true,
+      profile: parsed
+    };
+    localStorage.setItem('mock_user_session', JSON.stringify(userSession));
+
     return {
       data: {
-        user: {
-          id: "mock-user-id-uuid",
-          email: "student@codersspot.com",
-          full_name: "DEVELOPER STUDENT",
-          role: parsed.role || "STUDENT",
-          isOnboarded: true,
-          profile: parsed
-        }
+        user: userSession
       }
     };
   }
 
-  if (normalizedUrl.includes('/auth/profile/')) {
+  if (normalizedUrl.includes('/user/profile/') || normalizedUrl.includes('/auth/profile/')) {
+    const saved = localStorage.getItem('mock_user_session');
+    if (saved) {
+      return { data: JSON.parse(saved) };
+    }
     return {
       data: {
+        id: "mock-user-id-uuid",
         email: "student@codersspot.com",
         full_name: "DEVELOPER STUDENT",
         role: "STUDENT",
+        onboarded: true,
         isOnboarded: true
       }
     };
