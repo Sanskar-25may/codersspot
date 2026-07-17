@@ -252,9 +252,8 @@ export default function StudentDashboard() {
   return (
     <div className="flex-grow flex flex-col" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
       
-      {/* ── UNIFIED STUDENT PORTAL TOP NAVBAR ── */}
       <header className="sticky top-0 z-50 border-b backdrop-blur-md shadow-sm" style={{ background: 'color-mix(in srgb, var(--bg-card) 90%, transparent)', borderColor: 'var(--border-soft)' }}>
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
+        <div className="max-w-[1750px] mx-auto px-8 h-20 flex items-center justify-between gap-6">
           
           {/* Logo & Platform Title */}
           <div className="flex items-center gap-3">
@@ -375,24 +374,24 @@ export default function StudentDashboard() {
       </header>
 
       {/* ── MAIN WORKSPACE CONTAINER ── */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-6 py-8">
+      <main className="flex-1 max-w-[1750px] w-full mx-auto px-8 py-10">
         
         {/* TAB 1: HOME / DASHBOARD */}
         {activeTab === 'home' && (
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* Welcome banner */}
-            <div className="relative rounded-3xl p-8 overflow-hidden bg-gradient-to-r from-violet-500 to-cyan-500 text-white shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-              <div className="space-y-2 z-10">
-                <h1 className="text-3xl font-extrabold tracking-tight">Welcome back, {settingsName}!</h1>
-                <p className="text-sm opacity-90 max-w-md">Track learning statistics, view scheduled Zoom classes, and complete assignments reference metrics.</p>
+            <div className="relative rounded-[32px] p-12 overflow-hidden bg-gradient-to-r from-violet-500 to-cyan-500 text-white shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+              <div className="space-y-3 z-10">
+                <h1 className="text-4xl md:text-5xl font-black tracking-tight">Welcome back, {settingsName}!</h1>
+                <p className="text-base md:text-lg opacity-90 max-w-xl">Track learning statistics, view scheduled Zoom classes, and complete assignments reference metrics.</p>
               </div>
             </div>
 
             {/* GitHub learning heatmap tracker */}
-            <div className="p-6 rounded-3xl border flex flex-col space-y-4" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
-              <div className="space-y-1">
-                <h3 className="text-sm font-black" style={{ color: 'var(--text-primary)' }}>Learning Contribution Heatmap</h3>
-                <p className="text-[10px] font-semibold" style={{ color: 'var(--text-tertiary)' }}>Tracks Daily Practice Problems (DPP) & quiz challenges submitted in realtime.</p>
+            <div className="p-8 rounded-[32px] border flex flex-col space-y-6" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
+              <div className="space-y-1.5">
+                <h3 className="text-lg md:text-xl font-black" style={{ color: 'var(--text-primary)' }}>Learning Contribution Heatmap</h3>
+                <p className="text-xs font-semibold" style={{ color: 'var(--text-tertiary)' }}>Tracks Daily Practice Problems (DPP) & quiz challenges submitted in realtime.</p>
               </div>
 
               {/* Grid heatmap */}
@@ -415,7 +414,7 @@ export default function StudentDashboard() {
                       return (
                         <div 
                           key={dayIdx} 
-                          className={`w-3.5 h-3.5 rounded-sm transition-all duration-150 ${color}`}
+                          className={`w-4 h-4 rounded-[4px] transition-all duration-150 ${color}`}
                           title={`Contributions: ${level}`}
                         />
                       );
@@ -426,43 +425,43 @@ export default function StudentDashboard() {
             </div>
 
             {/* Metrics cards row */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {[
                 { title: 'Learning Hours', value: `${data.study_hours_mock || '14.5'} hrs`, icon: '⏱️' },
                 { title: 'Enrolled Modules', value: `${data.enrolled_count || '1'}`, icon: '📚' },
                 { title: 'Submitted Tasks', value: dppSubmitted ? '2' : '1', icon: '📝' },
                 { title: 'Passed Tests', value: challengeSubmitted ? '3' : '2', icon: '🏆' },
               ].map((stat, i) => (
-                <div key={i} className="p-6 rounded-2xl border flex flex-col justify-between min-h-[110px]" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
+                <div key={i} className="p-8 rounded-[24px] border flex flex-col justify-between min-h-[150px] transition-transform hover:scale-[1.02] duration-300" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
                   <div className="flex justify-between items-start">
-                    <span className="text-xs font-black uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>{stat.title}</span>
-                    <span className="text-lg">{stat.icon}</span>
+                    <span className="text-xs md:text-sm font-black uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>{stat.title}</span>
+                    <span className="text-xl">{stat.icon}</span>
                   </div>
-                  <h3 className="text-xl font-extrabold">{stat.value}</h3>
+                  <h3 className="text-3xl font-black" style={{ color: 'var(--text-primary)' }}>{stat.value}</h3>
                 </div>
               ))}
             </div>
 
             {/* Bottom Row split: Resume incomplete video & Zoom schedule */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               
               {/* Card 1: Left viewed incomplete video */}
-              <div className="p-6 rounded-3xl border flex flex-col justify-between min-h-[220px]" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
-                <div className="space-y-3">
-                  <span className="text-[10px] font-black text-amber-500 uppercase tracking-widest">Incomplete Module</span>
-                  <h3 className="text-base font-black">Full Stack React & Next.js</h3>
-                  <p className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>
+              <div className="p-8 rounded-[32px] border flex flex-col justify-between min-h-[260px] transition-transform hover:scale-[1.01]" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
+                <div className="space-y-4">
+                  <span className="text-xs font-black text-amber-500 uppercase tracking-widest">Incomplete Module</span>
+                  <h3 className="text-2xl font-black">Full Stack React & Next.js</h3>
+                  <p className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
                     Last watched: <span className="text-primary font-bold">1.2 Routing & Page Navigation</span>
                   </p>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between text-[10px] font-bold text-zinc-400">
+                <div className="space-y-6 pt-4">
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs font-bold text-zinc-400">
                       <span>45% Watched</span>
                       <span>15 mins remaining</span>
                     </div>
-                    <div className="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
+                    <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden">
                       <div className="h-full bg-amber-500" style={{ width: '45%' }} />
                     </div>
                   </div>
@@ -474,7 +473,7 @@ export default function StudentDashboard() {
                         setSelectedCourse(c.course);
                       }
                     }}
-                    className="w-full py-2.5 rounded-xl text-xs font-bold text-white bg-amber-500 hover:opacity-90 shadow-md text-center"
+                    className="w-full py-4 rounded-xl text-sm font-black text-white bg-amber-500 hover:opacity-90 shadow-md text-center transition-all"
                   >
                     Resume Video lecture ➔
                   </button>
@@ -482,22 +481,22 @@ export default function StudentDashboard() {
               </div>
 
               {/* Card 2: Today's live Zoom classes schedule */}
-              <div className="p-6 rounded-3xl border flex flex-col justify-between min-h-[220px]" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
-                <div className="space-y-3">
-                  <span className="text-[10px] font-black text-rose-500 uppercase tracking-widest">Live Zoom Cohort</span>
-                  <h3 className="text-base font-black">Advanced System Design & scaling</h3>
-                  <p className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>
+              <div className="p-8 rounded-[32px] border flex flex-col justify-between min-h-[260px] transition-transform hover:scale-[1.01]" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-soft)' }}>
+                <div className="space-y-4">
+                  <span className="text-xs font-black text-rose-500 uppercase tracking-widest">Live Zoom Cohort</span>
+                  <h3 className="text-2xl font-black">Advanced System Design & scaling</h3>
+                  <p className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
                     Today's Topic: <span className="font-bold">Database Sharding & Partition Metrics</span>
                   </p>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="p-3.5 rounded-2xl flex items-center justify-between border" style={{ background: 'var(--bg-base)', borderColor: 'var(--border-soft)' }}>
-                    <div className="space-y-0.5">
-                      <p className="text-[9px] uppercase font-bold text-zinc-500">Live Status</p>
-                      <h4 className="text-xs font-bold">Starts in 10 minutes</h4>
+                <div className="space-y-6 pt-4">
+                  <div className="p-4 rounded-2xl flex items-center justify-between border" style={{ background: 'var(--bg-base)', borderColor: 'var(--border-soft)' }}>
+                    <div className="space-y-1">
+                      <p className="text-[10px] uppercase font-bold text-zinc-500">Live Status</p>
+                      <h4 className="text-sm font-black">Starts in 10 minutes</h4>
                     </div>
-                    <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse" />
                   </div>
                   <button 
                     onClick={() => {
@@ -505,7 +504,7 @@ export default function StudentDashboard() {
                       const c = data.enrollments.find((e: any) => e.course.id === 'c2-uuid');
                       if (c) setSelectedCourse(c.course);
                     }}
-                    className="w-full py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-violet-500 to-cyan-500 hover:opacity-90 shadow-md text-center"
+                    className="w-full py-4 rounded-xl text-sm font-black text-white bg-gradient-to-r from-violet-500 to-cyan-500 hover:opacity-90 shadow-md text-center transition-all"
                   >
                     Watch Live zoom Call 📺
                   </button>
